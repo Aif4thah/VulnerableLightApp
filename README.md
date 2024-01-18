@@ -78,6 +78,14 @@ To trust the certificate (Windows and macOS only) run
 dotnet dev-certs https --trust
 ```
 
+## dependancies issue
+
+dependancies are dowloaded from standard sources
+
+```sh
+dotnet nuget add source "https://api.nuget.org/v3/index.json" --name "Microsoft"
+```
+
 For more information on configuring HTTPS [Read the doc](https://go.microsoft.com/fwlink/?linkid=848054).
 
 ## run the vulnerable apps
