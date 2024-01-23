@@ -50,8 +50,8 @@ app.MapPost("/upload", async (IFormFile file) =>
     return Results.Ok(file.FileName);
 }).DisableAntiforgery();
 
+//!\ Change the API exposition below at your own risk /!\
 app.Urls.Add("http://localhost:4000");
 app.Urls.Add("https://localhost:3000");
 
 app.Run();
-
