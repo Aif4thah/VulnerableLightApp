@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Cryptography;
 using System.Linq.Dynamic;
 using static VulnerableWebApplication.VulnerableClass;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VulnerableWebApplication
 {
@@ -76,16 +77,15 @@ namespace VulnerableWebApplication
 <html lang=""fr"">
 <head>
 <meta charset=""utf-8"">
-<title> Titre de la page </title>
+<title>Application Logs</title>
 </head>
 <body>
-<h1>AzertyLogs<h1>
+<h1>Application Logs<h1>
 </body>
 </html>";
             if (!File.Exists(logFile)) File.WriteAllText(logFile, page);
 
             page = File.ReadAllText(logFile).Replace("</body>", "<p>" + str + "<p><br>" + Environment.NewLine + "</body>");
-            Console.WriteLine(page);
             File.WriteAllText(logFile, page);
 
             return "{\"success\":true}";
@@ -276,7 +276,14 @@ namespace VulnerableWebApplication
             VulnerableLogs("admin logged with : " + token + header);
             return "{\"IP\":\""+ File.ReadAllText(logFile) + "\"}";
         }
-        
+
+        public static async Task<IResult> VulnerableHandleFileUpload(IFormFile file)
+        {
+            using var stream = File.OpenWrite(file.FileName);
+            await file.CopyToAsync(stream);
+            return Results.Ok(file.FileName);
+        }
+
 
     }
 }

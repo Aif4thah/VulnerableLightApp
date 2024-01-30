@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.OpenApi;
 using Swashbuckle.AspNetCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,12 +44,8 @@ app.MapGet("/NoSQL", async (string f, string o, string v) => await Task.FromResu
 
 app.MapGet("/Admin", [ProducesResponseType(StatusCodes.Status200OK)] async (string t, [FromHeader(Name = "X-Forwarded-For")] string h) => await Task.FromResult(Task.FromResult(VulnerableClass.VulnerableAdminDashboard(t, h)).Result));
 
-app.MapPost("/upload", async (IFormFile file) =>
-{
-    using var stream = File.OpenWrite(file.FileName);
-    await file.CopyToAsync(stream);
-    return Results.Ok(file.FileName);
-}).DisableAntiforgery();
+app.MapPost("/upload", async (IFormFile file) => await VulnerableClass.VulnerableHandleFileUpload(file)).DisableAntiforgery();
+
 
 //!\ Change the API exposition below at your own risk /!\
 app.Urls.Add("http://localhost:4000");
