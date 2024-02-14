@@ -21,36 +21,38 @@ If you have any questions about this project feel free to reach out :
 
 ## Vulnerabilities
 
-| CWE | Description | Difficulty | Hint |
-|----|---|----|---|
-| CWE-23 | Relative Path Traversal | Medium | Bypass the filter |
-| CWE-78 | Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection') | Easy | Get the user |
-| CWE-79 | Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') | Easy | Pop the admin |
-| CWE-89 | Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') | Easy | Login without creds |
-| CWE-94 | Improper Control of Generation of Code ('Code Injection') | Hard | Write in server console |
-| CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Very Easy | Read the docs |
-| CWE-284 | Improper Access Control | Medium | Bring your own token |
-| CWE-287 | Improper Authentication | Medium | go ahead |
-| CWE-319 | Cleartext Transmission of Sensitive Information | Very Easy | Sniff |
-| CWE-326 | Inadequate Encryption Strength | Easy | Code review |
-| CWE-434 | Unrestricted Upload of File with Dangerous Type | Easy | What can go wrong ? |
-| CWE-502 | Deserialization of Untrusted Data | Hard | Change NTFS permission |
-| CWE-521 | Weak Password Requirements | Very Easy | null |
-| CWE-532 | Insertion of Sensitive Information into Log File | Very Easy | Nothing to hide|
-| CWE 639 | Insecure Direct Object Reference | Medium | Enumeration is key |
-| CWE-611 | Improper Restriction of XML External Entity Reference | Hard | Windows.ini |
-| CWE-787 | Out-of-bounds Write | Easy | Don't crash the service |
-| CWE-798 | Use of Hard-coded Credentials | Very Easy | Code review |
-| CWE-829 | Inclusion of Functionality from Untrusted Control Sphere (Local file Inclusion) | Medium | Read |
-| CWE-918 | Server-Side Request Forgery (SSRF) | Medium | choose your domain |
-| CWE-1104 | Use of Unmaintained Third Party Components | Easy | old stuff |
-| CWE-1270 | Generation of Incorrect Security Tokens | Medium | Code review |
+| CWE | Description | Difficulty | Hint | Estimated Reward in real Bug Bounty |
+|----|---|----|---|----|
+| CWE-23 | Relative Path Traversal | Medium | Bypass the filter | 500-5.000$ |
+| CWE-78 | Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection') | Easy | Get the user | 1.000-10.000$|
+| CWE-79 | Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') | Easy | Pop the admin | 500-5.000$ |
+| CWE-89 | Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') | Easy | Login without creds | 1.000-10.000$ |
+| CWE-94 | Improper Control of Generation of Code ('Code Injection') | Hard | Write in server console | 5.000-50.000$ |
+| CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Very Easy | Read the docs | 500-2.000$ |
+| CWE-284 | Improper Access Control | Medium | Bring your own token | 1.000-5.000$ |
+| CWE-287 | Improper Authentication | Medium | go ahead | 500-5.000$ |
+| CWE-319 | Cleartext Transmission of Sensitive Information | Very Easy | Sniff | 500-2.000$ |
+| CWE-326 | Inadequate Encryption Strength | Easy | Code review | 1.000-5.000$ |
+| CWE-434 | Unrestricted Upload of File with Dangerous Type | Easy | What can go wrong ? | 500-2.000$ |
+| CWE-502 | Deserialization of Untrusted Data | Hard | Change NTFS permission | 5.000-50.000$ |
+| CWE-521 | Weak Password Requirements | Very Easy | null | 500-2.000$ |
+| CWE-532 | Insertion of Sensitive Information into Log File | Very Easy | Nothing to hide|100-2.000$ |
+| CWE 639 | Insecure Direct Object Reference | Medium | Enumeration is key |500-5.000$ |
+| CWE-611 | Improper Restriction of XML External Entity Reference | Hard | Windows.ini | 1.000-10.000$ |
+| CWE-787 | Out-of-bounds Write | Easy | Don't crash the service | 500-5000$ |
+| CWE-798 | Use of Hard-coded Credentials | Very Easy | Code review | 1.000-10.000$ |
+| CWE-829 | Inclusion of Functionality from Untrusted Control Sphere (Local file Inclusion) | Medium | Read | 500-2.000$|
+| CWE-918 | Server-Side Request Forgery (SSRF) | Medium | choose your domain | 1.000$-10.000$|
+| CWE-1104 | Use of Unmaintained Third Party Components | Easy | old stuff | 500-1.000$|
+| CWE-1270 | Generation of Incorrect Security Tokens | Medium | Code review | 1.000-20.000$ |
+
+
 
 ## Diagram
 
 ![Class](./ClassesDiagram.png)
 
-## install dotnet
+## install
 
 Check `.csproj` file to get the current dotnet version
 
@@ -70,7 +72,15 @@ sudo dpkg -i packages-microsoft-prod.deb
 sudo apt install dotnet-sdk-8.0 -y
 ```
 
-## certificate
+## run
+
+```sh
+dotnet run
+```
+
+## Debug 
+
+### Certificates
 
 To trust the certificate (Windows and macOS only) run 
 
@@ -78,24 +88,10 @@ To trust the certificate (Windows and macOS only) run
 dotnet dev-certs https --trust
 ```
 
-## dependancies issue
+### Dependancies
 
-dependancies are dowloaded from standard sources
+dependancies are dowloaded from [standard sources](https://go.microsoft.com/fwlink/?linkid=848054)
 
 ```sh
 dotnet nuget add source "https://api.nuget.org/v3/index.json" --name "Microsoft"
-```
-
-For more information on configuring HTTPS [Read the doc](https://go.microsoft.com/fwlink/?linkid=848054).
-
-## run the vulnerable apps
-
-```sh
-dotnet run
-```
-
-## request
-
-```sh
-curl -k https://localhost:3000/
 ```
