@@ -19,6 +19,12 @@ If you have any questions about this project feel free to reach out :
  [![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mvacarella/)
  [![Email](https://img.shields.io/badge/Email-8B89CC?style=for-the-badge&logo=protonmail&logoColor=white)](mailto:michael.vacarella@protonmail.com)
 
+## Context
+
+VLA is designed as a vulnerable backend application, running in the following environment : 
+
+!![Context](./Context.png)
+
 ## Vulnerabilities
 
 | CWE | Description | Difficulty | Hint | Estimated Reward in real Bug Bounty |
@@ -46,9 +52,7 @@ If you have any questions about this project feel free to reach out :
 | CWE-1104 | Use of Unmaintained Third Party Components | Easy | old stuff | 500-1.000$|
 | CWE-1270 | Generation of Incorrect Security Tokens | Medium | Code review | 1.000-20.000$ |
 
-
-
-## Diagram
+## Classes Diagram
 
 ![Class](./ClassesDiagram.png)
 
@@ -60,7 +64,7 @@ Check `.csproj` file to get the current dotnet version
 
 https://dotnet.microsoft.com/en-us/download
 
-### Linux
+### Linux - not supported
 
 ```sh
 sudo apt-get update -y 
