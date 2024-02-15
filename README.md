@@ -23,7 +23,7 @@ If you have any questions about this project feel free to reach out :
 
 VLA is designed as a vulnerable backend application, running in the following environment : 
 
-!![Context](./Context.png)
+![Context](./Context.png)
 
 ## Vulnerabilities
 
@@ -64,7 +64,9 @@ Check `.csproj` file to get the current dotnet version
 
 https://dotnet.microsoft.com/en-us/download
 
-### Linux - not supported
+### Linux
+
+Be aware that VLA is only tested and supported on Windows.
 
 ```sh
 sudo apt-get update -y 
@@ -75,6 +77,7 @@ chmod +x packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
 sudo apt install dotnet-sdk-8.0 -y
 ```
+
 
 ## run
 
