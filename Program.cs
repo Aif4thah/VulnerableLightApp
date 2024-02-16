@@ -34,15 +34,13 @@ app.MapGet("/Addr", async (int i, string t) => await Task.FromResult(VulnerableC
 
 app.MapGet("/Dns", async (string i) => await Task.FromResult(VulnerableClass.VulnerableCmd(HttpUtility.UrlDecode(i)))).WithOpenApi();
 
-app.MapGet("/Buff", async (string i) => await Task.FromResult(VulnerableClass.VulnerableBuffer(HttpUtility.UrlDecode(i)))).WithOpenApi();
-
 app.MapGet("/Rce", async (string i) => await Task.FromResult(VulnerableClass.VulnerableCodeExecution(HttpUtility.UrlDecode(i)))).WithOpenApi();
 
 app.MapGet("/NoSQL", async (string f, string o, string v) => await Task.FromResult(VulnerableClass.VulnerableNoSQL(HttpUtility.UrlDecode(f), HttpUtility.UrlDecode(o), HttpUtility.UrlDecode(v)))).WithOpenApi();
 
 app.MapGet("/Admin", [ProducesResponseType(StatusCodes.Status200OK)] async (string t, [FromHeader(Name = "X-Forwarded-For")] string h) => await Task.FromResult(Task.FromResult(VulnerableClass.VulnerableAdminDashboard(t, h)).Result));
 
-app.MapPost("/upload", async (IFormFile file) => await VulnerableClass.VulnerableHandleFileUpload(file)).DisableAntiforgery();
+app.MapPost("/Upload", async (IFormFile file) => await VulnerableClass.VulnerableHandleFileUpload(file)).DisableAntiforgery();
 
 
 //!\ Change the API exposition below at your own risk /!\

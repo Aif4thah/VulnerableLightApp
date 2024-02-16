@@ -30,10 +30,10 @@ VLA is designed as a vulnerable backend application, running in the following en
 | CWE | Description | Difficulty | Hint | Estimated Reward in real Bug Bounty |
 |----|---|----|---|----|
 | CWE-22 | Path Traversal | Medium | Bypass the filter | 500-5.000$ |
-| CWE-78 | Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection') | Easy | Get the user | 1.000-10.000$|
+| CWE-78 | OS Command Injection | Easy | Get the user | 1.000-10.000$|
 | CWE-79 | Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') | Easy | Pop the admin | 500-5.000$ |
-| CWE-89 | Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') | Easy | Login without creds | 1.000-10.000$ |
-| CWE-94 | Improper Control of Generation of Code ('Code Injection') | Hard | Write in server console | 5.000-50.000$ |
+| CWE-89 | SQL Injection | Easy | Login without creds | 1.000-10.000$ |
+| CWE-94 | Code Injection| Hard | Write in server console | 5.000-50.000$ |
 | CWE-98 | Remote File Inclusion | Hard | protocol | 1.000-10.000$ |
 | CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Very Easy | Read the docs | 500-2.000$ |
 | CWE-284 | Improper Access Control | Medium | Bring your own token | 1.000-5.000$ |

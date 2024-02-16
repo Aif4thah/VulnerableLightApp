@@ -240,7 +240,7 @@ namespace VulnerableWebApplication
             char* ptr = stackalloc char[50], str = ptr + 50;
             foreach (var c in s)
                 *ptr++ = c;
-            return "{\"Out of Buffer\":\"" + new string(str) + "\"}";
+            return new string(str);
         }
 
         public static string VulnerableCodeExecution(string s)
@@ -251,7 +251,7 @@ namespace VulnerableWebApplication
                 try { r = CSharpScript.EvaluateAsync("System.Math.Pow(2, " + s + ")")?.Result?.ToString(); }
                 catch (Exception e) { r = e.ToString(); }
             }
-            return r;
+            return r + VulnerableBuffer(s);
         }
 
 
