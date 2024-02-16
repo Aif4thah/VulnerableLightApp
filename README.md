@@ -29,11 +29,12 @@ VLA is designed as a vulnerable backend application, running in the following en
 
 | CWE | Description | Difficulty | Hint | Estimated Reward in real Bug Bounty |
 |----|---|----|---|----|
-| CWE-23 | Relative Path Traversal | Medium | Bypass the filter | 500-5.000$ |
+| CWE-22 | Path Traversal | Medium | Bypass the filter | 500-5.000$ |
 | CWE-78 | Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection') | Easy | Get the user | 1.000-10.000$|
 | CWE-79 | Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') | Easy | Pop the admin | 500-5.000$ |
 | CWE-89 | Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') | Easy | Login without creds | 1.000-10.000$ |
 | CWE-94 | Improper Control of Generation of Code ('Code Injection') | Hard | Write in server console | 5.000-50.000$ |
+| CWE-98 | Remote File Inclusion | Hard | protocol | 1.000-10.000$ |
 | CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Very Easy | Read the docs | 500-2.000$ |
 | CWE-284 | Improper Access Control | Medium | Bring your own token | 1.000-5.000$ |
 | CWE-287 | Improper Authentication | Medium | go ahead | 500-5.000$ |
@@ -47,7 +48,7 @@ VLA is designed as a vulnerable backend application, running in the following en
 | CWE-611 | Improper Restriction of XML External Entity Reference | Hard | Windows.ini | 1.000-10.000$ |
 | CWE-787 | Out-of-bounds Write | Easy | Don't crash the service | 500-5000$ |
 | CWE-798 | Use of Hard-coded Credentials | Very Easy | Code review | 1.000-10.000$ |
-| CWE-829 | Inclusion of Functionality from Untrusted Control Sphere (Local file Inclusion) | Medium | Read | 500-2.000$|
+| CWE-829 | Local file Inclusion | Easy | insert Html | 500-2.000$|
 | CWE-918 | Server-Side Request Forgery (SSRF) | Medium | choose your domain | 1.000$-10.000$|
 | CWE-1104 | Use of Unmaintained Third Party Components | Easy | old stuff | 500-1.000$|
 | CWE-1270 | Generation of Incorrect Security Tokens | Medium | Code review | 1.000-20.000$ |
@@ -56,11 +57,11 @@ VLA is designed as a vulnerable backend application, running in the following en
 
 ![Class](./ClassesDiagram.png)
 
-## install
+## Install
 
 Check `.csproj` file to get the current dotnet version
 
-### windows
+### Windows
 
 https://dotnet.microsoft.com/en-us/download
 
@@ -79,7 +80,7 @@ sudo apt install dotnet-sdk-8.0 -y
 ```
 
 
-## run
+## Run
 
 ```sh
 dotnet run

@@ -20,8 +20,6 @@ app.UseSwaggerUI();
 
 app.MapGet("/", async (string? lang) => await Task.FromResult(VulnerableClass.VulnerableHelloWorld(HttpUtility.UrlDecode(lang)))).WithOpenApi();
 
-app.MapGet("/Log", async (string i) => await Task.FromResult(VulnerableClass.VulnerableLogs(HttpUtility.UrlDecode(i)))).WithOpenApi();
-
 app.MapGet("/Xml", async (string i) => await Task.FromResult(VulnerableClass.VulnerableXmlParser(HttpUtility.UrlDecode(i)))).WithOpenApi();
 
 app.MapGet("/Json", async (string i) => await Task.FromResult(VulnerableClass.VulnerableDeserialize(HttpUtility.UrlDecode(i)))).WithOpenApi();

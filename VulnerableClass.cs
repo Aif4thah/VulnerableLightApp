@@ -133,6 +133,8 @@ namespace VulnerableWebApplication
 
         public static string VulnerableValidateToken(string token)
         {
+            VulnerableLogs("token verification : "+ token );
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secret);
             try
