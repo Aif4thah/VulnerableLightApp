@@ -163,27 +163,24 @@ namespace VulnerableWebApplication
 
         }
 
-        public static async Task<string> VulnerableWebRequest(string uri = "https://localhost:3000/")
+        public static async Task<string> VulnerableWebRequest(string uri="https://localhost:3000/")
         {
-            string rep = "{\"Result\":";
-
-            if (uri.Contains("https://localhost"))
+            if (uri.IsNullOrEmpty()) uri = "https://localhost:3000/";
+            if (System.Text.RegularExpressions.Regex.IsMatch(uri, @"^https://localhost"))
             {
                 using HttpClient client = new();
-                client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
-                client.DefaultRequestHeaders.Add("User-Agent", "VulnerableApp");
 
-                await exec(client, uri);
-
-                static async Task exec(HttpClient client, string uri)
+                var resp = await exec(client, uri);
+                static async Task<string> exec(HttpClient client, string uri)
                 {
                     var r = client.GetAsync(uri);
                     r.Result.EnsureSuccessStatusCode();
-                    Console.WriteLine(await r.Result.Content.ReadAsStringAsync());
+                    return r.Result.StatusCode.ToString();
                 }
+                return "{\"Result\":" + resp + "}";
             }
-            return rep + "}";
+            else { return "{\"Result\": \"Fordidden\"}"; }       
         }
 
         public static string VulnerableObjectReference(int id, string token)

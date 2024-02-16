@@ -24,11 +24,11 @@ app.MapGet("/Xml", async (string i) => await Task.FromResult(VulnerableClass.Vul
 
 app.MapGet("/Json", async (string i) => await Task.FromResult(VulnerableClass.VulnerableDeserialize(HttpUtility.UrlDecode(i)))).WithOpenApi();
 
-app.MapPost("/Auth", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody] VulnerableClass.Creds login) => await Task.FromResult(Task.FromResult(VulnerableClass.VulnerableQuery(login.user, login.passwd)).Result)).WithOpenApi();
+app.MapPost("/Auth", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody] VulnerableClass.Creds login) => await Task.FromResult(VulnerableClass.VulnerableQuery(login.user, login.passwd)).Result).WithOpenApi();
 
 app.MapGet("/Jwt", async (string i) => await Task.FromResult(VulnerableClass.VulnerableValidateToken(i))).WithOpenApi();
 
-app.MapGet("/Req", async (string i) => await Task.FromResult(VulnerableClass.VulnerableWebRequest(i))).WithOpenApi();
+app.MapGet("/Req", async (string? i) => await VulnerableClass.VulnerableWebRequest(i)).WithOpenApi();
 
 app.MapGet("/Addr", async (int i, string t) => await Task.FromResult(VulnerableClass.VulnerableObjectReference(i, t))).WithOpenApi();
 
