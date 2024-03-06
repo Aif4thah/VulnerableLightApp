@@ -1,4 +1,6 @@
-# Vulnerable Web Apps
+<p align="center">
+    <img src="./Logo-VLA.jpg" alt="Dojo-101" style="width: 400px;" />
+</p>
 
 [![License: GNU GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/Aif4thah/Dojo-101/pulls)
