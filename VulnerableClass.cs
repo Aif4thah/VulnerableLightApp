@@ -24,6 +24,8 @@ using System.Security.Cryptography;
 using System.Linq.Dynamic;
 using static VulnerableWebApplication.VulnerableClass;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
+using System.Xml.Xsl;
 
 namespace VulnerableWebApplication
 {
@@ -55,19 +57,40 @@ namespace VulnerableWebApplication
 
         public static string VulnerableXmlParser(string xml)
         {
-            xml = xml.Replace("Framework", "").Replace("Token", "").Replace("cmd", "").Replace("powershell", "").Replace("http", "");
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.DtdProcessing = DtdProcessing.Parse;
-            settings.XmlResolver = new XmlUrlResolver();
-            settings.MaxCharactersFromEntities = 6000;
 
-            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
+            try
             {
-                XmlReader reader = XmlReader.Create(stream, settings);
-                var xmlDocument = new XmlDocument();
-                xmlDocument.XmlResolver = new XmlUrlResolver();
-                xmlDocument.Load(reader);
-                return xmlDocument.InnerText;
+                var xsl = XDocument.Parse(xml);
+                var myXslTrans = new XslCompiledTransform(enableDebug: true);
+                var settings = new XsltSettings();
+                settings.EnableScript = true;
+                myXslTrans.Load(xsl.CreateReader(), settings, null);
+
+                var doc = XDocument.Parse("<doc></doc>");
+                var DocReader = doc.CreateReader();
+
+                var sb = new StringBuilder();
+                var DocWriter = XmlWriter.Create(sb, new XmlWriterSettings() { ConformanceLevel = ConformanceLevel.Fragment });
+                myXslTrans.Transform(DocReader, DocWriter);
+                return sb.ToString();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                xml = xml.Replace("Framework", "").Replace("Token", "").Replace("cmd", "").Replace("powershell", "").Replace("http", "");
+                XmlReaderSettings ReaderSettings = new XmlReaderSettings();
+                ReaderSettings.DtdProcessing = DtdProcessing.Parse;
+                ReaderSettings.XmlResolver = new XmlUrlResolver();
+                ReaderSettings.MaxCharactersFromEntities = 6000;
+
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
+                {
+                    XmlReader reader = XmlReader.Create(stream, ReaderSettings);
+                    var xmlDocument = new XmlDocument();
+                    xmlDocument.XmlResolver = new XmlUrlResolver();
+                    xmlDocument.Load(reader);
+                    return xmlDocument.InnerText;
+                }               
             }
         }
 
