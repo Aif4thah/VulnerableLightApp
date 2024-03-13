@@ -21,7 +21,7 @@ using System.Diagnostics.Tracing;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.AspNetCore.Http;
 using System.Security.Cryptography;
-using System.Linq.Dynamic;
+using System.Linq.Dynamic.Core;
 using static VulnerableWebApplication.VulnerableClass;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;
@@ -31,8 +31,17 @@ namespace VulnerableWebApplication
 {
     public class VulnerableClass
     {
-        public class Student { public int StudentID { get; set; } public string StudentName { get; set; } public int Age { get; set; } }
-        public class Creds { public string user { get; set; } public string passwd { get; set; } }
+        public class Employee { 
+            public int Id { get; set; } 
+            public string Name { get; set; } 
+            public int Age { get; set; } 
+            public string Address { get; set; }
+        }
+        public class Creds { 
+            public string user { get; set; } 
+            public string passwd { get; set; } 
+        }
+
         private static string secret { get; } = "FBC1534655BAD26AFF0C1F7C3113B3C521B9B635967831D1993ACEBB0D9A6129";
 
         public static string logFile = "Logs.html";
@@ -205,24 +214,15 @@ namespace VulnerableWebApplication
 
         public static string VulnerableObjectReference(int id, string token)
         {
-            if (VulnerableValidateToken(token).Contains("false"))
-            {
-                return "{\"" + id + "\":\"Forbidden\"}";
-            }
+            if (VulnerableValidateToken(token).Contains("false")) return "{\"" + id + "\":\"Forbidden\"}";
             else
             {
-                DataTable table = new DataTable();
-                table.Columns.Add("id", typeof(int));
-                table.Columns.Add("user", typeof(string));
-                table.Columns.Add("adresse", typeof(string));
-                table.Rows.Add(42, "admin", "3 rue Victor Hugo");
-                table.Rows.Add(99, "root", "4 place Napoléon");
-                var DataSet = new DataSet();
-                DataSet.Tables.Add(table);
-
-                var result = from t in table.AsEnumerable() where t.Field<int>("id").Equals(id) select t.Field<string>("adresse");
-
-                return "{\"" + id + "\":\"" + result.FirstOrDefault() + "\"}";
+                List<Employee> Employee = new List<Employee>() {
+                    new Employee() { Id = 1, Name = "John", Age = 16, Address = "4 rue jean moulin"},
+                    new Employee() { Id = 42, Name = "Steve",  Age = 21, Address = "3 rue Victor Hugo" },
+                    new Employee() { Id = 1000, Name = "Bill",  Age = 18, Address = "4 place du 18 juin" }
+                };
+                return "{\"" + id + "\":\"" + Employee.Where(x => id == x.Id)?.FirstOrDefault()?.Address + "\"}";
             }
         }
 
@@ -272,19 +272,20 @@ namespace VulnerableWebApplication
         }
 
 
-        public static string VulnerableNoSQL(string f, string o, string v)
+        public static string VulnerableNoSQL(string s)
         {
-            List<Student> Students = new List<Student>() {
-                new Student() { StudentID = 1, StudentName = "John", Age = 16,},
-                new Student() { StudentID = 2, StudentName = "Steve",  Age = 21 },
-                new Student() { StudentID = 3, StudentName = "Bill",  Age = 18 },
-                new Student() { StudentID = 4, StudentName = "Ram" , Age = 20},
-                new Student() { StudentID = 5, StudentName = "Ron" , Age = 21}
+            if(s.Length >250) return "{\"Result\": \"Fordidden\"}";
+            List<Employee> Employees = new List<Employee>() {
+                new Employee() { Id = 1, Name = "John", Age = 16,},
+                new Employee() { Id = 2, Name = "Steve",  Age = 21 },
+                new Employee() { Id = 3, Name = "Bill",  Age = 18 },
+                new Employee() { Id = 4, Name = "Ram" , Age = 20},
+                new Employee() { Id = 5, Name = "Ron" , Age = 21}
            };
-            var field = f;
-            var op = o;
-            var value = v;
-            return Students.Where(field + op + value).FirstOrDefault().ToString();
+            var query = Employees.AsQueryable();
+            var result = query.Where(s);
+            return result.ToArray().ToString();
+
 
         }
 
