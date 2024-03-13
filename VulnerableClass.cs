@@ -63,11 +63,8 @@ namespace VulnerableWebApplication
                 var xsl = XDocument.Parse(xml);
                 var myXslTrans = new XslCompiledTransform(enableDebug: true);
                 var settings = new XsltSettings();
-                settings.EnableScript = true;
                 myXslTrans.Load(xsl.CreateReader(), settings, null);
-
-                var doc = XDocument.Parse("<doc></doc>");
-                var DocReader = doc.CreateReader();
+                var DocReader = XDocument.Parse("<doc></doc>").CreateReader();
 
                 var sb = new StringBuilder();
                 var DocWriter = XmlWriter.Create(sb, new XmlWriterSettings() { ConformanceLevel = ConformanceLevel.Fragment });

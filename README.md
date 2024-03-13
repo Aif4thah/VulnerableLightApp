@@ -13,13 +13,6 @@ Vulnerable API for educational purposes
 
 This repository, together with its tools, is provided by Taisen-Solutions on an “as is” basis. Taisen-Solutions makes no representations or warranties of any kind, express or implied, as to the operation of the information, content, materials, tools, services and/or products included on the repository. Taisen-Solution disclaims, to the full extent permissible by applicable law, all warranties, express or implied, including but not limited to, implied warranties of merchantability and fitness for a particular purpose.
 
-## Contact
-
-If you have any questions about this project feel free to reach out :
-
- [![Site Web](https://img.shields.io/badge/Website-3776AB?style=for-the-badge)](https://taisen.fr)
- [![Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mvacarella/)
- [![Email](https://img.shields.io/badge/Email-8B89CC?style=for-the-badge&logo=protonmail&logoColor=white)](mailto:michael.vacarella@protonmail.com)
 
 ## Context
 
@@ -106,3 +99,7 @@ dependancies are dowloaded from [standard sources](https://go.microsoft.com/fwli
 ```sh
 dotnet nuget add source "https://api.nuget.org/v3/index.json" --name "Microsoft"
 ```
+
+## Crédits
+
+* Project maintened by [Michael Vacarella](https://github.com/Aif4thah)
