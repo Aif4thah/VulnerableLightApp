@@ -26,7 +26,7 @@ VLA is designed as a vulnerable backend application, running in the following en
 |----|---|----|---|----|
 | CWE-22 | Path Traversal | Medium | Bypass the filter | 500-5.000$ |
 | CWE-78 | OS Command Injection | Easy | Get the user | 1.000-10.000$|
-| CWE-79 | Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') | Easy | Pop the admin | 500-5.000$ |
+| CWE-79 | Cross-site Scripting | Easy | Pop the admin | 500-5.000$ |
 | CWE-89 | SQL Injection | Easy | Login without creds | 1.000-10.000$ |
 | CWE-94 | Code Injection| Hard | Write in server console | 5.000-50.000$ |
 | CWE-91 | XML Injection | Hard | Transform | 0-500$ |
