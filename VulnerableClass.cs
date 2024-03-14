@@ -163,7 +163,7 @@ namespace VulnerableWebApplication
         public static string VulnerableValidateToken(string token)
         {
             VulnerableLogs("token verification : "+ token );
-
+            bool result = true;
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secret);
             try
@@ -180,16 +180,14 @@ namespace VulnerableWebApplication
                     }, out SecurityToken validatedToken);
 
                     var jwtToken = (JwtSecurityToken)validatedToken;
-                    return "{\"success\":true}";
                 }
-                else return "{\"success\":true}";
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                return "{\"success\":false}";
+                result = false;
             }
-
+            return "{\"success\":" + result + "}";
         }
 
         public static async Task<string> VulnerableWebRequest(string uri="https://localhost:3000/")
