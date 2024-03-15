@@ -160,12 +160,11 @@ namespace VulnerableWebApplication
             return tokenHandler.WriteToken(token);
         }
 
-        public static string VulnerableValidateToken(string token)
+        public static bool VulnerableValidateToken(string token)
         {
-            VulnerableLogs("token verification : "+ token );
-            bool result = true;
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secret);
+            bool result = true;
             try
             {
                 var jwtSecurityToken = tokenHandler.ReadJwtToken(token);
@@ -182,12 +181,8 @@ namespace VulnerableWebApplication
                     var jwtToken = (JwtSecurityToken)validatedToken;
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                result = false;
-            }
-            return "{\"success\":" + result + "}";
+            catch { result = false; }
+            return result;
         }
 
         public static async Task<string> VulnerableWebRequest(string uri="https://localhost:3000/")
@@ -212,7 +207,7 @@ namespace VulnerableWebApplication
 
         public static string VulnerableObjectReference(int id, string token)
         {
-            if (VulnerableValidateToken(token).Contains("false")) return "{\"" + id + "\":\"Forbidden\"}";
+            if(!VulnerableValidateToken(token)) return "{\"" + id + "\":\"Forbidden\"}";
             else
             {
                 List<Employee> Employee = new List<Employee>() {
@@ -289,7 +284,7 @@ namespace VulnerableWebApplication
 
         public static string VulnerableAdminDashboard(string token, string header)
         {
-            if (VulnerableValidateToken(token).Contains("false")) { return "{\"Token\":\"Forbidden\"}"; }
+            if (!VulnerableValidateToken(token)) { return "{\"Token\":\"Forbidden\"}"; }
             if ( !header.Contains("10.256.256.256") ) { return "{\"IP\":\"Forbidden\"}"; }
             VulnerableLogs("admin logged with : " + token + header);
             return "{\"IP\":\""+ File.ReadAllText(logFile) + "\"}";
