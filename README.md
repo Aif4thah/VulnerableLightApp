@@ -13,12 +13,9 @@ Vulnerable API for educational purposes
 
 This repository, together with its tools, is provided by Taisen-Solutions on an “as is” basis. Taisen-Solutions makes no representations or warranties of any kind, express or implied, as to the operation of the information, content, materials, tools, services and/or products included on the repository. Taisen-Solution disclaims, to the full extent permissible by applicable law, all warranties, express or implied, including but not limited to, implied warranties of merchantability and fitness for a particular purpose.
 
+## Use Case
 
-## Context
-
-VLA is designed as a vulnerable backend application, running in the following environment : 
-
-![Context](./Context.png)
+![UseCase](./VLAusecase.drawio.png)
 
 ## Vulnerabilities
 
@@ -49,6 +46,14 @@ VLA is designed as a vulnerable backend application, running in the following en
 | CWE-918 | Server-Side Request Forgery (SSRF) | Medium | choose your domain | 1.000$-10.000$|
 | CWE-1270 | Generation of Incorrect Security Tokens | Medium | Code review | 1.000-20.000$ |
 | CWE-1395 | Dependency on Vulnerable Third-Party Component | Easy | Old Stuff | 0-500$ |
+
+## Context
+
+VLA is designed as a vulnerable backend application, running in the following environment : 
+
+![Context](./Context.png)
+
+
 
 ## Classes Diagram
 
