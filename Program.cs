@@ -17,14 +17,11 @@ app.UseAntiforgery();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-
 app.MapGet("/", async (string? lang) => await Task.FromResult(VulnerableClass.VulnerableHelloWorld(HttpUtility.UrlDecode(lang)))).WithOpenApi();
 
 app.MapGet("/Xml", async (string i) => await Task.FromResult(VulnerableClass.VulnerableXmlParser(HttpUtility.UrlDecode(i)))).WithOpenApi();
 
 app.MapGet("/Json", async (string i) => await Task.FromResult(VulnerableClass.VulnerableDeserialize(HttpUtility.UrlDecode(i)))).WithOpenApi();
-
-app.MapPost("/Auth", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody] VulnerableClass.Creds login) => await Task.FromResult(VulnerableClass.VulnerableQuery(login.user, login.passwd)).Result).WithOpenApi();
 
 app.MapGet("/Req", async (string? i) => await VulnerableClass.VulnerableWebRequest(i)).WithOpenApi();
 
@@ -38,11 +35,19 @@ app.MapGet("/NoSQL", async (string s) => await Task.FromResult(VulnerableClass.V
 
 app.MapGet("/Admin", [ProducesResponseType(StatusCodes.Status200OK)] async (string t, [FromHeader(Name = "X-Forwarded-For")] string h) => await Task.FromResult(Task.FromResult(VulnerableClass.VulnerableAdminDashboard(t, h)).Result));
 
+
 app.MapPost("/Upload", async (IFormFile file) => await VulnerableClass.VulnerableHandleFileUpload(file)).DisableAntiforgery();
 
+app.MapPost("/Auth", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody] VulnerableClass.Creds login) => await Task.FromResult(VulnerableClass.VulnerableQuery(login.user, login.passwd)).Result).WithOpenApi();
 
-//!\ Change the API exposition below at your own risk /!\
-app.Urls.Add("http://localhost:4000");
-app.Urls.Add("https://localhost:3000");
+
+string url = args.FirstOrDefault(arg => arg.StartsWith("--url="));
+
+if (string.IsNullOrEmpty(url))
+{
+    app.Urls.Add("http://localhost:4000");
+    app.Urls.Add("https://localhost:3000");
+}
+else app.Urls.Add(url.Replace("--url=",""));
 
 app.Run();

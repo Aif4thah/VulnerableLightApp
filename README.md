@@ -11,7 +11,8 @@ Vulnerable API for educational purposes
 
 ## Disclaimer
 
-This repository, together with its tools, is provided by Taisen-Solutions on an “as is” basis. Taisen-Solutions makes no representations or warranties of any kind, express or implied, as to the operation of the information, content, materials, tools, services and/or products included on the repository. Taisen-Solution disclaims, to the full extent permissible by applicable law, all warranties, express or implied, including but not limited to, implied warranties of merchantability and fitness for a particular purpose.
+This repository, together with its tools, is provided by Taisen-Solutions on an “as is” basis. Be aware that this application is highly vulnerable, including remote command and code execution. Use it at your own risk.
+Taisen-Solutions makes no representations or warranties of any kind, express or implied, as to the operation of the information, content, materials, tools, services and/or products included on the repository. Taisen-Solution disclaims, to the full extent permissible by applicable law, all warranties, express or implied, including but not limited to, implied warranties of merchantability and fitness for a particular purpose.
 
 ## Use Case
 
@@ -54,18 +55,25 @@ VLA is designed as a vulnerable backend application, running in the following en
 ![Context](./Context.png)
 
 
-
 ## Classes Diagram
 
 ![Class](./ClassesDiagram.png)
+
+## Usage
+
+```PowerShell
+.\VulnerableWebApplication.exe [--url=<url>]
+```
 
 ## Install
 
 Check `.csproj` file to get the current dotnet version
 
+
 ### Windows
 
 https://dotnet.microsoft.com/en-us/download
+
 
 ### Linux
 
@@ -82,7 +90,7 @@ sudo apt install dotnet-sdk-8.0 -y
 ```
 
 
-## Run
+## Build and Run
 
 ```sh
 dotnet run
