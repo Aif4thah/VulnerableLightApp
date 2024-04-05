@@ -22,28 +22,17 @@ using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.AspNetCore.Http;
 using System.Security.Cryptography;
 using System.Linq.Dynamic.Core;
-using static VulnerableWebApplication.VulnerableClass;
+using static VulnerableWebApplication.VLAController.VLAController;
 using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;
 using System.Xml.Xsl;
+using VulnerableWebApplication.VLAModel;
 
-namespace VulnerableWebApplication
+namespace VulnerableWebApplication.VLAController
 {
-    public class VulnerableClass
+    public class VLAController
     {
-        public class Employee { 
-            public int Id { get; set; } 
-            public string Name { get; set; } 
-            public int Age { get; set; } 
-            public string Address { get; set; }
-        }
-        public class Creds { 
-            public string user { get; set; } 
-            public string passwd { get; set; } 
-        }
-
         private static string secret { get; } = "FBC1534655BAD26AFF0C1F7C3113B3C521B9B635967831D1993ACEBB0D9A6129";
-
         public static string logFile = "Logs.html";
 
         public static object VulnerableHelloWorld(string filename = "francais")
@@ -63,10 +52,8 @@ namespace VulnerableWebApplication
 
             return "{\"" + f + "\":\"" + File.GetAttributes(f).ToString() + "\"}";
         }
-
         public static string VulnerableXmlParser(string xml)
         {
-
             try
             {
                 var xsl = XDocument.Parse(xml);
@@ -80,7 +67,7 @@ namespace VulnerableWebApplication
                 myXslTrans.Transform(DocReader, DocWriter);
                 return sb.ToString();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
                 xml = xml.Replace("Framework", "").Replace("Token", "").Replace("cmd", "").Replace("powershell", "").Replace("http", "");
@@ -96,53 +83,29 @@ namespace VulnerableWebApplication
                     xmlDocument.XmlResolver = new XmlUrlResolver();
                     xmlDocument.Load(reader);
                     return xmlDocument.InnerText;
-                }               
+                }
             }
         }
 
         public static string VulnerableLogs(string str)
-        {
-            string page = @"<!doctype html>
-<html lang=""fr"">
-<head>
-<meta charset=""utf-8"">
-<title>Application Logs</title>
-</head>
-<body>
-<h1>Application Logs<h1>
-</body>
-</html>";
-            if (!File.Exists(logFile)) File.WriteAllText(logFile, page);
-
-            page = File.ReadAllText(logFile).Replace("</body>", "<p>" + str + "<p><br>" + Environment.NewLine + "</body>");
+        {            
+            if (!File.Exists(logFile)) File.WriteAllText(logFile, Data.GetLogPage());
+            string page = File.ReadAllText(logFile).Replace("</body>", "<p>" + str + "<p><br>" + Environment.NewLine + "</body>");
             File.WriteAllText(logFile, page);
-
             return "{\"success\":true}";
-
         }
 
         public static async Task<string> VulnerableQuery(string user, string passwd)
         {
-
             SHA256 sha256Hash = SHA256.Create();
             byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(passwd));
             StringBuilder stringbuilder = new StringBuilder();
             for (int i = 0; i < bytes.Length; i++)
                 stringbuilder.Append(bytes[i].ToString("x2"));
             string Hash = stringbuilder.ToString();
-
-            DataTable table = new DataTable();
-            table.Columns.Add("user", typeof(string));
-            table.Columns.Add("passwd", typeof(string));
-            table.Rows.Add("root", "ce5ca673d13b36118d54a7cf13aeb0ca012383bf771e713421b4d1fd841f539a");
-            table.Rows.Add("admin", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918");
-            table.Rows.Add("user", "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
-            var DataSet = new DataSet();
-            DataSet.Tables.Add(table);
-
             VulnerableLogs("login attempt for:\n" + user + "\n" + passwd + "\n");
+            var DataSet = Data.GetDataSet();
             var result = DataSet.Tables[0].Select("passwd = '" + Hash + "' and user = '" + user + "'");
-
             return result.Length > 0 ? "Bearer " + VulnerableGenerateToken(user) : "{\"success\":false}";
         }
 
@@ -185,10 +148,10 @@ namespace VulnerableWebApplication
             return result;
         }
 
-        public static async Task<string> VulnerableWebRequest(string uri="https://localhost:3000/")
+        public static async Task<string> VulnerableWebRequest(string uri = "https://localhost:3000/")
         {
             if (uri.IsNullOrEmpty()) uri = "https://localhost:3000/";
-            if (System.Text.RegularExpressions.Regex.IsMatch(uri, @"^https://localhost"))
+            if (Regex.IsMatch(uri, @"^https://localhost"))
             {
                 using HttpClient client = new();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
@@ -202,20 +165,16 @@ namespace VulnerableWebApplication
                 }
                 return "{\"Result\":" + resp + "}";
             }
-            else { return "{\"Result\": \"Fordidden\"}"; }       
+            else { return "{\"Result\": \"Fordidden\"}"; }
         }
 
         public static string VulnerableObjectReference(int id, string token)
         {
-            if(!VulnerableValidateToken(token)) return "{\"" + id + "\":\"Forbidden\"}";
+            if (!VulnerableValidateToken(token)) return "{\"" + id + "\":\"Forbidden\"}";
             else
             {
-                List<Employee> Employee = new List<Employee>() {
-                    new Employee() { Id = 1, Name = "John", Age = 16, Address = "4 rue jean moulin"},
-                    new Employee() { Id = 42, Name = "Steve",  Age = 21, Address = "3 rue Victor Hugo" },
-                    new Employee() { Id = 1000, Name = "Bill",  Age = 18, Address = "4 place du 18 juin" }
-                };
-                return "{\"" + id + "\":\"" + Employee.Where(x => id == x.Id)?.FirstOrDefault()?.Address + "\"}";
+                List<Employee> Employees = Data.GetEmployees();
+                return "{\"" + id + "\":\"" + Employees.Where(x => id == x.Id)?.FirstOrDefault()?.Address + "\"}";
             }
         }
 
@@ -226,7 +185,7 @@ namespace VulnerableWebApplication
             {
                 string message = "nslookup " + i;
                 int timeout = 200;
-                System.Diagnostics.Process cmd = new Process();
+                Process cmd = new Process();
                 cmd.StartInfo.FileName = "cmd.exe";
                 cmd.StartInfo.RedirectStandardInput = true;
                 cmd.StartInfo.RedirectStandardOutput = true;
@@ -241,7 +200,6 @@ namespace VulnerableWebApplication
                 r = "{\"result\":\"" + cmd.StandardOutput.ReadToEnd() + "\"}";
             }
             else r = "{\"result\":\"ERROR\"}";
-
             return r;
         }
 
@@ -264,30 +222,21 @@ namespace VulnerableWebApplication
             return r + VulnerableBuffer(s);
         }
 
-
         public static string VulnerableNoSQL(string s)
         {
-            if(s.Length >250) return "{\"Result\": \"Fordidden\"}";
-            List<Employee> Employees = new List<Employee>() {
-                new Employee() { Id = 1, Name = "John", Age = 16,},
-                new Employee() { Id = 2, Name = "Steve",  Age = 21 },
-                new Employee() { Id = 3, Name = "Bill",  Age = 18 },
-                new Employee() { Id = 4, Name = "Ram" , Age = 20},
-                new Employee() { Id = 5, Name = "Ron" , Age = 21}
-           };
+            if (s.Length > 250) return "{\"Result\": \"Fordidden\"}";
+            List<Employee> Employees = Data.GetEmployees();
             var query = Employees.AsQueryable();
             var result = query.Where(s);
             return result.ToArray().ToString();
-
-
         }
 
         public static string VulnerableAdminDashboard(string token, string header)
         {
             if (!VulnerableValidateToken(token)) { return "{\"Token\":\"Forbidden\"}"; }
-            if ( !header.Contains("10.256.256.256") ) { return "{\"IP\":\"Forbidden\"}"; }
+            if (!header.Contains("10.256.256.256")) { return "{\"IP\":\"Forbidden\"}"; }
             VulnerableLogs("admin logged with : " + token + header);
-            return "{\"IP\":\""+ File.ReadAllText(logFile) + "\"}";
+            return "{\"IP\":\"" + File.ReadAllText(logFile) + "\"}";
         }
 
         public static async Task<IResult> VulnerableHandleFileUpload(IFormFile file)
@@ -296,7 +245,5 @@ namespace VulnerableWebApplication
             await file.CopyToAsync(stream);
             return Results.Ok(file.FileName);
         }
-
-
     }
 }

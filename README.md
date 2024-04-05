@@ -54,11 +54,6 @@ VLA is designed as a vulnerable backend application, running in the following en
 
 ![Context](./Context.png)
 
-
-## Classes Diagram
-
-![Class](./ClassesDiagram.png)
-
 ## Usage
 
 ```PowerShell
