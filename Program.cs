@@ -12,10 +12,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAntiforgery();
 
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json")
+    .Build();
+
 var app = builder.Build();
 app.UseAntiforgery();
 app.UseSwagger();
 app.UseSwaggerUI();
+
+var secret = configuration["Secret"];
+var logfile = configuration["LogFile"];
 
 app.MapGet("/", async (string? lang) => await Task.FromResult(VLAController.VulnerableHelloWorld(HttpUtility.UrlDecode(lang)))).WithOpenApi();
 
@@ -25,7 +33,7 @@ app.MapGet("/Json", async (string i) => await Task.FromResult(VLAController.Vuln
 
 app.MapGet("/Req", async (string? i) => await VLAController.VulnerableWebRequest(i)).WithOpenApi();
 
-app.MapGet("/Addr", async (int i, string t) => await Task.FromResult(VLAController.VulnerableObjectReference(i, t))).WithOpenApi();
+app.MapGet("/Addr", async (int i, string t) => await Task.FromResult(VLAController.VulnerableObjectReference(i, t, secret))).WithOpenApi();
 
 app.MapGet("/Dns", async (string i) => await Task.FromResult(VLAController.VulnerableCmd(HttpUtility.UrlDecode(i)))).WithOpenApi();
 
@@ -33,12 +41,12 @@ app.MapGet("/Rce", async (string i) => await Task.FromResult(VLAController.Vulne
 
 app.MapGet("/NoSQL", async (string s) => await Task.FromResult(VLAController.VulnerableNoSQL(HttpUtility.UrlDecode(s)))).WithOpenApi();
 
-app.MapGet("/Admin", [ProducesResponseType(StatusCodes.Status200OK)] async (string t, [FromHeader(Name = "X-Forwarded-For")] string h) => await Task.FromResult<string>(Task.FromResult<string>(VulnerableWebApplication.VLAController.VLAController.VulnerableAdminDashboard(t, h)).Result));
+app.MapGet("/Admin", [ProducesResponseType(StatusCodes.Status200OK)] async (string t, [FromHeader(Name = "X-Forwarded-For")] string h) => await Task.FromResult<string>(Task.FromResult<string>(VulnerableWebApplication.VLAController.VLAController.VulnerableAdminDashboard(t, h, secret, logfile)).Result));
 
 
 app.MapPost("/Upload", async (IFormFile file) => await VLAController.VulnerableHandleFileUpload(file)).DisableAntiforgery();
 
-app.MapPost("/Auth", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody] VulnerableWebApplication.VLAModel.Creds login) => await Task.FromResult(VLAController.VulnerableQuery(login.user, login.passwd)).Result).WithOpenApi();
+app.MapPost("/Auth", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody] VulnerableWebApplication.VLAModel.Creds login) => await Task.FromResult(VLAController.VulnerableQuery(login.user, login.passwd, secret, logfile)).Result).WithOpenApi();
 
 
 string url = args.FirstOrDefault(arg => arg.StartsWith("--url="));
