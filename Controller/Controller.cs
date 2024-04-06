@@ -164,9 +164,9 @@ namespace VulnerableWebApplication.VLAController
                 var Resp = await exec(Client, Uri);
                 static async Task<string> exec(HttpClient client, string uri)
                 {
-                    var r = client.GetAsync(uri);
-                    r.Result.EnsureSuccessStatusCode();
-                    return r.Result.StatusCode.ToString();
+                    var Result = client.GetAsync(uri);
+                    Result.Result.EnsureSuccessStatusCode();
+                    return Result.Result.StatusCode.ToString();
                 }
                 return "{\"Result\":" + Resp + "}";
             }
@@ -231,10 +231,10 @@ namespace VulnerableWebApplication.VLAController
         {
             if (UserStr.Length > 250) return "{\"Result\": \"Fordidden\"}";
             List<Employee> Employees = Data.GetEmployees();
-            var query = Employees.AsQueryable();
-            var result = query.Where(UserStr);
+            var Query = Employees.AsQueryable();
+            var Result = Query.Where(UserStr);
 
-            return result.ToArray().ToString();
+            return Result.ToArray().ToString();
         }
 
         public static string VulnerableAdminDashboard(string Token, string Header, string Secret, string LogFile)
