@@ -12,8 +12,8 @@ namespace VulnerableWebApplication.VLAModel
     
     public class Creds
     {
-        public string user { get; set; }
-        public string passwd { get; set; }
+        public string User { get; set; }
+        public string Passwd { get; set; }
     }
 
     public class Data
@@ -35,11 +35,11 @@ namespace VulnerableWebApplication.VLAModel
         public static DataSet GetDataSet()
         {
             DataTable table = new DataTable();
-            table.Columns.Add("user", typeof(string));
-            table.Columns.Add("passwd", typeof(string));
+            table.Columns.Add("User", typeof(string));
+            table.Columns.Add("Passwd", typeof(string));
             table.Rows.Add("root", "ce5ca673d13b36118d54a7cf13aeb0ca012383bf771e713421b4d1fd841f539a");
             table.Rows.Add("admin", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918");
-            table.Rows.Add("user", "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+            table.Rows.Add("User", "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
             var DataSet = new DataSet();
             DataSet.Tables.Add(table);
             return DataSet;

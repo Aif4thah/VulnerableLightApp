@@ -32,228 +32,226 @@ namespace VulnerableWebApplication.VLAController
 {
     public class VLAController
     {
-        public static object VulnerableHelloWorld(string filename = "francais")
+        public static object VulnerableHelloWorld(string FileName = "francais")
         {
-            if (filename.IsNullOrEmpty()) filename = "francais";
-            string content = File.ReadAllText(filename.Replace("../", "").Replace("..\\", ""));
+            if (FileName.IsNullOrEmpty()) FileName = "francais";
+            string Content = File.ReadAllText(FileName.Replace("../", "").Replace("..\\", ""));
 
-            return "{\"success\":" + content + "}";
+            return "{\"success\":" + Content + "}";
         }
 
-        public static object VulnerableDeserialize(string json)
+        public static object VulnerableDeserialize(string Json)
         {
-            string f = "ReadOnly.txt";
-            json = json.Replace("Framework", "").Replace("Token", "").Replace("cmd", "").Replace("powershell", "").Replace("http", "");
-            if (!File.Exists(f)) File.WriteAllText(f, new Guid().ToString());
-            File.SetAttributes(f, FileAttributes.ReadOnly);
-            JsonConvert.DeserializeObject<object>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
+            string ROFile = "ReadOnly.txt";
+            Json = Json.Replace("Framework", "").Replace("Token", "").Replace("Cmd", "").Replace("powershell", "").Replace("http", "");
+            if (!File.Exists(ROFile)) File.WriteAllText(ROFile, new Guid().ToString());
+            File.SetAttributes(ROFile, FileAttributes.ReadOnly);
+            JsonConvert.DeserializeObject<object>(Json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
 
-            return "{\"" + f + "\":\"" + File.GetAttributes(f).ToString() + "\"}";
+            return "{\"" + ROFile + "\":\"" + File.GetAttributes(ROFile).ToString() + "\"}";
         }
 
-        public static string VulnerableXmlParser(string xml)
+        public static string VulnerableXmlParser(string Xml)
         {
             try
             {
-                var xsl = XDocument.Parse(xml);
-                var myXslTrans = new XslCompiledTransform(enableDebug: true);
-                var settings = new XsltSettings();
-                myXslTrans.Load(xsl.CreateReader(), settings, null);
+                var Xsl = XDocument.Parse(Xml);
+                var MyXslTrans = new XslCompiledTransform(enableDebug: true);
+                var Settings = new XsltSettings();
+                MyXslTrans.Load(Xsl.CreateReader(), Settings, null);
                 var DocReader = XDocument.Parse("<doc></doc>").CreateReader();
 
-                var sb = new StringBuilder();
-                var DocWriter = XmlWriter.Create(sb, new XmlWriterSettings() { ConformanceLevel = ConformanceLevel.Fragment });
-                myXslTrans.Transform(DocReader, DocWriter);
+                var Sb = new StringBuilder();
+                var DocWriter = XmlWriter.Create(Sb, new XmlWriterSettings() { ConformanceLevel = ConformanceLevel.Fragment });
+                MyXslTrans.Transform(DocReader, DocWriter);
 
-                return sb.ToString();
+                return Sb.ToString();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                xml = xml.Replace("Framework", "").Replace("Token", "").Replace("cmd", "").Replace("powershell", "").Replace("http", "");
+                Xml = Xml.Replace("Framework", "").Replace("Token", "").Replace("Cmd", "").Replace("powershell", "").Replace("http", "");
                 XmlReaderSettings ReaderSettings = new XmlReaderSettings();
                 ReaderSettings.DtdProcessing = DtdProcessing.Parse;
                 ReaderSettings.XmlResolver = new XmlUrlResolver();
                 ReaderSettings.MaxCharactersFromEntities = 6000;
 
-                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(Xml)))
                 {
-                    XmlReader reader = XmlReader.Create(stream, ReaderSettings);
-                    var xmlDocument = new XmlDocument();
-                    xmlDocument.XmlResolver = new XmlUrlResolver();
-                    xmlDocument.Load(reader);
+                    XmlReader Reader = XmlReader.Create(stream, ReaderSettings);
+                    var XmlDocument = new XmlDocument();
+                    XmlDocument.XmlResolver = new XmlUrlResolver();
+                    XmlDocument.Load(Reader);
 
-                    return xmlDocument.InnerText;
+                    return XmlDocument.InnerText;
                 }
             }
         }
 
-        public static string VulnerableLogs(string str, string logFile)
+        public static string VulnerableLogs(string Str, string LogFile)
         {
-            if (!File.Exists(logFile)) File.WriteAllText(logFile, Data.GetLogPage());
-            string page = File.ReadAllText(logFile).Replace("</body>", "<p>" + str + "<p><br>" + Environment.NewLine + "</body>");
-            File.WriteAllText(logFile, page);
+            if (!File.Exists(LogFile)) File.WriteAllText(LogFile, Data.GetLogPage());
+            string Page = File.ReadAllText(LogFile).Replace("</body>", "<p>" + Str + "<p><br>" + Environment.NewLine + "</body>");
+            File.WriteAllText(LogFile, Page);
 
             return "{\"success\":true}";
         }
 
-        public static async Task<string> VulnerableQuery(string user, string passwd, string secret, string logFile)
+        public static async Task<string> VulnerableQuery(string User, string Passwd, string Secret, string LogFile)
         {
-            SHA256 sha256Hash = SHA256.Create();
-            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(passwd));
+            SHA256 Sha256Hash = SHA256.Create();
+            byte[] Bytes = Sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(Passwd));            
             StringBuilder stringbuilder = new StringBuilder();
-
-            for (int i = 0; i < bytes.Length; i++)
-                stringbuilder.Append(bytes[i].ToString("x2"));
+            for (int i = 0; i < Bytes.Length; i++) stringbuilder.Append(Bytes[i].ToString("x2"));
             string Hash = stringbuilder.ToString();
 
-            VulnerableLogs("login attempt for:\n" + user + "\n" + passwd + "\n", logFile);
+            VulnerableLogs("login attempt for:\n" + User + "\n" + Passwd + "\n", LogFile);
             var DataSet = Data.GetDataSet();
-            var result = DataSet.Tables[0].Select("passwd = '" + Hash + "' and user = '" + user + "'");
+            var Result = DataSet.Tables[0].Select("Passwd = '" + Hash + "' and User = '" + User + "'");
 
-            return result.Length > 0 ? "Bearer " + VulnerableGenerateToken(user, secret) : "{\"success\":false}";
+            return Result.Length > 0 ? "Bearer " + VulnerableGenerateToken(User, Secret) : "{\"success\":false}";
         }
 
-        public static string VulnerableGenerateToken(string user, string secret)
+        public static string VulnerableGenerateToken(string User, string Secret)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var TokenHandler = new JwtSecurityTokenHandler();
+            var Key = Encoding.ASCII.GetBytes(Secret);
+            var TokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user) }),
+                Subject = new ClaimsIdentity(new[] { new Claim("Id", User) }),
                 Expires = DateTime.UtcNow.AddDays(365),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Key), SecurityAlgorithms.HmacSha256Signature)
             };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var Token = TokenHandler.CreateToken(TokenDescriptor);
 
-            return tokenHandler.WriteToken(token);
+            return TokenHandler.WriteToken(Token);
         }
 
-        public static bool VulnerableValidateToken(string token, string secret)
+        public static bool VulnerableValidateToken(string Token, string Secret)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(secret);
-            bool result = true;
+            var TokenHandler = new JwtSecurityTokenHandler();
+            var Key = Encoding.ASCII.GetBytes(Secret);
+            bool Result = true;
             try
             {
-                var jwtSecurityToken = tokenHandler.ReadJwtToken(token);
-                if (jwtSecurityToken.Header.Alg == "HS256" && jwtSecurityToken.Header.Typ == "JWT")
+                var JwtSecurityToken = TokenHandler.ReadJwtToken(Token);
+                if (JwtSecurityToken.Header.Alg == "HS256" && JwtSecurityToken.Header.Typ == "JWT")
                 {
-                    tokenHandler.ValidateToken(token, new TokenValidationParameters
+                    TokenHandler.ValidateToken(Token, new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        IssuerSigningKey = new SymmetricSecurityKey(Key),
                         ValidateIssuer = false,
                         ValidateAudience = false,
                     }, out SecurityToken validatedToken);
 
-                    var jwtToken = (JwtSecurityToken)validatedToken;
+                    var JwtToken = (JwtSecurityToken)validatedToken;
                 }
             }
-            catch { result = false; }
+            catch { Result = false; }
 
-            return result;
+            return Result;
         }
 
-        public static async Task<string> VulnerableWebRequest(string uri = "https://localhost:3000/")
+        public static async Task<string> VulnerableWebRequest(string Uri = "https://localhost:3000/")
         {
-            if (uri.IsNullOrEmpty()) uri = "https://localhost:3000/";
-            if (Regex.IsMatch(uri, @"^https://localhost"))
+            if (Uri.IsNullOrEmpty()) Uri = "https://localhost:3000/";
+            if (Regex.IsMatch(Uri, @"^https://localhost"))
             {
-                using HttpClient client = new();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
+                using HttpClient Client = new();
+                Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/html"));
 
-                var resp = await exec(client, uri);
+                var Resp = await exec(Client, Uri);
                 static async Task<string> exec(HttpClient client, string uri)
                 {
                     var r = client.GetAsync(uri);
                     r.Result.EnsureSuccessStatusCode();
                     return r.Result.StatusCode.ToString();
                 }
-                return "{\"Result\":" + resp + "}";
+                return "{\"Result\":" + Resp + "}";
             }
             else return "{\"Result\": \"Fordidden\"}";
         }
 
-        public static string VulnerableObjectReference(int id, string token, string secret)
+        public static string VulnerableObjectReference(int Id, string Token, string Secret)
         {
-            if (!VulnerableValidateToken(token, secret)) return "{\"" + id + "\":\"Forbidden\"}";
+            if (!VulnerableValidateToken(Token, Secret)) return "{\"" + Id + "\":\"Forbidden\"}";
             else
             {
                 List<Employee> Employees = Data.GetEmployees();
-                return "{\"" + id + "\":\"" + Employees.Where(x => id == x.Id)?.FirstOrDefault()?.Address + "\"}";
+                return "{\"" + Id + "\":\"" + Employees.Where(x => Id == x.Id)?.FirstOrDefault()?.Address + "\"}";
             }
         }
 
-        public static string VulnerableCmd(string i)
+        public static string VulnerableCmd(string UserStr)
         {
-            string r;
-            if (Regex.Match(i, @"[a-zA-Z0-9][a-zA-Z0-9-]{1,10}\.[a-zA-Z]{2,3}$|[a-zA-Z0-9][a-zA-Z0-9-]{1,10}\.[a-zA-Z]{2,3}[& a-zA-Z]{2,10}$").Success)
+            string Result;
+            if (Regex.Match(UserStr, @"[a-zA-Z0-9][a-zA-Z0-9-]{1,10}\.[a-zA-Z]{2,3}$|[a-zA-Z0-9][a-zA-Z0-9-]{1,10}\.[a-zA-Z]{2,3}[& a-zA-Z]{2,10}$").Success)
             {
-                Process cmd = new Process();
-                cmd.StartInfo.FileName = "cmd.exe";
-                cmd.StartInfo.RedirectStandardInput = true;
-                cmd.StartInfo.RedirectStandardOutput = true;
-                cmd.StartInfo.CreateNoWindow = true;
-                cmd.StartInfo.UseShellExecute = false;
-                cmd.Start();
-                cmd.WaitForExit(200);
-                cmd.StandardInput.WriteLine("nslookup " + i);
-                cmd.StandardInput.Flush();
-                cmd.StandardInput.Close();
+                Process Cmd = new Process();
+                Cmd.StartInfo.FileName = "Cmd.exe";
+                Cmd.StartInfo.RedirectStandardInput = true;
+                Cmd.StartInfo.RedirectStandardOutput = true;
+                Cmd.StartInfo.CreateNoWindow = true;
+                Cmd.StartInfo.UseShellExecute = false;
+                Cmd.Start();
+                Cmd.WaitForExit(200);
+                Cmd.StandardInput.WriteLine("nslookup " + UserStr);
+                Cmd.StandardInput.Flush();
+                Cmd.StandardInput.Close();
 
-                r = "{\"result\":\"" + cmd.StandardOutput.ReadToEnd() + "\"}";
+                Result = "{\"Result\":\"" + Cmd.StandardOutput.ReadToEnd() + "\"}";
             }
-            else r = "{\"result\":\"ERROR\"}";
+            else Result = "{\"Result\":\"ERROR\"}";
 
-            return r;
+            return Result;
         }
 
-        public static unsafe string VulnerableBuffer(string s)
+        public static unsafe string VulnerableBuffer(string UserStr)
         {
-            char* ptr = stackalloc char[50], str = ptr + 50;
-            foreach (var c in s) *ptr++ = c;
+            char* Ptr = stackalloc char[50], Str = Ptr + 50;
+            foreach (var c in UserStr) *Ptr++ = c;
 
-            return new string(str);
+            return new string(Str);
         }
 
-        public static string VulnerableCodeExecution(string s)
+        public static string VulnerableCodeExecution(string UserStr)
         {
-            string r = "null";
-            if (s.Length < 40 && !s.Contains("class") && !s.Contains("=") && !s.Contains("using"))
+            string Result = "null";
+            if (UserStr.Length < 40 && !UserStr.Contains("class") && !UserStr.Contains("=") && !UserStr.Contains("using"))
             {
-                try { r = CSharpScript.EvaluateAsync("System.Math.Pow(2, " + s + ")")?.Result?.ToString(); }
-                catch (Exception e) { r = e.ToString(); }
+                try { Result = CSharpScript.EvaluateAsync("System.Math.Pow(2, " + UserStr + ")")?.Result?.ToString(); }
+                catch (Exception e) { Result = e.ToString(); }
             }
 
-            return r + VulnerableBuffer(s);
+            return Result + VulnerableBuffer(UserStr);
         }
 
-        public static string VulnerableNoSQL(string s)
+        public static string VulnerableNoSQL(string UserStr)
         {
-            if (s.Length > 250) return "{\"Result\": \"Fordidden\"}";
+            if (UserStr.Length > 250) return "{\"Result\": \"Fordidden\"}";
             List<Employee> Employees = Data.GetEmployees();
             var query = Employees.AsQueryable();
-            var result = query.Where(s);
+            var result = query.Where(UserStr);
 
             return result.ToArray().ToString();
         }
 
-        public static string VulnerableAdminDashboard(string token, string header, string secret, string logFile)
+        public static string VulnerableAdminDashboard(string Token, string Header, string Secret, string LogFile)
         {
-            if (!VulnerableValidateToken(token, secret)) return "{\"Token\":\"Forbidden\"}";
-            if (!header.Contains("10.256.256.256")) return "{\"IP\":\"Forbidden\"}";
-            VulnerableLogs("admin logged with : " + token + header, logFile);
+            if (!VulnerableValidateToken(Token, Secret)) return "{\"Token\":\"Forbidden\"}";
+            if (!Header.Contains("10.256.256.256")) return "{\"IP\":\"Forbidden\"}";
+            VulnerableLogs("admin logged with : " + Token + Header, LogFile);
 
-            return "{\"IP\":\"" + File.ReadAllText(logFile) + "\"}";
+            return "{\"IP\":\"" + File.ReadAllText(LogFile) + "\"}";
         }
 
-        public static async Task<IResult> VulnerableHandleFileUpload(IFormFile file)
+        public static async Task<IResult> VulnerableHandleFileUpload(IFormFile UserFile)
         {
-            using var stream = File.OpenWrite(file.FileName);
-            await file.CopyToAsync(stream);
+            using var Stream = File.OpenWrite(UserFile.FileName);
+            await UserFile.CopyToAsync(Stream);
 
-            return Results.Ok(file.FileName);
+            return Results.Ok(UserFile.FileName);
         }
     }
 }
