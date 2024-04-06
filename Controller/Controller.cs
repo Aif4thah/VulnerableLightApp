@@ -50,6 +50,7 @@ namespace VulnerableWebApplication.VLAController
 
             return "{\"" + f + "\":\"" + File.GetAttributes(f).ToString() + "\"}";
         }
+
         public static string VulnerableXmlParser(string xml)
         {
             try
