@@ -36,6 +36,7 @@ namespace VulnerableWebApplication.VLAController
         {
             if (filename.IsNullOrEmpty()) filename = "francais";
             string content = File.ReadAllText(filename.Replace("../", "").Replace("..\\", ""));
+
             return "{\"success\":" + content + "}";
         }
 
@@ -62,6 +63,7 @@ namespace VulnerableWebApplication.VLAController
                 var sb = new StringBuilder();
                 var DocWriter = XmlWriter.Create(sb, new XmlWriterSettings() { ConformanceLevel = ConformanceLevel.Fragment });
                 myXslTrans.Transform(DocReader, DocWriter);
+
                 return sb.ToString();
             }
             catch (Exception ex)
@@ -79,6 +81,7 @@ namespace VulnerableWebApplication.VLAController
                     var xmlDocument = new XmlDocument();
                     xmlDocument.XmlResolver = new XmlUrlResolver();
                     xmlDocument.Load(reader);
+
                     return xmlDocument.InnerText;
                 }
             }
@@ -89,6 +92,7 @@ namespace VulnerableWebApplication.VLAController
             if (!File.Exists(logFile)) File.WriteAllText(logFile, Data.GetLogPage());
             string page = File.ReadAllText(logFile).Replace("</body>", "<p>" + str + "<p><br>" + Environment.NewLine + "</body>");
             File.WriteAllText(logFile, page);
+
             return "{\"success\":true}";
         }
 
@@ -97,12 +101,15 @@ namespace VulnerableWebApplication.VLAController
             SHA256 sha256Hash = SHA256.Create();
             byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(passwd));
             StringBuilder stringbuilder = new StringBuilder();
+
             for (int i = 0; i < bytes.Length; i++)
                 stringbuilder.Append(bytes[i].ToString("x2"));
             string Hash = stringbuilder.ToString();
+
             VulnerableLogs("login attempt for:\n" + user + "\n" + passwd + "\n", logFile);
             var DataSet = Data.GetDataSet();
             var result = DataSet.Tables[0].Select("passwd = '" + Hash + "' and user = '" + user + "'");
+
             return result.Length > 0 ? "Bearer " + VulnerableGenerateToken(user, secret) : "{\"success\":false}";
         }
 
@@ -117,6 +124,7 @@ namespace VulnerableWebApplication.VLAController
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
+
             return tokenHandler.WriteToken(token);
         }
 
@@ -142,6 +150,7 @@ namespace VulnerableWebApplication.VLAController
                 }
             }
             catch { result = false; }
+
             return result;
         }
 
@@ -162,7 +171,7 @@ namespace VulnerableWebApplication.VLAController
                 }
                 return "{\"Result\":" + resp + "}";
             }
-            else { return "{\"Result\": \"Fordidden\"}"; }
+            else return "{\"Result\": \"Fordidden\"}";
         }
 
         public static string VulnerableObjectReference(int id, string token, string secret)
@@ -180,8 +189,6 @@ namespace VulnerableWebApplication.VLAController
             string r;
             if (Regex.Match(i, @"[a-zA-Z0-9][a-zA-Z0-9-]{1,10}\.[a-zA-Z]{2,3}$|[a-zA-Z0-9][a-zA-Z0-9-]{1,10}\.[a-zA-Z]{2,3}[& a-zA-Z]{2,10}$").Success)
             {
-                string message = "nslookup " + i;
-                int timeout = 200;
                 Process cmd = new Process();
                 cmd.StartInfo.FileName = "cmd.exe";
                 cmd.StartInfo.RedirectStandardInput = true;
@@ -189,22 +196,23 @@ namespace VulnerableWebApplication.VLAController
                 cmd.StartInfo.CreateNoWindow = true;
                 cmd.StartInfo.UseShellExecute = false;
                 cmd.Start();
-                cmd.WaitForExit(timeout);
-                cmd.StandardInput.WriteLine(message);
+                cmd.WaitForExit(200);
+                cmd.StandardInput.WriteLine("nslookup " + i);
                 cmd.StandardInput.Flush();
                 cmd.StandardInput.Close();
 
                 r = "{\"result\":\"" + cmd.StandardOutput.ReadToEnd() + "\"}";
             }
             else r = "{\"result\":\"ERROR\"}";
+
             return r;
         }
 
         public static unsafe string VulnerableBuffer(string s)
         {
             char* ptr = stackalloc char[50], str = ptr + 50;
-            foreach (var c in s)
-                *ptr++ = c;
+            foreach (var c in s) *ptr++ = c;
+
             return new string(str);
         }
 
@@ -216,6 +224,7 @@ namespace VulnerableWebApplication.VLAController
                 try { r = CSharpScript.EvaluateAsync("System.Math.Pow(2, " + s + ")")?.Result?.ToString(); }
                 catch (Exception e) { r = e.ToString(); }
             }
+
             return r + VulnerableBuffer(s);
         }
 
@@ -225,14 +234,16 @@ namespace VulnerableWebApplication.VLAController
             List<Employee> Employees = Data.GetEmployees();
             var query = Employees.AsQueryable();
             var result = query.Where(s);
+
             return result.ToArray().ToString();
         }
 
         public static string VulnerableAdminDashboard(string token, string header, string secret, string logFile)
         {
-            if (!VulnerableValidateToken(token, secret)) { return "{\"Token\":\"Forbidden\"}"; }
-            if (!header.Contains("10.256.256.256")) { return "{\"IP\":\"Forbidden\"}"; }
+            if (!VulnerableValidateToken(token, secret)) return "{\"Token\":\"Forbidden\"}";
+            if (!header.Contains("10.256.256.256")) return "{\"IP\":\"Forbidden\"}";
             VulnerableLogs("admin logged with : " + token + header, logFile);
+
             return "{\"IP\":\"" + File.ReadAllText(logFile) + "\"}";
         }
 
@@ -240,6 +251,7 @@ namespace VulnerableWebApplication.VLAController
         {
             using var stream = File.OpenWrite(file.FileName);
             await file.CopyToAsync(stream);
+
             return Results.Ok(file.FileName);
         }
     }

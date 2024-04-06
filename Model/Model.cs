@@ -9,6 +9,7 @@ namespace VulnerableWebApplication.VLAModel
         public int Age { get; set; }
         public string Address { get; set; }
     }
+    
     public class Creds
     {
         public string user { get; set; }
@@ -29,8 +30,8 @@ namespace VulnerableWebApplication.VLAModel
 <h1>Application Logs<h1>
 </body>
 </html>";
-
         }
+
         public static DataSet GetDataSet()
         {
             DataTable table = new DataTable();
@@ -54,8 +55,6 @@ namespace VulnerableWebApplication.VLAModel
             return Employees;
         }
 
+
     }
-
-
-
 }
