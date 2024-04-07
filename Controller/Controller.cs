@@ -34,6 +34,9 @@ namespace VulnerableWebApplication.VLAController
     {
         public static object VulnerableHelloWorld(string FileName = "francais")
         {
+            /*
+             Retourne le contenu du fichier correspondant à la langue choisie par l'utilisateur
+            */
             if (FileName.IsNullOrEmpty()) FileName = "francais";
             string Content = File.ReadAllText(FileName.Replace("../", "").Replace("..\\", ""));
 
@@ -42,6 +45,9 @@ namespace VulnerableWebApplication.VLAController
 
         public static object VulnerableDeserialize(string Json)
         {
+            /*
+            Deserialise les données JSON passées en paramètre et s'assure que le fichier "ReadOnly.txt" soit en lecture seule
+            */
             string ROFile = "ReadOnly.txt";
             Json = Json.Replace("Framework", "").Replace("Token", "").Replace("Cmd", "").Replace("powershell", "").Replace("http", "");
             if (!File.Exists(ROFile)) File.WriteAllText(ROFile, new Guid().ToString());
@@ -53,6 +59,9 @@ namespace VulnerableWebApplication.VLAController
 
         public static string VulnerableXmlParser(string Xml)
         {
+            /*
+            Traite les données XML passées en paramètre et retourne son contenu
+            */
             try
             {
                 var Xsl = XDocument.Parse(Xml);
@@ -90,6 +99,9 @@ namespace VulnerableWebApplication.VLAController
 
         public static string VulnerableLogs(string Str, string LogFile)
         {
+            /*
+            Enregistre la chaine de caractères passée en paramètre dans le fichier de journalisation
+            */
             if (!File.Exists(LogFile)) File.WriteAllText(LogFile, Data.GetLogPage());
             string Page = File.ReadAllText(LogFile).Replace("</body>", "<p>" + Str + "<p><br>" + Environment.NewLine + "</body>");
             File.WriteAllText(LogFile, Page);
@@ -99,6 +111,9 @@ namespace VulnerableWebApplication.VLAController
 
         public static async Task<string> VulnerableQuery(string User, string Passwd, string Secret, string LogFile)
         {
+            /*
+            Authentifie les utilisateurs par login et mot de passe, et renvoie un token JWT si l'authentification a réussie
+            */
             SHA256 Sha256Hash = SHA256.Create();
             byte[] Bytes = Sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(Passwd));            
             StringBuilder stringbuilder = new StringBuilder();
@@ -114,6 +129,9 @@ namespace VulnerableWebApplication.VLAController
 
         public static string VulnerableGenerateToken(string User, string Secret)
         {
+            /*
+            Retourne un token JWT signé pour l'utilisateur passé en paramètre
+            */
             var TokenHandler = new JwtSecurityTokenHandler();
             var Key = Encoding.ASCII.GetBytes(Secret);
             var TokenDescriptor = new SecurityTokenDescriptor
@@ -129,6 +147,9 @@ namespace VulnerableWebApplication.VLAController
 
         public static bool VulnerableValidateToken(string Token, string Secret)
         {
+            /*
+            Vérifie la validité du token JWT passé en paramètre
+            */
             var TokenHandler = new JwtSecurityTokenHandler();
             var Key = Encoding.ASCII.GetBytes(Secret);
             bool Result = true;
@@ -155,6 +176,9 @@ namespace VulnerableWebApplication.VLAController
 
         public static async Task<string> VulnerableWebRequest(string Uri = "https://localhost:3000/")
         {
+            /*
+            Effectuer une requête web vers Localhost
+            */
             if (Uri.IsNullOrEmpty()) Uri = "https://localhost:3000/";
             if (Regex.IsMatch(Uri, @"^https://localhost"))
             {
@@ -175,6 +199,9 @@ namespace VulnerableWebApplication.VLAController
 
         public static string VulnerableObjectReference(int Id, string Token, string Secret)
         {
+            /*
+            Retourne les informations liées à l'ID de l'utilisateur
+            */
             if (!VulnerableValidateToken(Token, Secret)) return "{\"" + Id + "\":\"Forbidden\"}";
             else
             {
@@ -185,6 +212,9 @@ namespace VulnerableWebApplication.VLAController
 
         public static string VulnerableCmd(string UserStr)
         {
+            /*
+            Effectue une requête DNS pour le FQDN passé en paramètre
+            */
             string Result;
             if (Regex.Match(UserStr, @"[a-zA-Z0-9][a-zA-Z0-9-]{1,10}\.[a-zA-Z]{2,3}$|[a-zA-Z0-9][a-zA-Z0-9-]{1,10}\.[a-zA-Z]{2,3}[& a-zA-Z]{2,10}$").Success)
             {
@@ -209,6 +239,9 @@ namespace VulnerableWebApplication.VLAController
 
         public static unsafe string VulnerableBuffer(string UserStr)
         {
+            /*
+            Copie une chaine de caractère
+            */
             char* Ptr = stackalloc char[50], Str = Ptr + 50;
             foreach (var c in UserStr) *Ptr++ = c;
 
@@ -217,6 +250,9 @@ namespace VulnerableWebApplication.VLAController
 
         public static string VulnerableCodeExecution(string UserStr)
         {
+            /*
+            Retourne le résultat de l'opération mathématique sur le chiffre donné en paramètre
+            */
             string Result = "null";
             if (UserStr.Length < 40 && !UserStr.Contains("class") && !UserStr.Contains("=") && !UserStr.Contains("using"))
             {
@@ -229,6 +265,9 @@ namespace VulnerableWebApplication.VLAController
 
         public static string VulnerableNoSQL(string UserStr)
         {
+            /*
+            Retourne le résultat de la requête NoSQL fournie en paramètre
+            */
             if (UserStr.Length > 250) return "{\"Result\": \"Fordidden\"}";
             List<Employee> Employees = Data.GetEmployees();
             var Query = Employees.AsQueryable();
@@ -239,6 +278,9 @@ namespace VulnerableWebApplication.VLAController
 
         public static string VulnerableAdminDashboard(string Token, string Header, string Secret, string LogFile)
         {
+            /*
+            Authentifie l'utilisateur et son IP puis renvoie le journal d'événements
+            */
             if (!VulnerableValidateToken(Token, Secret)) return "{\"Token\":\"Forbidden\"}";
             if (!Header.Contains("10.256.256.256")) return "{\"IP\":\"Forbidden\"}";
             VulnerableLogs("admin logged with : " + Token + Header, LogFile);
@@ -248,6 +290,9 @@ namespace VulnerableWebApplication.VLAController
 
         public static async Task<IResult> VulnerableHandleFileUpload(IFormFile UserFile)
         {
+            /*
+            Permet l'upload de fichier
+            */
             using var Stream = File.OpenWrite(UserFile.FileName);
             await UserFile.CopyToAsync(Stream);
 
