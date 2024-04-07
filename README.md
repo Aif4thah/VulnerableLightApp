@@ -22,31 +22,31 @@ Taisen-Solutions makes no representations or warranties of any kind, express or 
 
 | CWE | Description | Difficulty | Hint | Estimated Reward in real Bug Bounty |
 |----|---|----|---|----|
-| CWE-22 | Path Traversal | Medium | Bypass the filter | 500-5.000$ |
-| CWE-78 | OS Command Injection | Easy | Get the user | 1.000-10.000$|
-| CWE-79 | Cross-site Scripting | Easy | Pop the admin | 500-5.000$ |
+| CWE-22 | Path Traversal | Medium | filter bypass | 500-5.000$ |
+| CWE-78 | OS Command Injection | Easy | Get username | 1.000-10.000$|
+| CWE-79 | Cross-site Scripting | Easy | Pop the logs readers | 500-5.000$ |
 | CWE-89 | SQL Injection | Easy | Login without creds | 1.000-10.000$ |
 | CWE-94 | Code Injection| Hard | Write in server console | 5.000-50.000$ |
-| CWE-91 | XML Injection | Hard | Transform | 0-500$ |
-| CWE-98 | Remote File Inclusion | Hard | protocol | 1.000-10.000$ |
+| CWE-91 | XML Injection | Hard | Use Transform | 0-500$ |
+| CWE-98 | Remote File Inclusion | Hard | Find the good protocol | 1.000-10.000$ |
 | CWE-184 | Incomplete List of Disallowed Inputs | Hard | Not so NoSQL | 1.000-10.000$|
-| CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Very Easy | Read the docs | 500-2.000$ |
+| CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Easy | RTFM | 500-2.000$ |
 | CWE-284 | Improper Access Control | Medium | Bring your own token | 1.000-5.000$ |
-| CWE-287 | Improper Authentication | Medium | go ahead | 500-5.000$ |
+| CWE-287 | Improper Authentication | Medium | Go ahead | 500-5.000$ |
 | CWE-319 | Cleartext Transmission of Sensitive Information | Very Easy | Sniff | 500-2.000$ |
 | CWE-326 | Inadequate Encryption Strength | Easy | Code review | 1.000-5.000$ |
 | CWE-434 | Unrestricted Upload of File with Dangerous Type | Easy | What can go wrong ? | 500-2.000$ |
-| CWE-502 | Deserialization of Untrusted Data | Hard | Change NTFS permission | 5.000-50.000$ |
-| CWE-521 | Weak Password Requirements | Very Easy | null | 500-2.000$ |
-| CWE-532 | Insertion of Sensitive Information into Log File | Very Easy | Nothing to hide|100-2.000$ |
+| CWE-502 | Deserialization of Untrusted Data | Hard | Change the readOnly permission | 5.000-50.000$ |
+| CWE-521 | Weak Password Requirements | Very Easy | Null | 500-2.000$ |
+| CWE-532 | Insertion of Sensitive Information into Log File | Very Easy | Nothing to hide |100-2.000$ |
 | CWE 639 | Insecure Direct Object Reference | Medium | Enumeration is key |500-5.000$ |
-| CWE-611 | Improper Restriction of XML External Entity Reference | Hard | Windows.ini | 1.000-10.000$ |
-| CWE-787 | Out-of-bounds Write | Easy | Don't crash the service | 500-5000$ |
+| CWE-611 | Improper Restriction of XML External Entity Reference | Hard | Read the Windows.ini | 1.000-10.000$ |
+| CWE-787 | Out-of-bounds Write | Easy | Read Memory | 500-5000$ |
 | CWE-798 | Use of Hard-coded Credentials | Very Easy | Code review | 1.000-10.000$ |
-| CWE-829 | Local file Inclusion | Easy | insert Html | 500-2.000$|
+| CWE-829 | Local File Inclusion | Easy | Insert content | 500-2.000$|
 | CWE-918 | Server-Side Request Forgery (SSRF) | Medium | choose your domain | 1.000$-10.000$|
 | CWE-1270 | Generation of Incorrect Security Tokens | Medium | Code review | 1.000-20.000$ |
-| CWE-1395 | Dependency on Vulnerable Third-Party Component | Easy | Old Stuff | 0-500$ |
+| CWE-1395 | Dependency on Vulnerable Third-Party Component | Easy | Old stuff discovery | 0-500$ |
 
 ## Context
 
