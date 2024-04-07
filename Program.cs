@@ -7,20 +7,30 @@ using Microsoft.AspNetCore.Builder;
 using VulnerableWebApplication.VLAController;
 
 
+// Configuration :
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAntiforgery();
-
 var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
-
 var app = builder.Build();
 app.UseAntiforgery();
+
+
+// Documentation :
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
+
+// Variables :
+
 var Secret = configuration["Secret"];
 var LogFile = configuration["LogFile"];
+
+
+// Endpoints :
 
 app.MapGet("/", async (string? lang) => await Task.FromResult(VLAController.VulnerableHelloWorld(HttpUtility.UrlDecode(lang)))).WithOpenApi();
 
@@ -40,11 +50,12 @@ app.MapGet("/NoSQL", async (string s) => await Task.FromResult(VLAController.Vul
 
 app.MapGet("/Admin", [ProducesResponseType(StatusCodes.Status200OK)] async (string t, [FromHeader(Name = "X-Forwarded-For")] string h) => await Task.FromResult<string>(Task.FromResult<string>(VulnerableWebApplication.VLAController.VLAController.VulnerableAdminDashboard(t, h, Secret, LogFile)).Result));
 
-
 app.MapPost("/Upload", async (IFormFile file) => await VLAController.VulnerableHandleFileUpload(file)).DisableAntiforgery();
 
 app.MapPost("/Auth", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody] VulnerableWebApplication.VLAModel.Creds login) => await Task.FromResult(VLAController.VulnerableQuery(login.User, login.Passwd, Secret, LogFile)).Result).WithOpenApi();
 
+
+// Arguments :
 
 string url = args.FirstOrDefault(arg => arg.StartsWith("--url="));
 
@@ -54,5 +65,8 @@ if (string.IsNullOrEmpty(url))
     app.Urls.Add("https://localhost:3000");
 }
 else app.Urls.Add(url.Replace("--url=",""));
+
+
+// Lancement :
 
 app.Run();

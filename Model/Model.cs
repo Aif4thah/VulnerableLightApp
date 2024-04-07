@@ -4,6 +4,9 @@ namespace VulnerableWebApplication.VLAModel
 {
     public class Employee
     {
+        /*
+        Données des employés de l'entreprise
+        */
         public int Id { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
@@ -12,6 +15,9 @@ namespace VulnerableWebApplication.VLAModel
     
     public class Creds
     {
+        /*
+        Login et mots de passe des employés de l'entreprise
+        */
         public string User { get; set; }
         public string Passwd { get; set; }
     }
@@ -20,6 +26,9 @@ namespace VulnerableWebApplication.VLAModel
     {
         public static string GetLogPage()
         {
+            /*
+            Structure des journaux d'evenements
+            */
             return @"<!doctype html>
 <html lang=""fr"">
 <head>
@@ -34,6 +43,9 @@ namespace VulnerableWebApplication.VLAModel
 
         public static DataSet GetDataSet()
         {
+            /*
+            Contenu de la BDD relationnelle
+            */
             DataTable table = new DataTable();
             table.Columns.Add("User", typeof(string));
             table.Columns.Add("Passwd", typeof(string));
@@ -47,6 +59,9 @@ namespace VulnerableWebApplication.VLAModel
 
         public static List<Employee> GetEmployees()
         {
+            /*
+            Contenu de la BDD non relationnelle
+            */
             List<Employee> Employees = new List<Employee>() {
                new Employee() { Id = 1, Name = "John", Age = 16, Address = "4 rue jean moulin"},
                new Employee() { Id = 42, Name = "Steve",  Age = 21, Address = "3 rue Victor Hugo" },
