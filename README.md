@@ -54,12 +54,6 @@ VLA is designed as a vulnerable backend application, running in the following en
 
 ![Context](./Context.png)
 
-## Usage
-
-```PowerShell
-.\VulnerableWebApplication.exe [--url=<url>]
-```
-
 ## Install
 
 Check `.csproj` file to get the current dotnet version
@@ -84,18 +78,39 @@ sudo dpkg -i packages-microsoft-prod.deb
 sudo apt install dotnet-sdk-8.0 -y
 ```
 
+## Run
 
-## Build and Run
-
-```sh
+```PowerShell
 dotnet run
+```
+
+## Build
+
+```PowerShell
+dotnet build
+```
+
+## Usage
+
+```PowerShell
+.\bin\Debug\net8.0\VulnerableWebApplication.exe [--url=<url>]
 ```
 
 ## Debug 
 
+### Dotnet Framework
+
+Verify you use the intended .NET Framework run :
+
+```cmd
+where dotnet
+dotnet --version
+dotnet --list-sdks
+```
+
 ### Certificates
 
-To trust the certificate (Windows and macOS only) run 
+To trust the certificate run : 
 
 ```PowerShell
 dotnet dev-certs https --trust
@@ -103,7 +118,7 @@ dotnet dev-certs https --trust
 
 ### Dependancies
 
-dependancies are dowloaded from [standard sources](https://go.microsoft.com/fwlink/?linkid=848054)
+dependancies have to be dowloaded from [standard sources](https://go.microsoft.com/fwlink/?linkid=848054)
 
 ```sh
 dotnet nuget add source "https://api.nuget.org/v3/index.json" --name "Microsoft"
