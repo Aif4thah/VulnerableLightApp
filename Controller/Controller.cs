@@ -291,12 +291,17 @@ namespace VulnerableWebApplication.VLAController
         public static async Task<IResult> VulnerableHandleFileUpload(IFormFile UserFile)
         {
             /*
-            Permet l'upload de fichier
+            Permet l'upload d'image au format svg
             */
-            using var Stream = File.OpenWrite(UserFile.FileName);
-            await UserFile.CopyToAsync(Stream);
+            if (UserFile.FileName.EndsWith(".svg")) 
+            {
+                using var Stream = File.OpenWrite(UserFile.FileName);
+                await UserFile.CopyToAsync(Stream);
 
-            return Results.Ok(UserFile.FileName);
+                return Results.Ok(UserFile.FileName);
+            }
+            else return Results.BadRequest();
+
         }
     }
 }
