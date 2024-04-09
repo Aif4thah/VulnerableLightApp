@@ -23,7 +23,7 @@ Taisen-Solutions makes no representations or warranties of any kind, express or 
 
 ## Vulnerabilities
 
-| CWE | Description | Difficulty | Hint | Estimated Reward in real Bug Bounty |
+| CWE | Description | Difficulty | Hint | Estimated Reward in Bug Bounty |
 |----|---|----|---|----|
 | CWE-22 | Path Traversal | Medium | filter bypass | 500-5.000$ |
 | CWE-78 | OS Command Injection | Easy | Get username | 1.000-10.000$|
