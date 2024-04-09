@@ -9,14 +9,17 @@
 
 Vulnerable API for educational purposes
 
+
 ## Disclaimer
 
 This repository, together with its tools, is provided by Taisen-Solutions on an “as is” basis. Be aware that this application is highly vulnerable, including remote command and code execution. Use it at your own risk.
 Taisen-Solutions makes no representations or warranties of any kind, express or implied, as to the operation of the information, content, materials, tools, services and/or products included on the repository. Taisen-Solution disclaims, to the full extent permissible by applicable law, all warranties, express or implied, including but not limited to, implied warranties of merchantability and fitness for a particular purpose.
 
+
 ## Use Case
 
 ![UseCase](./VLAusecase.drawio.png)
+
 
 ## Vulnerabilities
 
@@ -48,35 +51,22 @@ Taisen-Solutions makes no representations or warranties of any kind, express or 
 | CWE-1270 | Generation of Incorrect Security Tokens | Medium | Code review | 1.000-20.000$ |
 | CWE-1395 | Dependency on Vulnerable Third-Party Component | Easy | Old stuff discovery | 0-500$ |
 
+
 ## Context
 
 VLA is designed as a vulnerable backend application, running in the following environment : 
 
 ![Context](./Context.png)
 
+
 ## Install
 
-Check `.csproj` file to get the current dotnet version
+Be aware that VLA is works on Linux and MacOS But is only tested and supported on Windows.
 
-
-### Windows
+Check `.csproj` file to get the current dotnet version et install the appropriate SDK
 
 https://dotnet.microsoft.com/en-us/download
 
-
-### Linux
-
-Be aware that VLA is only tested and supported on Windows.
-
-```sh
-sudo apt-get update -y 
-sudo apt purge -y dotnet-sdk-8.0 aspnetcore-runtime-8.0 dotnet-runtime-8.0
-sudo apt autoremove -y
-wget "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb" -O packages-microsoft-prod.deb
-chmod +x packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-sudo apt install dotnet-sdk-8.0 -y
-```
 
 ## Run
 
@@ -96,6 +86,7 @@ dotnet build
 .\bin\Debug\net8.0\VulnerableWebApplication.exe [--url=<url>]
 ```
 
+
 ## Debug 
 
 ### Dotnet Framework
@@ -108,6 +99,7 @@ dotnet --version
 dotnet --list-sdks
 ```
 
+
 ### Certificates
 
 To trust the certificate run : 
@@ -116,6 +108,7 @@ To trust the certificate run :
 dotnet dev-certs https --trust
 ```
 
+
 ### Dependancies
 
 dependancies have to be dowloaded from [standard sources](https://go.microsoft.com/fwlink/?linkid=848054)
@@ -123,6 +116,7 @@ dependancies have to be dowloaded from [standard sources](https://go.microsoft.c
 ```sh
 dotnet nuget add source "https://api.nuget.org/v3/index.json" --name "Microsoft"
 ```
+
 
 ## Crédits
 
