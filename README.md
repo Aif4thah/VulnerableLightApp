@@ -92,7 +92,7 @@ dotnet run
 
 ### Dotnet Framework
 
-Verify you use the intended .NET Framework run :
+Verify you use the intended .NET Framework
 
 ```cmd
 where dotnet
@@ -103,7 +103,7 @@ dotnet --list-sdks
 
 ### Certificates
 
-To trust the certificate run : 
+To trust the certificate
 
 ```PowerShell
 dotnet dev-certs https --trust
