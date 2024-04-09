@@ -68,12 +68,6 @@ Check `.csproj` file to get the current dotnet version et install the appropriat
 https://dotnet.microsoft.com/en-us/download
 
 
-## Run
-
-```PowerShell
-dotnet run
-```
-
 ## Build
 
 ```PowerShell
@@ -85,6 +79,13 @@ dotnet build
 ```PowerShell
 .\bin\Debug\net8.0\VulnerableWebApplication.exe [--url=<url>]
 ```
+
+Alternatively, you can run directly with
+
+```PowerShell
+dotnet run
+```
+
 
 
 ## Debug 
