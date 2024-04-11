@@ -48,7 +48,7 @@ app.MapGet("/Rce", async (string i) => await Task.FromResult(VLAController.Vulne
 
 app.MapGet("/NoSQL", async (string s) => await Task.FromResult(VLAController.VulnerableNoSQL(HttpUtility.UrlDecode(s)))).WithOpenApi();
 
-app.MapGet("/Admin", [ProducesResponseType(StatusCodes.Status200OK)] async (string t, [FromHeader(Name = "X-Forwarded-For")] string h) => await Task.FromResult<string>(Task.FromResult<string>(VulnerableWebApplication.VLAController.VLAController.VulnerableAdminDashboard(t, h, Secret, LogFile)).Result));
+app.MapGet("/Admin", [ProducesResponseType(StatusCodes.Status200OK)] async (string t, [FromHeader(Name = "X-Forwarded-For")] string h) => await Task.FromResult<object>(Task.FromResult<object>(VulnerableWebApplication.VLAController.VLAController.VulnerableAdminDashboard(t, h, Secret, LogFile)).Result));
 
 app.MapPost("/Upload", async (IFormFile file) => await VLAController.VulnerableHandleFileUpload(file)).DisableAntiforgery();
 

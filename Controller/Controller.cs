@@ -40,7 +40,7 @@ namespace VulnerableWebApplication.VLAController
             if (FileName.IsNullOrEmpty()) FileName = "francais";
             string Content = File.ReadAllText(FileName.Replace("../", "").Replace("..\\", ""));
 
-            return "{\"success\":" + Content + "}";
+            return Results.Ok(Content);
         }
 
         public static object VulnerableDeserialize(string Json)
@@ -54,7 +54,7 @@ namespace VulnerableWebApplication.VLAController
             File.SetAttributes(ROFile, FileAttributes.ReadOnly);
             JsonConvert.DeserializeObject<object>(Json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
 
-            return "{\"" + ROFile + "\":\"" + File.GetAttributes(ROFile).ToString() + "\"}";
+            return Results.Ok(File.GetAttributes(ROFile).ToString());
         }
 
         public static string VulnerableXmlParser(string Xml)
@@ -97,7 +97,7 @@ namespace VulnerableWebApplication.VLAController
             }
         }
 
-        public static string VulnerableLogs(string Str, string LogFile)
+        public static void VulnerableLogs(string Str, string LogFile)
         {
             /*
             Enregistre la chaine de caractères passée en paramètre dans le fichier de journalisation
@@ -105,11 +105,9 @@ namespace VulnerableWebApplication.VLAController
             if (!File.Exists(LogFile)) File.WriteAllText(LogFile, Data.GetLogPage());
             string Page = File.ReadAllText(LogFile).Replace("</body>", "<p>" + Str + "<p><br>" + Environment.NewLine + "</body>");
             File.WriteAllText(LogFile, Page);
-
-            return "{\"success\":true}";
         }
 
-        public static async Task<string> VulnerableQuery(string User, string Passwd, string Secret, string LogFile)
+        public static async Task<object> VulnerableQuery(string User, string Passwd, string Secret, string LogFile)
         {
             /*
             Authentifie les utilisateurs par login et mot de passe, et renvoie un token JWT si l'authentification a réussie
@@ -124,7 +122,7 @@ namespace VulnerableWebApplication.VLAController
             var DataSet = Data.GetDataSet();
             var Result = DataSet.Tables[0].Select("Passwd = '" + Hash + "' and User = '" + User + "'");
 
-            return Result.Length > 0 ? "Bearer " + VulnerableGenerateToken(User, Secret) : "{\"success\":false}";
+            return Result.Length > 0 ? Results.Ok(VulnerableGenerateToken(User, Secret)) : Results.Unauthorized();
         }
 
         public static string VulnerableGenerateToken(string User, string Secret)
@@ -174,7 +172,7 @@ namespace VulnerableWebApplication.VLAController
             return Result;
         }
 
-        public static async Task<string> VulnerableWebRequest(string Uri = "https://localhost:3000/")
+        public static async Task<object> VulnerableWebRequest(string Uri = "https://localhost:3000/")
         {
             /*
             Effectuer une requête web vers Localhost
@@ -192,30 +190,28 @@ namespace VulnerableWebApplication.VLAController
                     Result.Result.EnsureSuccessStatusCode();
                     return Result.Result.StatusCode.ToString();
                 }
-                return "{\"Result\":" + Resp + "}";
+                return Results.Ok(Resp);
             }
-            else return "{\"Result\": \"Fordidden\"}";
+            else return Results.Unauthorized();
         }
 
-        public static string VulnerableObjectReference(int Id, string Token, string Secret)
+        public static object VulnerableObjectReference(int Id, string Token, string Secret)
         {
             /*
             Retourne les informations liées à l'ID de l'utilisateur
             */
-            if (!VulnerableValidateToken(Token, Secret)) return "{\"" + Id + "\":\"Forbidden\"}";
-            else
-            {
-                List<Employee> Employees = Data.GetEmployees();
-                return "{\"" + Id + "\":\"" + Employees.Where(x => Id == x.Id)?.FirstOrDefault()?.Address + "\"}";
-            }
+            List<Employee> Employees = Data.GetEmployees();
+            var Address = Employees.Where(x => Id == x.Id)?.FirstOrDefault()?.Address;
+            if ((!VulnerableValidateToken(Token, Secret)) || Address.IsNullOrEmpty()) return Results.Unauthorized();
+
+            return Results.Ok(Address);
         }
 
-        public static string VulnerableCmd(string UserStr)
+        public static object VulnerableCmd(string UserStr)
         {
             /*
             Effectue une requête DNS pour le FQDN passé en paramètre
             */
-            string Result;
             if (Regex.Match(UserStr, @"[a-zA-Z0-9][a-zA-Z0-9-]{1,10}\.[a-zA-Z]{2,3}$|[a-zA-Z0-9][a-zA-Z0-9-]{1,10}\.[a-zA-Z]{2,3}[& a-zA-Z]{2,10}$").Success)
             {
                 Process Cmd = new Process();
@@ -230,11 +226,9 @@ namespace VulnerableWebApplication.VLAController
                 Cmd.StandardInput.Flush();
                 Cmd.StandardInput.Close();
 
-                Result = "{\"Result\":\"" + Cmd.StandardOutput.ReadToEnd() + "\"}";
+                return Results.Ok(Cmd.StandardOutput.ReadToEnd());
             }
-            else Result = "{\"Result\":\"ERROR\"}";
-
-            return Result;
+            else return Results.Unauthorized();
         }
 
         public static unsafe string VulnerableBuffer(string UserStr)
@@ -263,29 +257,27 @@ namespace VulnerableWebApplication.VLAController
             return Result + VulnerableBuffer(UserStr);
         }
 
-        public static string VulnerableNoSQL(string UserStr)
+        public static object VulnerableNoSQL(string UserStr)
         {
             /*
             Retourne le résultat de la requête NoSQL fournie en paramètre
             */
-            if (UserStr.Length > 250) return "{\"Result\": \"Fordidden\"}";
+            if (UserStr.Length > 250) return Results.Unauthorized();
             List<Employee> Employees = Data.GetEmployees();
             var Query = Employees.AsQueryable();
-            var Result = Query.Where(UserStr);
 
-            return Result.ToArray().ToString();
+            return Results.Ok(Query.Where(UserStr).ToArray().ToString());
         }
 
-        public static string VulnerableAdminDashboard(string Token, string Header, string Secret, string LogFile)
+        public static object VulnerableAdminDashboard(string Token, string Header, string Secret, string LogFile)
         {
             /*
             Authentifie l'utilisateur et son IP puis renvoie le journal d'événements
             */
-            if (!VulnerableValidateToken(Token, Secret)) return "{\"Token\":\"Forbidden\"}";
-            if (!Header.Contains("10.256.256.256")) return "{\"IP\":\"Forbidden\"}";
+            if ((!VulnerableValidateToken(Token, Secret)) || (!Header.Contains("10.256.256.256"))) return Results.Unauthorized();
             VulnerableLogs("admin logged with : " + Token + Header, LogFile);
 
-            return "{\"IP\":\"" + File.ReadAllText(LogFile) + "\"}";
+            return Results.Ok(File.ReadAllText(LogFile));
         }
 
         public static async Task<IResult> VulnerableHandleFileUpload(IFormFile UserFile)
