@@ -27,6 +27,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;
 using System.Xml.Xsl;
 using VulnerableWebApplication.VLAModel;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace VulnerableWebApplication.VLAController
 {
@@ -212,10 +214,11 @@ namespace VulnerableWebApplication.VLAController
             /*
             Effectue une requête DNS pour le FQDN passé en paramètre
             */
+            string Bin = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "cmd" : "/bin/sh";
             if (Regex.Match(UserStr, @"[a-zA-Z0-9][a-zA-Z0-9-]{1,10}\.[a-zA-Z]{2,3}$|[a-zA-Z0-9][a-zA-Z0-9-]{1,10}\.[a-zA-Z]{2,3}[& a-zA-Z]{2,10}$").Success)
             {
                 Process Cmd = new Process();
-                Cmd.StartInfo.FileName = "Cmd.exe";
+                Cmd.StartInfo.FileName = Bin;
                 Cmd.StartInfo.RedirectStandardInput = true;
                 Cmd.StartInfo.RedirectStandardOutput = true;
                 Cmd.StartInfo.CreateNoWindow = true;
