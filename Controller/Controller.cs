@@ -35,7 +35,7 @@ namespace VulnerableWebApplication.VLAController
 {
     public class VLAController
     {
-        public static object VulnerableHelloWorld(string FileName = "francais")
+        public static object VulnerableHelloWorld(string FileName = "english")
         {
             /*
              Retourne le contenu du fichier correspondant à la langue choisie par l'utilisateur
@@ -81,7 +81,6 @@ namespace VulnerableWebApplication.VLAController
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
                 Xml = Xml.Replace("Framework", "").Replace("Token", "").Replace("Cmd", "").Replace("powershell", "").Replace("http", "");
                 XmlReaderSettings ReaderSettings = new XmlReaderSettings();
                 ReaderSettings.DtdProcessing = DtdProcessing.Parse;
@@ -105,7 +104,7 @@ namespace VulnerableWebApplication.VLAController
             /*
             Enregistre la chaine de caractères passée en paramètre dans le fichier de journalisation
             */
-            while (Str.Contains("<script")) Str = HttpUtility.HtmlEncode(Str);
+            while (Str.Contains("script")) Str = HttpUtility.HtmlEncode(Str);
             if (!File.Exists(LogFile)) File.WriteAllText(LogFile, Data.GetLogPage());
             string Page = File.ReadAllText(LogFile).Replace("</body>", "<p>" + Str + "<p><br>" + Environment.NewLine + "</body>");
             File.WriteAllText(LogFile, Page);
