@@ -38,7 +38,7 @@ Taisen-Solutions makes no representations or warranties of any kind, express or 
 | CWE-287 | Improper Authentication | Medium | Go ahead | 500-5.000$ |
 | CWE-319 | Cleartext Transmission of Sensitive Information | Very Easy | Sniff | 500-2.000$ |
 | CWE-326 | Inadequate Encryption Strength | Easy | Code review | 1.000-5.000$ |
-| CWE-434 | Unrestricted Upload of File with Dangerous Type | Easy | What can go wrong ? | 500-2.000$ |
+| CWE-434 | Unrestricted Upload of File with Dangerous Type | Medium | What can go wrong ? | 500-10.000$ |
 | CWE-502 | Deserialization of Untrusted Data | Hard | Change the readOnly permission | 5.000-50.000$ |
 | CWE-521 | Weak Password Requirements | Very Easy | Null | 500-2.000$ |
 | CWE-532 | Insertion of Sensitive Information into Log File | Very Easy | Nothing to hide |100-2.000$ |
