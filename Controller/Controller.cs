@@ -272,30 +272,22 @@ namespace VulnerableWebApplication.VLAController
             return Results.Ok(Query.Where(UserStr).ToArray().ToString());
         }
 
-        public static object VulnerableAdminDashboard(string Token, string Header, string Secret, string LogFile)
+        public static async Task<IResult> VulnerableHandleFileUpload(IFormFile UserFile, string Header, string Token, string Secret, string LogFile)
         {
             /*
-            Authentifie l'utilisateur et son IP puis renvoie le journal d'événements
+            Permet l'upload de fichier avec l'extension svg
             */
-            if ((!VulnerableValidateToken(Token, Secret)) || (!Header.Contains("10.256.256.256"))) return Results.Unauthorized();
-            VulnerableLogs("admin logged with : " + Token + Header, LogFile);
+            if ((!VulnerableValidateToken(Token, Secret)) || (!Header.Contains("10.10.10.256"))) return Results.Unauthorized();
 
-            return Results.Ok(File.ReadAllText(LogFile));
-        }
-
-        public static async Task<IResult> VulnerableHandleFileUpload(IFormFile UserFile)
-        {
-            /*
-            Permet l'upload d'image au format svg
-            */
             if (UserFile.FileName.EndsWith(".svg")) 
             {
                 using var Stream = File.OpenWrite(UserFile.FileName);
                 await UserFile.CopyToAsync(Stream);
+                VulnerableLogs("Patch with : " + Token + Header, LogFile);
 
                 return Results.Ok(UserFile.FileName);
             }
-            else return Results.BadRequest();
+            else return Results.Unauthorized();
 
         }
     }
