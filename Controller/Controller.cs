@@ -105,7 +105,7 @@ namespace VulnerableWebApplication.VLAController
             Enregistre la chaine de caractères passée en paramètre dans le fichier de journalisation
             */
             if (!File.Exists(LogFile)) File.WriteAllText(LogFile, Data.GetLogPage());
-            string Page = File.ReadAllText(LogFile).Replace("</body>", "<p>" + Str + "<p><br>" + Environment.NewLine + "</body>");
+            string Page = File.ReadAllText(LogFile).Replace("</body>", "<p>" + Str.Replace("<script>","") + "<p><br>" + Environment.NewLine + "</body>");
             File.WriteAllText(LogFile, Page);
         }
 
