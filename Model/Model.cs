@@ -7,7 +7,7 @@ namespace VulnerableWebApplication.VLAModel
         /*
         Données des employés de l'entreprise
         */
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
         public string Address { get; set; }
@@ -63,9 +63,9 @@ namespace VulnerableWebApplication.VLAModel
             Contenu de la BDD non relationnelle
             */
             List<Employee> Employees = new List<Employee>() {
-               new Employee() { Id = 1, Name = "John", Age = 16, Address = "4 rue jean moulin"},
-               new Employee() { Id = 42, Name = "Steve",  Age = 21, Address = "3 rue Victor Hugo" },
-               new Employee() { Id = 1000, Name = "Bill",  Age = 18, Address = "4 place du 18 juin" }
+               new Employee() { Id = "1", Name = "John", Age = 16, Address = "4 rue jean moulin"},
+               new Employee() { Id = "42", Name = "Steve",  Age = 21, Address = "3 rue Victor Hugo" },
+               new Employee() { Id = "1000", Name = "Bill",  Age = 18, Address = "4 place du 18 juin" }
             };
             return Employees;
         }

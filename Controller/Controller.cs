@@ -30,6 +30,8 @@ using VulnerableWebApplication.VLAModel;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Web;
+using System.Threading;
+using System.Collections.Specialized;
 
 namespace VulnerableWebApplication.VLAController
 {
@@ -49,21 +51,38 @@ namespace VulnerableWebApplication.VLAController
         public static object VulnerableDeserialize(string Json)
         {
             /*
-            Deserialise les données JSON passées en paramètre et s'assure que le fichier "ReadOnly.txt" soit en lecture seule
+            Deserialise les données JSON passées en paramètre et valide un nouvel employé
+            Si l'employé est valide son nom est inscrits dans un fichier en lecture seule
             */
-            string ROFile = "ReadOnly.txt";
+            string NewId = "-1";
+            string HaveToBeEmpty = string.Empty;
+            string ROFile = "NewEmployees.txt";
             Json = Json.Replace("Framework", "").Replace("Token", "").Replace("Cmd", "").Replace("powershell", "").Replace("http", "");
+
             if (!File.Exists(ROFile)) File.WriteAllText(ROFile, new Guid().ToString());
             File.SetAttributes(ROFile, FileAttributes.ReadOnly);
-            JsonConvert.DeserializeObject<object>(Json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
 
-            return Results.Ok(File.GetAttributes(ROFile).ToString());
+            JsonConvert.DeserializeObject<object>(Json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });            
+            Employee NewEmployee = JsonConvert.DeserializeObject<Employee>(Json);
+
+            if (NewEmployee != null && !NewEmployee.Address.IsNullOrEmpty() && !NewEmployee.Id.IsNullOrEmpty()) 
+            {
+                HaveToBeEmpty = VulnerableBuffer(NewEmployee.Address);
+                NewId = VulnerableCodeExecution(NewEmployee.Id);
+                File.SetAttributes(ROFile, FileAttributes.Normal);
+                using (StreamWriter sw = new StreamWriter(ROFile, true)) sw.Write(NewEmployee.Name);
+                File.SetAttributes(ROFile, FileAttributes.ReadOnly);
+            }
+
+            
+
+            return Results.Ok("File is : " +File.GetAttributes(ROFile).ToString() + "   New id:" + NewId + "    Empty Var: " + HaveToBeEmpty.IsNullOrEmpty());
         }
 
         public static string VulnerableXmlParser(string Xml)
         {
             /*
-            Traite les données XML passées en paramètre et retourne son contenu
+            Parse les données XML passées en paramètre et retourne son contenu
             */
             try
             {
@@ -198,7 +217,7 @@ namespace VulnerableWebApplication.VLAController
             else return Results.Unauthorized();
         }
 
-        public static object VulnerableObjectReference(int Id, string Token, string Secret)
+        public static object VulnerableObjectReference(string Id, string Token, string Secret)
         {
             /*
             Retourne les informations liées à l'ID de l'utilisateur
@@ -240,7 +259,8 @@ namespace VulnerableWebApplication.VLAController
             /*
             Copie une chaine de caractère
             */
-            char* Ptr = stackalloc char[50], Str = Ptr + 50;
+            int BuffSize = 50;
+            char* Ptr = stackalloc char[BuffSize], Str = Ptr + BuffSize;
             foreach (var c in UserStr) *Ptr++ = c;
 
             return new string(Str);
@@ -251,14 +271,13 @@ namespace VulnerableWebApplication.VLAController
             /*
             Retourne le résultat de l'opération mathématique sur le chiffre donné en paramètre
             */
-            string Result = "null";
-            if (UserStr.Length < 40 && !UserStr.Contains("class") && !UserStr.Contains("=") && !UserStr.Contains("using"))
+            string Result = string.Empty;
+            if (UserStr.Length < 40 && !UserStr.Contains("class") && !UserStr.Contains("using"))
             {
-                try { Result = CSharpScript.EvaluateAsync("System.Math.Pow(2, " + UserStr + ")")?.Result?.ToString(); }
-                catch (Exception e) { Result = e.ToString(); }
+                Result = CSharpScript.EvaluateAsync("System.Math.Pow(2, " + UserStr + ")")?.Result?.ToString();
             }
 
-            return Result + VulnerableBuffer(UserStr);
+            return Result;
         }
 
         public static object VulnerableNoSQL(string UserStr)
