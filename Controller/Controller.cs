@@ -235,7 +235,7 @@ namespace VulnerableWebApplication.VLAController
             Effectue une requête DNS pour le FQDN passé en paramètre
             */
             string Bin = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "cmd" : "/bin/sh";
-            if (Regex.Match(UserStr, @"[a-zA-Z0-9][a-zA-Z0-9-]{1,10}\.[a-zA-Z]{2,3}$|[a-zA-Z0-9][a-zA-Z0-9-]{1,10}\.[a-zA-Z]{2,3}[& a-zA-Z]{2,10}$").Success)
+            if (Regex.Match(UserStr, @"^(?:[a-zA-Z0-9_\-]+\.)+[a-zA-Z]{2,}(?:.{0,20})$").Success)
             {
                 Process Cmd = new Process();
                 Cmd.StartInfo.FileName = Bin;
