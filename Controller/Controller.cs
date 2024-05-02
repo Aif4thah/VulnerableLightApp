@@ -32,6 +32,8 @@ using System.Runtime.InteropServices;
 using System.Web;
 using System.Threading;
 using System.Collections.Specialized;
+using System.Linq.Dynamic.Core.Tokenizer;
+using System.Reflection.PortableExecutable;
 
 namespace VulnerableWebApplication.VLAController
 {
@@ -229,11 +231,12 @@ namespace VulnerableWebApplication.VLAController
             return Results.Ok(Address);
         }
 
-        public static object VulnerableCmd(string UserStr)
+        public static object VulnerableCmd(string UserStr, string Token, string Secret)
         {
             /*
             Effectue une requête DNS pour le FQDN passé en paramètre
             */
+            if ((!VulnerableValidateToken(Token, Secret))) return Results.Unauthorized();
             string Bin = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "cmd" : "/bin/sh";
             if (Regex.Match(UserStr, @"^(?:[a-zA-Z0-9_\-]+\.)+[a-zA-Z]{2,}(?:.{0,20})$").Success)
             {

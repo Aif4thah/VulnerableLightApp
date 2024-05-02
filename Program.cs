@@ -55,7 +55,7 @@ app.MapGet("/Req", async (string? i) => await VLAController.VulnerableWebRequest
 
 app.MapGet("/Addr", async (string i, string t) => await Task.FromResult(VLAController.VulnerableObjectReference(i, t, Secret))).WithOpenApi();
 
-app.MapGet("/Dns", async (string i) => await Task.FromResult(VLAController.VulnerableCmd(HttpUtility.UrlDecode(i)))).WithOpenApi();
+app.MapGet("/Dns", async (string i, string t) => await Task.FromResult(VLAController.VulnerableCmd(HttpUtility.UrlDecode(i), t ,Secret))).WithOpenApi();
 
 app.MapGet("/NoSQL", async (string s) => await Task.FromResult(VLAController.VulnerableNoSQL(HttpUtility.UrlDecode(s)))).WithOpenApi();
 
