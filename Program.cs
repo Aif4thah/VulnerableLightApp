@@ -61,7 +61,7 @@ app.MapGet("/NoSQL", async (string s) => await Task.FromResult(VLAController.Vul
 
 app.MapPost("/Auth", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody]VulnerableWebApplication.VLAModel.Creds login) => await Task.FromResult(VLAController.VulnerableQuery(login.User, login.Passwd, Secret, LogFile)).Result).WithOpenApi();
 
-app.MapPatch("/Patch", async (IFormFile file, [FromHeader(Name="X-Forwarded-For")] string h, string t) => await VLAController.VulnerableHandleFileUpload(file, h, t, Secret, LogFile)).DisableAntiforgery().WithOpenApi();
+app.MapPatch("/Patch", async ([FromForm]IFormFile file, [FromHeader(Name="X-Forwarded-For")] string h, string t) => await VLAController.VulnerableHandleFileUpload(file, h, t, Secret, LogFile)).DisableAntiforgery();
 
 // Arguments :
 
