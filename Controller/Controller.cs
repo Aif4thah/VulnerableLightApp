@@ -123,7 +123,7 @@ namespace VulnerableWebApplication.VLAController
             /*
             Enregistre la chaine de caractères passée en paramètre dans le fichier de journalisation
             */
-            while (Str.Contains("script")) Str = HttpUtility.HtmlEncode(Str);
+            if (Str.Contains("script", StringComparison.OrdinalIgnoreCase)) Str = HttpUtility.HtmlEncode(Str);
             if (!File.Exists(LogFile)) File.WriteAllText(LogFile, Data.GetLogPage());
             string Page = File.ReadAllText(LogFile).Replace("</body>", "<p>" + Str + "<p><br>" + Environment.NewLine + "</body>");
             File.WriteAllText(LogFile, Page);
