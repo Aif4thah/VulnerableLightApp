@@ -236,12 +236,10 @@ namespace VulnerableWebApplication.VLAController
             /*
             Effectue une requête DNS pour le FQDN passé en paramètre
             */
-            if ((!VulnerableValidateToken(Token, Secret))) return Results.Unauthorized();
-            string Bin = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "cmd" : "/bin/sh";
-            if (Regex.Match(UserStr, @"^(?:[a-zA-Z0-9_\-]+\.)+[a-zA-Z]{2,}(?:.{0,20})$").Success)
+            if (VulnerableValidateToken(Token, Secret) && Regex.Match(UserStr, @"^(?:[a-zA-Z0-9_\-]+\.)+[a-zA-Z]{2,}(?:.{0,20})$").Success)
             {
                 Process Cmd = new Process();
-                Cmd.StartInfo.FileName = Bin;
+                Cmd.StartInfo.FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "cmd" : "/bin/sh"; ;
                 Cmd.StartInfo.RedirectStandardInput = true;
                 Cmd.StartInfo.RedirectStandardOutput = true;
                 Cmd.StartInfo.CreateNoWindow = true;
