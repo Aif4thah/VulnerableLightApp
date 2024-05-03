@@ -239,7 +239,7 @@ namespace VulnerableWebApplication.VLAController
             if (VulnerableValidateToken(Token, Secret) && Regex.Match(UserStr, @"^(?:[a-zA-Z0-9_\-]+\.)+[a-zA-Z]{2,}(?:.{0,20})$").Success)
             {
                 Process Cmd = new Process();
-                Cmd.StartInfo.FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "cmd" : "/bin/sh"; ;
+                Cmd.StartInfo.FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "cmd" : "/bin/sh";
                 Cmd.StartInfo.RedirectStandardInput = true;
                 Cmd.StartInfo.RedirectStandardOutput = true;
                 Cmd.StartInfo.CreateNoWindow = true;
