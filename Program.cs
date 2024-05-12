@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.HttpOverrides;
 using VulnerableWebApplication.VLAModel;
+using VulnerableWebApplication.MidlWare;
 
 
 // Configuration :
