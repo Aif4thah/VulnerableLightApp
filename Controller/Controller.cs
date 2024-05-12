@@ -42,7 +42,7 @@ namespace VulnerableWebApplication.VLAController
         public static object VulnerableHelloWorld(string FileName = "english")
         {
             /*
-             Retourne le contenu du fichier correspondant à la langue choisie par l'utilisateur
+            Retourne le contenu du fichier correspondant à la langue choisie par l'utilisateur
             */
             if (FileName.IsNullOrEmpty()) FileName = "francais";
             string Content = File.ReadAllText(FileName.Replace("../", "").Replace("..\\", ""));
@@ -53,8 +53,8 @@ namespace VulnerableWebApplication.VLAController
         public static object VulnerableDeserialize(string Json)
         {
             /*
-            Deserialise les données JSON passées en paramètre et valide un nouvel employé
-            Si l'employé est valide son nom est inscrits dans un fichier en lecture seule
+            Deserialise les données JSON passées en paramètre.
+            S'il s'agit d'un objet "employé" valide, le nom est enregistré dans un fichier en lecture seule
             */
             string NewId = "-1";
             string HaveToBeEmpty = string.Empty;
@@ -132,7 +132,7 @@ namespace VulnerableWebApplication.VLAController
         public static async Task<object> VulnerableQuery(string User, string Passwd, string Secret, string LogFile)
         {
             /*
-            Authentifie les utilisateurs par login et mot de passe, et renvoie un token JWT si l'authentification a réussie
+            Authentifie les utilisateurs par login et mot de passe, et renvoie un token JWT si l'authentification a réussi
             */
             SHA256 Sha256Hash = SHA256.Create();
             byte[] Bytes = Sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(Passwd));            
@@ -197,7 +197,7 @@ namespace VulnerableWebApplication.VLAController
         public static async Task<object> VulnerableWebRequest(string Uri = "https://localhost:3000/")
         {
             /*
-            Effectuer une requête web vers Localhost
+            Effectue une requête web sur la boucle locale
             */
             if (Uri.IsNullOrEmpty()) Uri = "https://localhost:3000/";
             if (Regex.IsMatch(Uri, @"^https://localhost"))
@@ -294,7 +294,7 @@ namespace VulnerableWebApplication.VLAController
         public static async Task<IResult> VulnerableHandleFileUpload(IFormFile UserFile, string Header, string Token, string Secret, string LogFile)
         {
             /*
-            Permet l'upload de fichier avec l'extension svg
+            Permets l'upload de fichier de type SVG
             */
             if ((!VulnerableValidateToken(Token, Secret)) || (!Header.Contains("10.10.10.256"))) return Results.Unauthorized();
 

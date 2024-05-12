@@ -27,7 +27,7 @@ namespace VulnerableWebApplication.VLAModel
         public static string GetLogPage()
         {
             /*
-            Structure des journaux d'evenements
+            Structure des journaux d'événements
             */
             return @"<!doctype html>
 <html lang=""fr"">
