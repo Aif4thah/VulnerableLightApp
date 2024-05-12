@@ -76,8 +76,6 @@ namespace VulnerableWebApplication.VLAController
                 File.SetAttributes(ROFile, FileAttributes.ReadOnly);
             }
 
-            
-
             return Results.Ok("File is : " +File.GetAttributes(ROFile).ToString() + "   New id:" + NewId + "    Empty Var: " + HaveToBeEmpty.IsNullOrEmpty());
         }
 
@@ -275,7 +273,7 @@ namespace VulnerableWebApplication.VLAController
             string Result = string.Empty;
             if (UserStr.Length < 40 && !UserStr.Contains("class") && !UserStr.Contains("using"))
             {
-                Result = CSharpScript.EvaluateAsync("System.Math.Pow(2, " + UserStr + ")")?.Result?.ToString();
+                Result = CSharpScript.EvaluateAsync($"System.Math.Pow(2, {UserStr})")?.Result?.ToString();
             }
 
             return Result;
