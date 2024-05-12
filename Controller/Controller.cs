@@ -76,7 +76,7 @@ namespace VulnerableWebApplication.VLAController
                 File.SetAttributes(ROFile, FileAttributes.ReadOnly);
             }
 
-            return Results.Ok("File is : " +File.GetAttributes(ROFile).ToString() + "   New id:" + NewId + "    Empty Var: " + HaveToBeEmpty.IsNullOrEmpty());
+            return Results.Ok($"File is : {File.GetAttributes(ROFile).ToString()}    New id : {NewId}    Empty Var: {HaveToBeEmpty.IsNullOrEmpty()}");
         }
 
         public static string VulnerableXmlParser(string Xml)
@@ -125,7 +125,7 @@ namespace VulnerableWebApplication.VLAController
             */
             if (Str.Contains("script", StringComparison.OrdinalIgnoreCase)) Str = HttpUtility.HtmlEncode(Str);
             if (!File.Exists(LogFile)) File.WriteAllText(LogFile, Data.GetLogPage());
-            string Page = File.ReadAllText(LogFile).Replace("</body>", "<p>" + Str + "<p><br>" + Environment.NewLine + "</body>");
+            string Page = File.ReadAllText(LogFile).Replace("</body>", $"<p>{Str}</p><br>{Environment.NewLine}</body>");
             File.WriteAllText(LogFile, Page);
         }
 
@@ -302,7 +302,7 @@ namespace VulnerableWebApplication.VLAController
             {
                 using var Stream = File.OpenWrite(UserFile.FileName);
                 await UserFile.CopyToAsync(Stream);
-                VulnerableLogs("Patch with : " + Token + Header, LogFile);
+                VulnerableLogs($"Patch with : {Token} from {Header}", LogFile);
 
                 return Results.Ok(UserFile.FileName);
             }

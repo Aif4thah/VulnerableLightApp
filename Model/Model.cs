@@ -36,7 +36,7 @@ namespace VulnerableWebApplication.VLAModel
 <title>Application Logs</title>
 </head>
 <body>
-<h1>Application Logs<h1>
+<h1>Application Logs</h1>
 </body>
 </html>";
         }
