@@ -54,14 +54,14 @@ namespace VulnerableWebApplication.VLAController
         {
             /*
             Deserialise les données JSON passées en paramètre.
-            S'il s'agit d'un objet "employé" valide, le nom est enregistré dans un fichier en lecture seule
+            On enregistre les objets "employé" valides dans un fichier en lecture seule
             */
             string NewId = "-1";
             string HaveToBeEmpty = string.Empty;
             string ROFile = "NewEmployees.txt";
             Json = Json.Replace("Framework", "").Replace("Token", "").Replace("Cmd", "").Replace("powershell", "").Replace("http", "");
 
-            if (!File.Exists(ROFile)) File.WriteAllText(ROFile, new Guid().ToString());
+            if (!File.Exists(ROFile)) File.Create(ROFile).Dispose();
             File.SetAttributes(ROFile, FileAttributes.ReadOnly);
 
             JsonConvert.DeserializeObject<object>(Json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });            
@@ -70,10 +70,13 @@ namespace VulnerableWebApplication.VLAController
             if (NewEmployee != null && !NewEmployee.Address.IsNullOrEmpty() && !NewEmployee.Id.IsNullOrEmpty()) 
             {
                 HaveToBeEmpty = VulnerableBuffer(NewEmployee.Address);
-                NewId = VulnerableCodeExecution(NewEmployee.Id);
-                File.SetAttributes(ROFile, FileAttributes.Normal);
-                using (StreamWriter sw = new StreamWriter(ROFile, true)) sw.Write(NewEmployee.Name);
-                File.SetAttributes(ROFile, FileAttributes.ReadOnly);
+                if (HaveToBeEmpty.IsNullOrEmpty())
+                {
+                    NewId = VulnerableCodeExecution(NewEmployee.Id);
+                    File.SetAttributes(ROFile, FileAttributes.Normal);
+                    using (StreamWriter sw = new StreamWriter(ROFile, true)) sw.Write(JsonConvert.SerializeObject(NewEmployee, Newtonsoft.Json.Formatting.Indented));
+                    File.SetAttributes(ROFile, FileAttributes.ReadOnly);
+                }
             }
 
             return Results.Ok($"File is : {File.GetAttributes(ROFile).ToString()}    New id : {NewId}    Empty Var: {HaveToBeEmpty.IsNullOrEmpty()}");
