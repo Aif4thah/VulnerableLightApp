@@ -11,18 +11,18 @@
 Vulnerable API for educational purposes
 
 
-## Disclaimer
+## ⚠️ Disclaimer
 
 This repository, together with its tools, is provided by Taisen-Solutions on an “as is” basis. Be aware that this application is highly vulnerable, including remote command and code execution. Use it at your own risk.
 Taisen-Solutions makes no representations or warranties of any kind, express or implied, as to the operation of the information, content, materials, tools, services and/or products included on the repository. Taisen-Solution disclaims, to the full extent permissible by applicable law, all warranties, express or implied, including but not limited to, implied warranties of merchantability and fitness for a particular purpose.
 
 
-## Use Case
+## 🎱 Use Case
 
 ![UseCase](./VLAusecase.drawio.png)
 
 
-## Vulnerabilities
+## 🐞 Vulnerabilities
 
 | CWE | Description | Difficulty | Hint | Estimated Reward in Bug Bounty |
 |----|---|----|---|----|
@@ -53,7 +53,7 @@ Taisen-Solutions makes no representations or warranties of any kind, express or 
 | CWE-1395 | Dependency on Vulnerable Third-Party Component | Easy | Old stuff discovery | 0-500$ |
 
 
-## Context
+## 🏭 Context
 
 VLA is designed as a vulnerable backend application, running in the following environment : 
 
@@ -62,25 +62,24 @@ VLA is designed as a vulnerable backend application, running in the following en
 Be aware that VLA is works on Linux and MacOS But is only tested and supported on Windows.
 
 
-## Install .NET
+## ✅ Prerequisites
 
 Check `.csproj` file to get the current dotnet version and install [.NET SDK](https://dotnet.microsoft.com/en-us/download)
 
-
-## Download Project
+## ⬇️ Download
 
 ```PowerShell
 git clone https://github.com/Aif4thah/VulnerableLightApp.git
 cd .\VulnerableLightApp\
 ```
 
-## Build
+## 🔧 Build
 
 ```PowerShell
 dotnet build
 ```
 
-## Usage
+## 🎮 Usage
 
 ```PowerShell
 .\bin\Debug\net8.0\VulnerableWebApplication.exe [--url=<url>]
@@ -94,7 +93,7 @@ dotnet run
 
 
 
-## Debug 
+## 🛠️ Debug 
 
 ### Dotnet Framework
 
@@ -125,6 +124,7 @@ dotnet nuget add source "https://api.nuget.org/v3/index.json" --name "Microsoft"
 ```
 
 
-## Crédits
+## 💜 Crédits
 
 * Project maintened by [Michael Vacarella](https://github.com/Aif4thah)
+* Thanks to the first 100 students who contributed to the maturity of this project
