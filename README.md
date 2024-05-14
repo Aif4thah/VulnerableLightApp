@@ -59,15 +59,20 @@ VLA is designed as a vulnerable backend application, running in the following en
 
 ![Context](./Context.png)
 
-
-## Install
-
 Be aware that VLA is works on Linux and MacOS But is only tested and supported on Windows.
 
-Check `.csproj` file to get the current dotnet version et install the appropriate SDK
 
-https://dotnet.microsoft.com/en-us/download
+## Install .NET
 
+Check `.csproj` file to get the current dotnet version and install [.NET SDK](https://dotnet.microsoft.com/en-us/download)
+
+
+## Download Project
+
+```PowerShell
+git clone https://github.com/Aif4thah/VulnerableLightApp.git
+cd .\VulnerableLightApp\
+```
 
 ## Build
 
