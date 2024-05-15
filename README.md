@@ -5,8 +5,6 @@
 [![License: GNU GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Aif4thah/VulnerableLightApp)
 
-Vulnerable API for educational purposes
-
 
 ## ⚠️ Disclaimer
 
@@ -51,7 +49,7 @@ Taisen-Solutions makes no representations or warranties of any kind, express or 
 
 ## 🔑 Write Up
 
-Become a project sponsor and gain access to all the solutions for cybersecurity challenges.
+Become a project sponsor and gain access to all the solutions.
 
 ## 🏭 Context
 
