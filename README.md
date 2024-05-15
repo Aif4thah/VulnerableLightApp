@@ -4,9 +4,6 @@
 
 [![License: GNU GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Aif4thah/VulnerableLightApp)
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/Aif4thah/Dojo-101/pulls)
-[![Donate Ethereum](https://img.shields.io/badge/ETH-donate-4E8EE9.svg?style=flat-square&logo=ethereum)](https://etherscan.io/address/0xcC424e30Ff6eEAb4E6B3A900c5446038F858b314)
-[![Buy me a coffee](https://img.shields.io/badge/buy%20me%20a-coffee-yellow)](https://www.buymeacoffee.com/taisensolutions)
 
 Vulnerable API for educational purposes
 
@@ -52,6 +49,9 @@ Taisen-Solutions makes no representations or warranties of any kind, express or 
 | CWE-1270 | Generation of Incorrect Security Tokens | Medium | Code review | 1.000-20.000$ |
 | CWE-1395 | Dependency on Vulnerable Third-Party Component | Easy | Old stuff discovery | 0-500$ |
 
+## 🔑 Write Up
+
+Become a project sponsor and gain access to all the solutions for cybersecurity challenges.
 
 ## 🏭 Context
 
