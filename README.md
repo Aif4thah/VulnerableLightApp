@@ -49,7 +49,8 @@ Taisen-Solutions makes no representations or warranties of any kind, express or 
 
 ## 🔑 Write Up
 
-Become a project sponsor and gain access to all the solutions.
+* Become a project sponsor and gain access to all the solutions.
+* Or just buy me a coffee and get an unique Nuclei template (not for my students)
 
 ## 🏭 Context
 
