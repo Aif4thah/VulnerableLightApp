@@ -4,6 +4,7 @@
 
 [![License: GNU GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Aif4thah/VulnerableLightApp)
+[![.NET](https://github.com/Aif4thah/VulnerableLightApp/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Aif4thah/VulnerableLightApp/actions/workflows/dotnet.yml)
 
 
 ## ⚠️ Disclaimer
@@ -125,5 +126,5 @@ dotnet nuget add source "https://api.nuget.org/v3/index.json" --name "Microsoft"
 
 ## 💜 Crédits
 
+* **Special thanks to all the hackers and students who pushed me to improve this work**
 * Project maintened by [Michael Vacarella](https://github.com/Aif4thah)
-* Thanks to the first 100 students who contributed to the maturity of this project
