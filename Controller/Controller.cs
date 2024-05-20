@@ -82,11 +82,12 @@ namespace VulnerableWebApplication.VLAController
             return Results.Ok($"File is : {File.GetAttributes(ROFile).ToString()}    New id : {NewId}    Empty Var: {HaveToBeEmpty.IsNullOrEmpty()}");
         }
 
-        public static string VulnerableXmlParser(string Xml)
+        public static string VulnerableXmlParser(string Xml, string Token, string Secret)
         {
             /*
             Parse les données XML passées en paramètre et retourne son contenu
             */
+            if (!VulnerableValidateToken(Token, Secret)) return Results.Unauthorized().ToString();
             try
             {
                 var Xsl = XDocument.Parse(Xml);
@@ -103,7 +104,6 @@ namespace VulnerableWebApplication.VLAController
             }
             catch (Exception ex)
             {
-                Xml = Xml.Replace("Framework", "").Replace("Token", "").Replace("Cmd", "").Replace("powershell", "").Replace("http", "");
                 XmlReaderSettings ReaderSettings = new XmlReaderSettings();
                 ReaderSettings.DtdProcessing = DtdProcessing.Parse;
                 ReaderSettings.XmlResolver = new XmlUrlResolver();

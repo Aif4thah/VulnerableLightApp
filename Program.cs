@@ -48,7 +48,7 @@ var LogFile = configuration["LogFile"];
 
 app.MapGet("/", async (string? lang) => await Task.FromResult(VLAController.VulnerableHelloWorld(HttpUtility.UrlDecode(lang)))).WithOpenApi();
 
-app.MapGet("/Xml", async (string i) => await Task.FromResult(VLAController.VulnerableXmlParser(HttpUtility.UrlDecode(i)))).WithOpenApi();
+app.MapGet("/Xml", async (string i, string t) => await Task.FromResult(VLAController.VulnerableXmlParser(HttpUtility.UrlDecode(i), t, Secret))).WithOpenApi();
 
 app.MapGet("/Json", async (string i, string t) => await Task.FromResult(VLAController.VulnerableDeserialize(HttpUtility.UrlDecode(i), t, Secret))).WithOpenApi();
 
