@@ -20,33 +20,33 @@ Taisen-Solutions makes no representations or warranties of any kind, express or 
 
 ## 🐞 Vulnerabilities
 
-| CWE | Description | Difficulty | Hint | Estimated Reward in Bug Bounty |
-|----|---|----|---|----|
-| CWE-22 | Path Traversal | Medium | filter bypass | 500-5.000$ |
-| CWE-78 | OS Command Injection | Easy | Get username | 1.000-10.000$|
-| CWE-79 | Cross-site Scripting | Easy | Pop the logs readers | 500-5.000$ |
-| CWE-89 | SQL Injection | Easy | Login without creds | 1.000-10.000$ |
-| CWE-94 | Code Injection| Hard | Write in server console | 5.000-50.000$ |
-| CWE-91 | XML Injection | Hard | Use Transform | 0-500$ |
-| CWE-98 | Remote File Inclusion | Hard | Find the good protocol | 1.000-10.000$ |
-| CWE-184 | Incomplete List of Disallowed Inputs | Hard | Not so NoSQL | 1.000-10.000$|
-| CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Easy | RTFM | 500-2.000$ |
-| CWE-284 | Improper Access Control | Medium | Bring your own token | 1.000-5.000$ |
-| CWE-287 | Improper Authentication | Medium | Go ahead | 500-5.000$ |
-| CWE-319 | Cleartext Transmission of Sensitive Information | Very Easy | Sniff | 500-2.000$ |
-| CWE-326 | Inadequate Encryption Strength | Easy | Code review | 1.000-5.000$ |
-| CWE-434 | Unrestricted Upload of File with Dangerous Type | Medium | What can go wrong ? | 500-10.000$ |
-| CWE-502 | Deserialization of Untrusted Data | Hard | Change the readOnly permission | 5.000-50.000$ |
-| CWE-521 | Weak Password Requirements | Very Easy | Null | 500-2.000$ |
-| CWE-532 | Insertion of Sensitive Information into Log File | Very Easy | Nothing to hide |100-2.000$ |
-| CWE 639 | Insecure Direct Object Reference | Medium | Enumeration is key |500-5.000$ |
-| CWE-611 | Improper Restriction of XML External Entity Reference | Hard | Read the Windows.ini | 1.000-10.000$ |
-| CWE-787 | Out-of-bounds Write | Easy | Read Memory | 500-5000$ |
-| CWE-798 | Use of Hard-coded Credentials | Very Easy | Code review | 1.000-10.000$ |
-| CWE-829 | Local File Inclusion | Easy | Insert content | 500-2.000$|
-| CWE-918 | Server-Side Request Forgery (SSRF) | Medium | choose your domain | 1.000$-10.000$|
-| CWE-1270 | Generation of Incorrect Security Tokens | Medium | Code review | 1.000-20.000$ |
-| CWE-1395 | Dependency on Vulnerable Third-Party Component | Easy | Old stuff discovery | 0-500$ |
+| CWE | Description | Difficulty | Estimated Reward in Bug Bounty |
+|----|---|----|---|
+| CWE-22 | Path Traversal | Medium | 500-5.000$ |
+| CWE-78 | OS Command Injection | Easy | 1.000-10.000$ |
+| CWE-79 | Cross-site Scripting | Easy  | 500-5.000$ |
+| CWE-89 | SQL Injection | Easy | 1.000-10.000$ |
+| CWE-94 | Code Injection| Hard | 5.000-50.000$ |
+| CWE-91 | XML Injection | Hard | 0-500$ |
+| CWE-98 | Remote File Inclusion | Hard | 1.000-10.000$ |
+| CWE-184 | Incomplete List of Disallowed Inputs | Hard | 1.000-10.000$|
+| CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Very Easy | 500-2.000$ |
+| CWE-284 | Improper Access Control | Medium | 1.000-5.000$ |
+| CWE-287 | Improper Authentication | Medium | 500-5.000$ |
+| CWE-319 | Cleartext Transmission of Sensitive Information | Very Easy | 500-2.000$ |
+| CWE-326 | Inadequate Encryption Strength | Easy  | 1.000-5.000$ |
+| CWE-434 | Unrestricted Upload of File with Dangerous Type | Medium | 500-10.000$ |
+| CWE-502 | Deserialization of Untrusted Data | Hard  | 5.000-50.000$ |
+| CWE-521 | Weak Password Requirements | Very Easy | 500-2.000$ |
+| CWE-532 | Insertion of Sensitive Information into Log File | Very Easy  |100-2.000$ |
+| CWE 639 | Insecure Direct Object Reference | Medium | 500-5.000$ |
+| CWE-611 | Improper Restriction of XML External Entity Reference | Hard | 1.000-10.000$ |
+| CWE-787 | Out-of-bounds Write | Easy | 500-5000$ |
+| CWE-798 | Use of Hard-coded Credentials | Very Easy | 1.000-10.000$ |
+| CWE-829 | Local File Inclusion | Easy | 500-2.000$|
+| CWE-918 | Server-Side Request Forgery (SSRF) | Medium | 1.000$-10.000$|
+| CWE-1270 | Generation of Incorrect Security Tokens | Medium | 1.000-20.000$ |
+| CWE-1395 | Dependency on Vulnerable Third-Party Component | Easy | 0-500$ |
 
 ## 🔑 Write Up
 

@@ -50,16 +50,16 @@ namespace VulnerableWebApplication.VLAController
             return Results.Ok(Content);
         }
 
-        public static object VulnerableDeserialize(string Json)
+        public static object VulnerableDeserialize(string Json, string Token, string Secret)
         {
             /*
             Deserialise les données JSON passées en paramètre.
             On enregistre les objets "employé" valides dans un fichier en lecture seule
             */
+            if (!VulnerableValidateToken(Token, Secret)) return Results.Unauthorized();
             string NewId = "-1";
             string HaveToBeEmpty = string.Empty;
             string ROFile = "NewEmployees.txt";
-            Json = Json.Replace("Framework", "").Replace("Token", "").Replace("Cmd", "").Replace("powershell", "").Replace("http", "");
 
             if (!File.Exists(ROFile)) File.Create(ROFile).Dispose();
             File.SetAttributes(ROFile, FileAttributes.ReadOnly);
