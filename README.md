@@ -7,7 +7,7 @@
 [![.NET](https://github.com/Aif4thah/VulnerableLightApp/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Aif4thah/VulnerableLightApp/actions/workflows/dotnet.yml)
 
 
-> ⚠️ **Disclaimer** : This repository, together with its tools, is provided by Taisen-Solutions on an “as is” basis. Be aware that this application is highly vulnerable, including remote command and code execution. Use it at your own risk. Taisen-Solutions makes no representations or warranties of any kind, express or implied, as to the operation of the information, content, materials, tools, services and/or products included on the repository. Taisen-Solution disclaims, to the full extent permissible by applicable law, all warranties, express or implied, including but not limited to, implied warranties of merchantability and fitness for a particular purpose.
+> ⚠️ **Disclaimer** : This repository, together with its tools, is provided by Taisen-Solutions on an "as is" basis. Be aware that this application is highly vulnerable, including remote command and code execution. Use it at your own risk. Taisen-Solutions makes no representations or warranties of any kind, express or implied, as to the operation of the information, content, materials, tools, services and/or products included on the repository. Taisen-Solution disclaims, to the full extent permissible by applicable law, all warranties, express or implied, including but not limited to, implied warranties of merchantability and fitness for a particular purpose.
 
 
 ## 🎱 Use Case
@@ -26,8 +26,8 @@
 | CWE-94 | Code Injection| Hard | 5.000-50.000$ |
 | CWE-91 | XML Injection | Hard | 0-500$ |
 | CWE-98 | Remote File Inclusion | Hard | 1.000-10.000$ |
-| CWE-184 | Incomplete List of Disallowed Inputs | Medium | 1.000-10.000$ |
-| CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Very Easy | 500-2.000$ |
+| CWE-184 | Incomplete List of Disallowed Inputs | Medium | 500-2.000$ |
+| CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Easy | 500-2.000$ |
 | CWE-284 | Improper Access Control | Medium | 1.000-5.000$ |
 | CWE-287 | Improper Authentication | Medium | 500-5.000$ |
 | CWE-319 | Cleartext Transmission of Sensitive Information | Very Easy | 500-2.000$ |
@@ -46,12 +46,6 @@
 | CWE-1395 | Dependency on Vulnerable Third-Party Component | Easy | 0-500$ |
 
 
-## 🔑 Write Up
-
-* Become a project sponsor and gain access to all the solutions.
-* Or just buy me a coffee and get an unique Nuclei template (not for my students)
-
-* 
 ## 🏭 Context
 
 VLA is designed as a vulnerable backend application, running in the following environment : 
@@ -60,10 +54,17 @@ VLA is designed as a vulnerable backend application, running in the following en
 
 Be aware that VLA is works on Linux and MacOS But is only tested and supported on Windows.
 
+## 🔑 Hint, Solution & Write Up
+
+* Before searching Write-Up, try reading [Dojo-101](https://github.com/Aif4thah/Dojo-101)
+* Become a project sponsor and gain access to all the solutions.
+* Or just buy me a coffee and get an unique Nuclei template (not for my students)
+
 
 ## ✅ Prerequisites
 
 Check `.csproj` file to get the current dotnet version and install [.NET SDK](https://dotnet.microsoft.com/en-us/download)
+
 
 ## ⬇️ Download
 
@@ -72,11 +73,13 @@ git clone https://github.com/Aif4thah/VulnerableLightApp.git
 cd .\VulnerableLightApp\
 ```
 
+
 ## 🔧 Build
 
 ```PowerShell
 dotnet build
 ```
+
 
 ## 🎮 Usage
 
@@ -91,7 +94,6 @@ dotnet run
 ```
 
 
-
 ## 🛠️ Debug 
 
 ### Dotnet Framework
@@ -103,7 +105,6 @@ where dotnet
 dotnet --version
 dotnet --list-sdks
 ```
-
 
 ### Certificates
 
