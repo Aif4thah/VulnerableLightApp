@@ -178,7 +178,7 @@ namespace VulnerableWebApplication.VLAController
             bool Result = true;
             try
             {
-                var JwtSecurityToken = TokenHandler.ReadJwtToken(Token);
+                var JwtSecurityToken = TokenHandler.ReadJwtToken(Token.Substring("Bearer ".Length));
                 if (JwtSecurityToken.Header.Alg == "HS256" && JwtSecurityToken.Header.Typ == "JWT")
                 {
                     TokenHandler.ValidateToken(Token, new TokenValidationParameters
@@ -282,12 +282,12 @@ namespace VulnerableWebApplication.VLAController
             return Result;
         }
 
-        public static object VulnerableNoSQL(string UserStr)
+        public static object VulnerableNoSQL(string UserStr, string Token, string Secret)
         {
             /*
             Retourne le résultat de la requête NoSQL fournie en paramètre
             */
-            if (UserStr.Length > 250) return Results.Unauthorized();
+            if (!VulnerableValidateToken(Token, Secret)) return Results.Unauthorized();
             List<Employee> Employees = Data.GetEmployees();
             var Query = Employees.AsQueryable();
 
