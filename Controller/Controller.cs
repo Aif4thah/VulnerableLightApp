@@ -2,38 +2,20 @@
 using System.Security.Claims;
 using System.Text;
 using System.Xml;
-using Microsoft.AspNetCore.DataProtection;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Net.Http.Headers;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System;
-using System.Threading;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using static System.Net.Mime.MediaTypeNames;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using System.Diagnostics.Tracing;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.AspNetCore.Http;
 using System.Security.Cryptography;
-using System.Linq.Dynamic.Core;
-using static VulnerableWebApplication.VLAController.VLAController;
-using Microsoft.AspNetCore.Mvc;
 using System.Xml.Linq;
 using System.Xml.Xsl;
 using VulnerableWebApplication.VLAModel;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Web;
-using System.Threading;
-using System.Collections.Specialized;
-using System.Linq.Dynamic.Core.Tokenizer;
-using System.Reflection.PortableExecutable;
+
 
 namespace VulnerableWebApplication.VLAController
 {
@@ -280,18 +262,6 @@ namespace VulnerableWebApplication.VLAController
             }
 
             return Result;
-        }
-
-        public static object VulnerableNoSQL(string UserStr, string Token, string Secret)
-        {
-            /*
-            Retourne le résultat de la requête NoSQL fournie en paramètre
-            */
-            if (!VulnerableValidateToken(Token, Secret)) return Results.Unauthorized();
-            List<Employee> Employees = Data.GetEmployees();
-            var Query = Employees.AsQueryable();
-
-            return Results.Ok(Query.Where(UserStr).ToArray().ToString());
         }
 
         public static async Task<IResult> VulnerableHandleFileUpload(IFormFile UserFile, string Header, string Token, string Secret, string LogFile)

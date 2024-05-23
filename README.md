@@ -26,7 +26,7 @@
 | CWE-94 | Code Injection| Hard | 5.000-50.000$ |
 | CWE-91 | XML Injection | Hard | 0-500$ |
 | CWE-98 | Remote File Inclusion | Hard | 1.000-10.000$ |
-| CWE-184 | Incomplete List of Disallowed Inputs | Hard | 1.000-10.000$|
+| CWE-184 | Incomplete List of Disallowed Inputs | Medium | 1.000-10.000$ |
 | CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Very Easy | 500-2.000$ |
 | CWE-284 | Improper Access Control | Medium | 1.000-5.000$ |
 | CWE-287 | Improper Authentication | Medium | 500-5.000$ |
@@ -45,11 +45,13 @@
 | CWE-1270 | Generation of Incorrect Security Tokens | Medium | 1.000-20.000$ |
 | CWE-1395 | Dependency on Vulnerable Third-Party Component | Easy | 0-500$ |
 
+
 ## 🔑 Write Up
 
 * Become a project sponsor and gain access to all the solutions.
 * Or just buy me a coffee and get an unique Nuclei template (not for my students)
 
+* 
 ## 🏭 Context
 
 VLA is designed as a vulnerable backend application, running in the following environment : 

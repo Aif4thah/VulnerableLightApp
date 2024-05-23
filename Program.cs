@@ -9,14 +9,28 @@ using Microsoft.AspNetCore.HttpOverrides;
 using VulnerableWebApplication.VLAModel;
 using VulnerableWebApplication.MidlWare;
 using Microsoft.AspNetCore.OpenApi;
+using GraphQL.Types;
+using GraphQL;
 
 
 // Configuration :
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAntiforgery();
+
+// GraphQL
+
+builder.Services.AddSingleton<IClientService, ClientService>();
+builder.Services.AddSingleton<ClientDetailsType>();
+builder.Services.AddSingleton<ClientQuery>();
+builder.Services.AddSingleton<ISchema, ClientDetailsSchema>();
+builder.Services.AddGraphQL(b => b
+    .AddAutoSchema<ClientQuery>()  // schema
+    .AddSystemTextJson());   // serializer
 
 builder.Services.AddHttpLogging(logging =>
 {
@@ -45,7 +59,6 @@ var LogFile = configuration["LogFile"];
 
 // Endpoints :
 
-
 app.MapGet("/", async (string? lang) => await Task.FromResult(VLAController.VulnerableHelloWorld(HttpUtility.UrlDecode(lang))));
 
 app.MapPost("/Auth", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody] VulnerableWebApplication.VLAModel.Creds login) => await Task.FromResult(VLAController.VulnerableQuery(login.User, login.Passwd, Secret, LogFile)).Result).WithOpenApi();
@@ -60,9 +73,10 @@ app.MapGet("/Addr", async (string i, [FromHeader(Name="Authorization")] string t
 
 app.MapGet("/Dns", async (string i, [FromHeader(Name="Authorization")] string t) => await Task.FromResult(VLAController.VulnerableCmd(HttpUtility.UrlDecode(i), t ,Secret))).WithOpenApi();
 
-app.MapGet("/NoSQL", async (string s, [FromHeader(Name="Authorization")] string t) => await Task.FromResult(VLAController.VulnerableNoSQL(HttpUtility.UrlDecode(s), t, Secret))).WithOpenApi();
+app.MapPatch("/Patch", async ([FromHeader(Name="X-Forwarded-For")] string h, [FromHeader(Name = "Authorization")] string t, [FromForm] IFormFile file) => await VLAController.VulnerableHandleFileUpload(file, h, t, Secret, LogFile)).DisableAntiforgery().WithOpenApi();
 
-app.MapPost("/Patch", async ([FromHeader(Name="X-Forwarded-For")] string h, [FromHeader(Name = "Authorization")] string t, [FromForm] IFormFile file) => await VLAController.VulnerableHandleFileUpload(file, h, t, Secret, LogFile)).DisableAntiforgery().WithOpenApi();
+app.UseGraphQL<ISchema>("/GraphQL");
+
 
 // Arguments :
 
