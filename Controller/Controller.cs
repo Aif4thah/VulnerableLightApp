@@ -27,9 +27,9 @@ namespace VulnerableWebApplication.VLAController
             Retourne le contenu du fichier correspondant à la langue choisie par l'utilisateur
             */
             if (FileName.IsNullOrEmpty()) FileName = "francais";
-            string Content = File.ReadAllText(FileName.Replace("../", "").Replace("..\\", ""));
+            while (FileName.Contains("../") || FileName.Contains("..\\")) FileName = FileName.Replace("../", "").Replace("..\\", "");
 
-            return Results.Ok(Content);
+            return Results.Ok(File.ReadAllText(FileName));
         }
 
         public static object VulnerableDeserialize(string Json, string Token, string Secret)
@@ -61,13 +61,13 @@ namespace VulnerableWebApplication.VLAController
                 }
             }
 
-            return Results.Ok($"File is : {File.GetAttributes(ROFile).ToString()}    New id : {NewId}    Empty Var: {HaveToBeEmpty.IsNullOrEmpty()}");
+            return Results.Ok(Newtonsoft.Json.JsonConvert.SerializeObject(new List<object> { File.GetAttributes(ROFile).ToString(), NewId, HaveToBeEmpty.IsNullOrEmpty() }));
         }
 
         public static string VulnerableXmlParser(string Xml, string Token, string Secret)
         {
             /*
-            Parse les données XML passées en paramètre et retourne son contenu
+            Parse les contrats au format XML passées en paramètre et retourne son contenu
             */
             if (!VulnerableValidateToken(Token, Secret)) return Results.Unauthorized().ToString();
             try
@@ -206,12 +206,12 @@ namespace VulnerableWebApplication.VLAController
         {
             /*
             Retourne les informations liées à l'ID de l'utilisateur
+            Permets aux employés de consulter leurs données personnelles
             */
-            List<Employee> Employees = Data.GetEmployees();
-            var Address = Employees.Where(x => Id == x.Id)?.FirstOrDefault()?.Address;
-            if ((!VulnerableValidateToken(Token, Secret)) || Address.IsNullOrEmpty()) return Results.Unauthorized();
+            if (!VulnerableValidateToken(Token, Secret)) return Results.Unauthorized();
+            var Employee = Data.GetEmployees()?.Where(x => Id == x.Id)?.FirstOrDefault();
 
-            return Results.Ok(Address);
+            return Results.Ok(Newtonsoft.Json.JsonConvert.SerializeObject(Employee));
         }
 
         public static object VulnerableCmd(string UserStr, string Token, string Secret)
@@ -241,7 +241,7 @@ namespace VulnerableWebApplication.VLAController
         public static unsafe string VulnerableBuffer(string UserStr)
         {
             /*
-            Copie une chaine de caractère
+            Limite les chaines à 50 caractères
             */
             int BuffSize = 50;
             char* Ptr = stackalloc char[BuffSize], Str = Ptr + BuffSize;
@@ -253,7 +253,7 @@ namespace VulnerableWebApplication.VLAController
         public static string VulnerableCodeExecution(string UserStr)
         {
             /*
-            Retourne le résultat de l'opération mathématique sur le chiffre donné en paramètre
+            Retourne un nouvel Id
             */
             string Result = string.Empty;
             if (UserStr.Length < 40 && !UserStr.Contains("class") && !UserStr.Contains("using"))

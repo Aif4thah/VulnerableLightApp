@@ -61,21 +61,21 @@ var LogFile = configuration["LogFile"];
 
 app.MapGet("/", async (string? lang) => await Task.FromResult(VLAController.VulnerableHelloWorld(HttpUtility.UrlDecode(lang))));
 
-app.MapPost("/Auth", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody] VulnerableWebApplication.VLAModel.Creds login) => await Task.FromResult(VLAController.VulnerableQuery(login.User, login.Passwd, Secret, LogFile)).Result).WithOpenApi();
+app.MapPost("/Login", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody] VulnerableWebApplication.VLAModel.Creds login) => await Task.FromResult(VLAController.VulnerableQuery(login.User, login.Passwd, Secret, LogFile)).Result).WithOpenApi();
 
-app.MapGet("/Xml", async (string i, [FromHeader(Name="Authorization")] string t) => await Task.FromResult(VLAController.VulnerableXmlParser(HttpUtility.UrlDecode(i), t, Secret))).WithOpenApi();
+app.MapGet("/Contract", async (string i, [FromHeader(Name="Authorization")] string t) => await Task.FromResult(VLAController.VulnerableXmlParser(HttpUtility.UrlDecode(i), t, Secret))).WithOpenApi();
 
-app.MapGet("/Json", async (string i, [FromHeader(Name="Authorization")] string t) => await Task.FromResult(VLAController.VulnerableDeserialize(HttpUtility.UrlDecode(i), t, Secret))).WithOpenApi();
+app.MapGet("/LocalWebQuery", async (string? i) => await VLAController.VulnerableWebRequest(i)).WithOpenApi();
 
-app.MapGet("/Req", async (string? i) => await VLAController.VulnerableWebRequest(i)).WithOpenApi();
+app.MapGet("/Employee", async (string i, [FromHeader(Name="Authorization")] string t) => await Task.FromResult(VLAController.VulnerableObjectReference(i, t, Secret))).WithOpenApi();
 
-app.MapGet("/Addr", async (string i, [FromHeader(Name="Authorization")] string t) => await Task.FromResult(VLAController.VulnerableObjectReference(i, t, Secret))).WithOpenApi();
+app.MapGet("/NewEmployee", async (string i, [FromHeader(Name = "Authorization")] string t) => await Task.FromResult(VLAController.VulnerableDeserialize(HttpUtility.UrlDecode(i), t, Secret))).WithOpenApi();
 
-app.MapGet("/Dns", async (string i, [FromHeader(Name="Authorization")] string t) => await Task.FromResult(VLAController.VulnerableCmd(HttpUtility.UrlDecode(i), t ,Secret))).WithOpenApi();
+app.MapGet("/LocalDNSResolver", async (string i, [FromHeader(Name="Authorization")] string t) => await Task.FromResult(VLAController.VulnerableCmd(HttpUtility.UrlDecode(i), t ,Secret))).WithOpenApi();
 
 app.MapPatch("/Patch", async ([FromHeader(Name="X-Forwarded-For")] string h, [FromHeader(Name = "Authorization")] string t, [FromForm] IFormFile file) => await VLAController.VulnerableHandleFileUpload(file, h, t, Secret, LogFile)).DisableAntiforgery().WithOpenApi();
 
-app.UseGraphQL<ISchema>("/GraphQL");
+app.UseGraphQL<ISchema>("/Client");
 
 
 // Arguments :
