@@ -52,7 +52,6 @@ VLA is designed as a vulnerable backend application, running in the following en
 
 ![Context](./Context.png)
 
-Be aware that VLA is works on Linux and MacOS But is only tested and supported on Windows.
 
 ## 🔑 Hint, Solution & Write Up
 
@@ -123,6 +122,9 @@ dependancies have to be dowloaded from [standard sources](https://go.microsoft.c
 dotnet nuget add source "https://api.nuget.org/v3/index.json" --name "Microsoft"
 ```
 
+### Misc
+
+* Be aware that VLA runs Linux and MacOS, but is only tested and supported on Windows.
 
 ## 💜 Crédits
 
