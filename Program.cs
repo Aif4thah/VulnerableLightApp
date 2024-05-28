@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.HttpOverrides;
 using VulnerableWebApplication.VLAModel;
+using VulnerableWebApplication.VLAIdentity;
 using VulnerableWebApplication.MidlWare;
 using Microsoft.AspNetCore.OpenApi;
 using GraphQL.Types;
@@ -61,7 +62,7 @@ var LogFile = configuration["LogFile"];
 
 app.MapGet("/", async (string? lang) => await Task.FromResult(VLAController.VulnerableHelloWorld(HttpUtility.UrlDecode(lang))));
 
-app.MapPost("/Login", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody] VulnerableWebApplication.VLAModel.Creds login) => await Task.FromResult(VLAController.VulnerableQuery(login.User, login.Passwd, Secret, LogFile)).Result).WithOpenApi();
+app.MapPost("/Login", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody] VulnerableWebApplication.VLAModel.Creds login) => await Task.FromResult(VLAIdentity.VulnerableQuery(login.User, login.Passwd, Secret, LogFile)).Result).WithOpenApi();
 
 app.MapGet("/Contract", async (string i, [FromHeader(Name="Authorization")] string t) => await Task.FromResult(VLAController.VulnerableXmlParser(HttpUtility.UrlDecode(i), t, Secret))).WithOpenApi();
 

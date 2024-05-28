@@ -1,20 +1,17 @@
 ﻿using System.Data;
-using System.Security.Claims;
 using System.Text;
 using System.Xml;
 using Newtonsoft.Json;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Net.Http.Headers;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
-using System.Security.Cryptography;
 using System.Xml.Linq;
 using System.Xml.Xsl;
-using VulnerableWebApplication.VLAModel;
 using System.Runtime.InteropServices;
 using System.Web;
+using VulnerableWebApplication.VLAModel;
 
 
 namespace VulnerableWebApplication.VLAController
@@ -38,7 +35,7 @@ namespace VulnerableWebApplication.VLAController
             Deserialise les données JSON passées en paramètre.
             On enregistre les objets "employé" valides dans un fichier en lecture seule
             */
-            if (!VulnerableValidateToken(Token, Secret)) return Results.Unauthorized();
+            if (!VLAIdentity.VLAIdentity.VulnerableValidateToken(Token, Secret)) return Results.Unauthorized();
             string NewId = "-1";
             string HaveToBeEmpty = string.Empty;
             string ROFile = "NewEmployees.txt";
@@ -69,7 +66,7 @@ namespace VulnerableWebApplication.VLAController
             /*
             Parse les contrats au format XML passées en paramètre et retourne son contenu
             */
-            if (!VulnerableValidateToken(Token, Secret)) return Results.Unauthorized().ToString();
+            if (!VLAIdentity.VLAIdentity.VulnerableValidateToken(Token, Secret)) return Results.Unauthorized().ToString();
             try
             {
                 var Xsl = XDocument.Parse(Xml);
@@ -114,71 +111,6 @@ namespace VulnerableWebApplication.VLAController
             File.WriteAllText(LogFile, Page);
         }
 
-        public static async Task<object> VulnerableQuery(string User, string Passwd, string Secret, string LogFile)
-        {
-            /*
-            Authentifie les utilisateurs par login et mot de passe, et renvoie un token JWT si l'authentification a réussi
-            */
-            SHA256 Sha256Hash = SHA256.Create();
-            byte[] Bytes = Sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(Passwd));            
-            StringBuilder stringbuilder = new StringBuilder();
-            for (int i = 0; i < Bytes.Length; i++) stringbuilder.Append(Bytes[i].ToString("x2"));
-            string Hash = stringbuilder.ToString();
-
-            VulnerableLogs("login attempt for:\n" + User + "\n" + Passwd + "\n", LogFile);
-            var DataSet = Data.GetDataSet();
-            var Result = DataSet.Tables[0].Select("Passwd = '" + Hash + "' and User = '" + User + "'");
-
-            return Result.Length > 0 ? Results.Ok(VulnerableGenerateToken(User, Secret)) : Results.Unauthorized();
-        }
-
-        public static string VulnerableGenerateToken(string User, string Secret)
-        {
-            /*
-            Retourne un token JWT signé pour l'utilisateur passé en paramètre
-            */
-            var TokenHandler = new JwtSecurityTokenHandler();
-            var Key = Encoding.ASCII.GetBytes(Secret);
-            var TokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[] { new Claim("Id", User) }),
-                Expires = DateTime.UtcNow.AddDays(365),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var Token = TokenHandler.CreateToken(TokenDescriptor);
-
-            return TokenHandler.WriteToken(Token);
-        }
-
-        public static bool VulnerableValidateToken(string Token, string Secret)
-        {
-            /*
-            Vérifie la validité du token JWT passé en paramètre
-            */
-            var TokenHandler = new JwtSecurityTokenHandler();
-            var Key = Encoding.ASCII.GetBytes(Secret);
-            bool Result = true;
-            try
-            {
-                var JwtSecurityToken = TokenHandler.ReadJwtToken(Token.Substring("Bearer ".Length));
-                if (JwtSecurityToken.Header.Alg == "HS256" && JwtSecurityToken.Header.Typ == "JWT")
-                {
-                    TokenHandler.ValidateToken(Token, new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                    }, out SecurityToken validatedToken);
-
-                    var JwtToken = (JwtSecurityToken)validatedToken;
-                }
-            }
-            catch { Result = false; }
-
-            return Result;
-        }
-
         public static async Task<object> VulnerableWebRequest(string Uri = "https://localhost:3000/")
         {
             /*
@@ -208,7 +140,7 @@ namespace VulnerableWebApplication.VLAController
             Retourne les informations liées à l'ID de l'utilisateur
             Permets aux employés de consulter leurs données personnelles
             */
-            if (!VulnerableValidateToken(Token, Secret)) return Results.Unauthorized();
+            if (!VLAIdentity.VLAIdentity.VulnerableValidateToken(Token, Secret)) return Results.Unauthorized();
             var Employee = Data.GetEmployees()?.Where(x => Id == x.Id)?.FirstOrDefault();
 
             return Results.Ok(Newtonsoft.Json.JsonConvert.SerializeObject(Employee));
@@ -219,7 +151,7 @@ namespace VulnerableWebApplication.VLAController
             /*
             Effectue une requête DNS pour le FQDN passé en paramètre
             */
-            if (VulnerableValidateToken(Token, Secret) && Regex.Match(UserStr, @"^(?:[a-zA-Z0-9_\-]+\.)+[a-zA-Z]{2,}(?:.{0,20})$").Success)
+            if (VLAIdentity.VLAIdentity.VulnerableValidateToken(Token, Secret) && Regex.Match(UserStr, @"^(?:[a-zA-Z0-9_\-]+\.)+[a-zA-Z]{2,}(?:.{0,20})$").Success)
             {
                 Process Cmd = new Process();
                 Cmd.StartInfo.FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "cmd" : "/bin/sh";
@@ -269,7 +201,7 @@ namespace VulnerableWebApplication.VLAController
             /*
             Permets l'upload de fichier de type SVG
             */
-            if ((!VulnerableValidateToken(Token, Secret)) || (!Header.Contains("10.10.10.256"))) return Results.Unauthorized();
+            if ((!VLAIdentity.VLAIdentity.VulnerableValidateToken(Token, Secret)) || (!Header.Contains("10.10.10.256"))) return Results.Unauthorized();
 
             if (UserFile.FileName.EndsWith(".svg")) 
             {
