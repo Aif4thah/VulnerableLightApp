@@ -54,9 +54,11 @@ namespace VulnerableWebApplication.VLAIdentity
             var TokenHandler = new JwtSecurityTokenHandler();
             var Key = Encoding.ASCII.GetBytes(Secret);
             bool Result = true;
+            Token = Token.Substring("Bearer ".Length);
+
             try
             {
-                var JwtSecurityToken = TokenHandler.ReadJwtToken(Token.Substring("Bearer ".Length));
+                var JwtSecurityToken = TokenHandler.ReadJwtToken(Token);
                 if (JwtSecurityToken.Header.Alg == "HS256" && JwtSecurityToken.Header.Typ == "JWT")
                 {
                     TokenHandler.ValidateToken(Token, new TokenValidationParameters
@@ -65,12 +67,13 @@ namespace VulnerableWebApplication.VLAIdentity
                         IssuerSigningKey = new SymmetricSecurityKey(Key),
                         ValidateIssuer = false,
                         ValidateAudience = false,
+                        ValidateLifetime = true,
                     }, out SecurityToken validatedToken);
 
                     var JwtToken = (JwtSecurityToken)validatedToken;
                 }
             }
-            catch { Result = false; }
+            catch(Exception e) { Result = false; }
 
             return Result;
         }

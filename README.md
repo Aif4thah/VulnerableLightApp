@@ -43,7 +43,6 @@
 | CWE-829 | Local File Inclusion | Easy | 500-2.000$|
 | CWE-918 | Server-Side Request Forgery (SSRF) | Medium | 1.000$-10.000$|
 | CWE-1270 | Generation of Incorrect Security Tokens | Medium | 1.000-20.000$ |
-| CWE-1395 | Dependency on Vulnerable Third-Party Component | Easy | 0-500$ |
 
 
 ## 🏭 Context
