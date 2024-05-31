@@ -89,10 +89,10 @@ namespace VulnerableWebApplication.VLAModel
     /* 
      Classes et Query GraphQL (clients)
      */
-    public record Client(int Id, string Name, int Country);
+    public record Client(int Id, string Name, int Country, int Bank);
     public record Country(int Id, string Name);
 
-    public record Bank(int RIB, string Name);
+    public record Bank(int id, string RIB, string Name);
 
     public class ClientDetails
     {
@@ -121,6 +121,7 @@ namespace VulnerableWebApplication.VLAModel
         public List<ClientDetails> GetClients();
         public List<ClientDetails> GetClient(int empId);
         public List<ClientDetails> GetClientsByCountry(int Country);
+        public List<ClientDetails> GetClientsByBank(int BankId);
     }
 
     public class ClientService : IClientService
@@ -129,11 +130,11 @@ namespace VulnerableWebApplication.VLAModel
 
         private List<Client> Clients = new List<Client>
         {
-            new Client(1, "NovaSynergy Solutions", 1),
-            new Client(2, "EcoVerde Innovations", 1),
-            new Client(3, "AstraTech Dynamics", 2),
-            new Client(4, "Luminara Creation", 2),
-            new Client(5, "ZenithWave Enterprises", 3),
+            new Client(1, "NovaSynergy Solutions", 1,1),
+            new Client(2, "EcoVerde Innovations", 1,1),
+            new Client(3, "AstraTech Dynamics", 2,1),
+            new Client(4, "Luminara Creation", 2,1),
+            new Client(5, "ZenithWave Enterprises", 3,1),
         };
 
         private List<Country> Countrys = new List<Country>
@@ -141,6 +142,12 @@ namespace VulnerableWebApplication.VLAModel
             new Country(1, "France"),
             new Country(2, "Taïwan"),
             new Country(3, "China"),
+        };
+
+        private List<Bank> Banks = new List<Bank>
+        {
+            new Bank(1, "FR1610096000703816856838K74" ,"BdF"),
+
         };
 
         public List<ClientDetails> GetClients()
@@ -163,13 +170,25 @@ namespace VulnerableWebApplication.VLAModel
             }).ToList();
         }
 
-        public List<ClientDetails> GetClientsByCountry(int Country)
+
+        public List<ClientDetails> GetClientsByCountry(int CountryId)
         {
-            return Clients.Where(emp => emp.Country == Country).Select(emp => new ClientDetails
+            return Clients.Where(emp => emp.Country == CountryId).Select(emp => new ClientDetails
             {
                 Id = emp.Id,
                 Name = emp.Name,
-                Country = Countrys.First(d => d.Id == Country).Name,
+                Country = Countrys.First(d => d.Id == CountryId).Name,
+            }).ToList();
+        }
+
+
+        public List<ClientDetails> GetClientsByBank(int BankId)
+        {
+            return Clients.Where(emp => emp.Bank == BankId).Select(emp => new ClientDetails
+            {
+                Id = emp.Id,
+                Name = emp.Name,
+                Bank = Banks.First(b => b.id == BankId).RIB,
             }).ToList();
         }
     }
@@ -178,8 +197,34 @@ namespace VulnerableWebApplication.VLAModel
     {
         public ClientQuery(IClientService ClientService)
         {
+            /*
             Field<ListGraphType<ClientDetailsType>>(Name = "Clients", resolve: x => ClientService.GetClients());
-            Field<ListGraphType<ClientDetailsType>>(Name = "Client", arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }), resolve: x => ClientService.GetClient(x.GetArgument<int>("id")));
+
+            Field<ListGraphType<ClientDetailsType>>(Name = "Client", arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "Id" }), resolve: x => ClientService.GetClient(x.GetArgument<int>("Id")));
+            */
+
+            Field<ListGraphType<ClientDetailsType>>(
+                "Clients",
+                resolve: context => ClientService.GetClients()
+            );
+
+            Field<ListGraphType<ClientDetailsType>>(
+                "Client",
+                arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "Id" }),
+                resolve: context => ClientService.GetClient(context.GetArgument<int>("Id"))
+            );
+
+            Field<ListGraphType<ClientDetailsType>>(
+                "ClientsByCountry",
+                arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "CountryId" }),
+                resolve: context => ClientService.GetClientsByCountry(context.GetArgument<int>("CountryId"))
+            );
+
+            Field<ListGraphType<ClientDetailsType>>(
+                "ClientsByBank",
+                arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "Bank" }),
+                resolve: context => ClientService.GetClientsByBank(context.GetArgument<int>("Bank"))
+            );
         }
     }
 
