@@ -17,7 +17,7 @@
 
 ## 🐞 Vulnerabilities
 
-| CWE | Description | Difficulty | Estimated Reward in Bug Bounty |
+| CWE | Description | Difficulty | Estimated Bug Bounty Reward |
 |----|---|----|---|
 | CWE-22 | Path Traversal | Medium | 500-5.000$ |
 | CWE-78 | OS Command Injection | Easy | 1.000-10.000$ |
@@ -27,7 +27,7 @@
 | CWE-91 | XML Injection | Hard | 0-500$ |
 | CWE-98 | Remote File Inclusion | Hard | 1.000-10.000$ |
 | CWE-184 | Incomplete List of Disallowed Inputs | Medium | 500-2.000$ |
-| CWE-200 | Exposure of Sensitive Information to an Unauthorized Actor | Hard | 1.000-20.000$ | 
+| CWE-200 | Exposure of Sensitive Information to an Unauthorized Actor | Medium | 1.000-20.000$ | 
 | CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Easy | 500-2.000$ |
 | CWE-284 | Improper Access Control | Medium | 1.000-5.000$ |
 | CWE-287 | Improper Authentication | Medium | 500-5.000$ |
