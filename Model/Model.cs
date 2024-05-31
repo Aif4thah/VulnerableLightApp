@@ -92,11 +92,17 @@ namespace VulnerableWebApplication.VLAModel
     public record Client(int Id, string Name, int Country);
     public record Country(int Id, string Name);
 
+    public record Bank(int RIB, string Name);
+
     public class ClientDetails
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Country { get; set; }
+
+        public string Bank { get; set; }
+
+
     }
 
     public class ClientDetailsType : ObjectGraphType<ClientDetails>
@@ -106,6 +112,7 @@ namespace VulnerableWebApplication.VLAModel
             Field(x => x.Id);
             Field(x => x.Name);
             Field(x => x.Country);
+            Field(x => x.Bank); 
         }
     }
 

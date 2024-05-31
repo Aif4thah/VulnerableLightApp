@@ -78,6 +78,8 @@ app.MapPatch("/Patch", async ([FromHeader(Name="X-Forwarded-For")] string h, [Fr
 
 app.UseGraphQL<ISchema>("/Client");
 
+app.UseGraphQLPlayground("/GraphQLUI", new GraphQL.Server.Ui.Playground.PlaygroundOptions{GraphQLEndPoint="/Client",SubscriptionsEndPoint="/Client"});
+
 
 // Arguments :
 
