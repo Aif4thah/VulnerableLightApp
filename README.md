@@ -42,6 +42,7 @@
 | CWE-787 | Out-of-bounds Write | Easy | 500-5000$ |
 | CWE-798 | Use of Hard-coded Credentials | Very Easy | 1.000-10.000$ |
 | CWE-829 | Local File Inclusion | Easy | 500-2.000$ |
+| CWE-912 | Backdoor | Very Hard | 10.000$-100.000$ |
 | CWE-918 | Server-Side Request Forgery (SSRF) | Medium | 1.000$-10.000$ |
 | CWE-1270 | Generation of Incorrect Security Tokens | Medium | 1.000-20.000$ |
 

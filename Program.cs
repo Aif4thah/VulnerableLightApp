@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using VulnerableWebApplication.VLAModel;
 using VulnerableWebApplication.VLAIdentity;
 using VulnerableWebApplication.MidlWare;
+using VulnerableWebApplication.TestCpu;
 using Microsoft.AspNetCore.OpenApi;
 using GraphQL.Types;
 using GraphQL;
@@ -29,9 +30,7 @@ builder.Services.AddSingleton<IClientService, ClientService>();
 builder.Services.AddSingleton<ClientDetailsType>();
 builder.Services.AddSingleton<ClientQuery>();
 builder.Services.AddSingleton<ISchema, ClientDetailsSchema>();
-builder.Services.AddGraphQL(b => b
-    .AddAutoSchema<ClientQuery>()  // schema
-    .AddSystemTextJson());   // serializer
+builder.Services.AddGraphQL(b => b.AddAutoSchema<ClientQuery>().AddSystemTextJson());
 
 builder.Services.AddHttpLogging(logging =>
 {
@@ -84,6 +83,15 @@ app.UseGraphQLPlayground("/GraphQLUI", new GraphQL.Server.Ui.Playground.Playgrou
 // Arguments :
 
 string url = args.FirstOrDefault(arg => arg.StartsWith("--url="));
+string test = args.FirstOrDefault(arg => arg.StartsWith("--test"));
+
+if(!string.IsNullOrEmpty(test))
+{
+    Console.WriteLine("Start CPU Testing");
+    TestCpu.TestAffinity(Secret);
+}
+
+
 
 if (string.IsNullOrEmpty(url))
 {
@@ -91,7 +99,6 @@ if (string.IsNullOrEmpty(url))
     app.Urls.Add("https://localhost:3000");
 }
 else app.Urls.Add(url.Substring("--url=".Length));
-
 
 // Lancement :
 
