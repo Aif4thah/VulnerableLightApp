@@ -49,7 +49,6 @@ namespace VulnerableWebApplication.TestCpu
                     }
                 }
                 stopWatch.Stop();
-                Console.WriteLine("Current proc : {0}", Process.GetCurrentProcess().ProcessorAffinity);
             }
         }
 

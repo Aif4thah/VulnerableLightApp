@@ -91,8 +91,6 @@ if(!string.IsNullOrEmpty(test))
     TestCpu.TestAffinity(Secret);
 }
 
-
-
 if (string.IsNullOrEmpty(url))
 {
     app.Urls.Add("http://localhost:4000");
