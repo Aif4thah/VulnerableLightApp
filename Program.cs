@@ -88,7 +88,7 @@ string test = args.FirstOrDefault(arg => arg.StartsWith("--test"));
 if(!string.IsNullOrEmpty(test))
 {
     Console.WriteLine("Start CPU Testing");
-    TestCpu.TestAffinity(Secret);
+    TestCpu.TestAffinity();
 }
 
 if (string.IsNullOrEmpty(url))
