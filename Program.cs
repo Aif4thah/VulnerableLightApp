@@ -13,11 +13,17 @@ using VulnerableWebApplication.TestCpu;
 using Microsoft.AspNetCore.OpenApi;
 using GraphQL.Types;
 using GraphQL;
+using System.Net.Sockets;
 
 
-// Configuration :
+// Configuration du service 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -41,39 +47,39 @@ builder.Services.AddHttpLogging(logging =>
     logging.CombineLogs = true;
 });
 
-var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
-
+// Configuration de l'application :
 var app = builder.Build();
 app.UseAntiforgery();
 app.UseMiddleware<XRealIPMiddleware>();
+app.UseMiddleware<ValidateJwtMiddleware>();
 app.UseHttpLogging();
 app.UseSwagger();
 app.UseSwaggerUI();
 
 
 // Variables :
-
-var Secret = configuration["Secret"];
-var LogFile = configuration["LogFile"];
+VLAIdentity.SetSecret(app.Configuration["Secret"]);
+VLAIdentity.SetLogFile(app.Configuration["LogFile"]);
+VLAController.SetLogFile(app.Configuration["LogFile"]);
 
 
 // Endpoints :
 
 app.MapGet("/", async (string? lang) => await Task.FromResult(VLAController.VulnerableHelloWorld(HttpUtility.UrlDecode(lang))));
 
-app.MapPost("/Login", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody] VulnerableWebApplication.VLAModel.Creds login) => await Task.FromResult(VLAIdentity.VulnerableQuery(login.User, login.Passwd, Secret, LogFile)).Result).WithOpenApi();
+app.MapPost("/Login", [ProducesResponseType(StatusCodes.Status200OK)] async (HttpRequest request, [FromBody] VulnerableWebApplication.VLAModel.Creds login) => await Task.FromResult(VLAIdentity.VulnerableQuery(login.User, login.Passwd)).Result).WithOpenApi();
 
-app.MapGet("/Contract", async (string i, [FromHeader(Name="Authorization")] string t) => await Task.FromResult(VLAController.VulnerableXmlParser(HttpUtility.UrlDecode(i), t, Secret))).WithOpenApi();
+app.MapGet("/Contract", async (string i) => await Task.FromResult(VLAController.VulnerableXmlParser(HttpUtility.UrlDecode(i)))).WithOpenApi();
 
 app.MapGet("/LocalWebQuery", async (string? i) => await VLAController.VulnerableWebRequest(i)).WithOpenApi();
 
-app.MapGet("/Employee", async (string i, [FromHeader(Name="Authorization")] string t) => await Task.FromResult(VLAController.VulnerableObjectReference(i, t, Secret))).WithOpenApi();
+app.MapGet("/Employee", async (string i) => await Task.FromResult(VLAController.VulnerableObjectReference(i))).WithOpenApi();
 
-app.MapGet("/NewEmployee", async (string i, [FromHeader(Name = "Authorization")] string t) => await Task.FromResult(VLAController.VulnerableDeserialize(HttpUtility.UrlDecode(i), t, Secret))).WithOpenApi();
+app.MapGet("/NewEmployee", async (string i) => await Task.FromResult(VLAController.VulnerableDeserialize(HttpUtility.UrlDecode(i)))).WithOpenApi();
 
-app.MapGet("/LocalDNSResolver", async (string i, [FromHeader(Name="Authorization")] string t) => await Task.FromResult(VLAController.VulnerableCmd(HttpUtility.UrlDecode(i), t ,Secret))).WithOpenApi();
+app.MapGet("/LocalDNSResolver", async (string i) => await Task.FromResult(VLAController.VulnerableCmd(HttpUtility.UrlDecode(i)))).WithOpenApi();
 
-app.MapPatch("/Patch", async ([FromHeader(Name="X-Forwarded-For")] string h, [FromHeader(Name = "Authorization")] string t, [FromForm] IFormFile file) => await VLAController.VulnerableHandleFileUpload(file, h, t, Secret, LogFile)).DisableAntiforgery().WithOpenApi();
+app.MapPatch("/Patch", async ([FromHeader(Name="X-Forwarded-For")] string h, [FromForm] IFormFile file) => await VLAController.VulnerableHandleFileUpload(file, h)).DisableAntiforgery().WithOpenApi();
 
 app.UseGraphQL<ISchema>("/Client");
 

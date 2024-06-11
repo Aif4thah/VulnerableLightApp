@@ -23,8 +23,6 @@ namespace VulnerableWebApplication.TestCpu
             var sha256 = SHA256.Create();
             foreach (byte b in bytes) binary.Append(Convert.ToString(b, 2).PadLeft(8, '0'));
             string BinStr = binary.ToString();
-
-            Console.WriteLine("Total proc: {0}", Environment.ProcessorCount);
             foreach (char bit in BinStr)
             {
                 Thread.Sleep(1000);

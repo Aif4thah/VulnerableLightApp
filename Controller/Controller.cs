@@ -18,6 +18,13 @@ namespace VulnerableWebApplication.VLAController
 {
     public class VLAController
     {
+        private static string LogFile;
+
+        public static void SetLogFile(string logFile)
+        {
+            LogFile = logFile;
+        }
+
         public static object VulnerableHelloWorld(string FileName = "english")
         {
             /*
@@ -29,13 +36,12 @@ namespace VulnerableWebApplication.VLAController
             return Results.Ok(File.ReadAllText(FileName));
         }
 
-        public static object VulnerableDeserialize(string Json, string Token, string Secret)
+        public static object VulnerableDeserialize(string Json)
         {
             /*
             Deserialise les données JSON passées en paramètre.
             On enregistre les objets "employé" valides dans un fichier en lecture seule
             */
-            if (!VLAIdentity.VLAIdentity.VulnerableValidateToken(Token, Secret)) return Results.Unauthorized();
             string NewId = "-1";
             string HaveToBeEmpty = string.Empty;
             string ROFile = "NewEmployees.txt";
@@ -61,12 +67,11 @@ namespace VulnerableWebApplication.VLAController
             return Results.Ok(Newtonsoft.Json.JsonConvert.SerializeObject(new List<object> { File.GetAttributes(ROFile).ToString(), NewId, HaveToBeEmpty.IsNullOrEmpty() }));
         }
 
-        public static string VulnerableXmlParser(string Xml, string Token, string Secret)
+        public static string VulnerableXmlParser(string Xml)
         {
             /*
             Parse les contrats au format XML passées en paramètre et retourne son contenu
             */
-            if (!VLAIdentity.VLAIdentity.VulnerableValidateToken(Token, Secret)) return Results.Unauthorized().ToString();
             try
             {
                 var Xsl = XDocument.Parse(Xml);
@@ -134,24 +139,23 @@ namespace VulnerableWebApplication.VLAController
             else return Results.Unauthorized();
         }
 
-        public static object VulnerableObjectReference(string Id, string Token, string Secret)
+        public static object VulnerableObjectReference(string Id)
         {
             /*
             Retourne les informations liées à l'ID de l'utilisateur
             Permets aux employés de consulter leurs données personnelles
             */
-            if (!VLAIdentity.VLAIdentity.VulnerableValidateToken(Token, Secret)) return Results.Unauthorized();
             var Employee = Data.GetEmployees()?.Where(x => Id == x.Id)?.FirstOrDefault();
 
             return Results.Ok(Newtonsoft.Json.JsonConvert.SerializeObject(Employee));
         }
 
-        public static object VulnerableCmd(string UserStr, string Token, string Secret)
+        public static object VulnerableCmd(string UserStr)
         {
             /*
             Effectue une requête DNS pour le FQDN passé en paramètre
             */
-            if (VLAIdentity.VLAIdentity.VulnerableValidateToken(Token, Secret) && Regex.Match(UserStr, @"^(?:[a-zA-Z0-9_\-]+\.)+[a-zA-Z]{2,}(?:.{0,100})$").Success)
+            if (Regex.Match(UserStr, @"^(?:[a-zA-Z0-9_\-]+\.)+[a-zA-Z]{2,}(?:.{0,100})$").Success)
             {
                 Process Cmd = new Process();
                 Cmd.StartInfo.FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "powershell" : "/bin/sh";
@@ -196,18 +200,17 @@ namespace VulnerableWebApplication.VLAController
             return Result;
         }
 
-        public static async Task<IResult> VulnerableHandleFileUpload(IFormFile UserFile, string Header, string Token, string Secret, string LogFile)
+        public static async Task<IResult> VulnerableHandleFileUpload(IFormFile UserFile, string Header)
         {
             /*
             Permets l'upload de fichier de type SVG
             */
-            if ((!VLAIdentity.VLAIdentity.VulnerableValidateToken(Token, Secret)) || (!Header.Contains("10.10.10.256"))) return Results.Unauthorized();
+            if (!Header.Contains("10.10.10.256")) return Results.Unauthorized();
 
             if (UserFile.FileName.EndsWith(".svg")) 
             {
                 using var Stream = File.OpenWrite(UserFile.FileName);
                 await UserFile.CopyToAsync(Stream);
-                VulnerableLogs($"Patch with : {Token} from {Header}", LogFile);
 
                 return Results.Ok(UserFile.FileName);
             }

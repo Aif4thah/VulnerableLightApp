@@ -10,11 +10,27 @@ namespace VulnerableWebApplication.VLAIdentity
 {
     public class VLAIdentity
     {
-        public static async Task<object> VulnerableQuery(string User, string Passwd, string Secret, string LogFile)
+        private static string Secret;
+
+        public static void SetSecret(string secret)
+        {
+            Secret = secret;
+        }
+
+        private static string LogFile;
+
+        public static void SetLogFile(string logFile)
+        {
+            LogFile = logFile;
+        }
+
+
+        public static async Task<object> VulnerableQuery(string User, string Passwd)
         {
             /*
             Authentifie les utilisateurs par login et mot de passe, et renvoie un token JWT si l'authentification a réussi
             */
+            
             SHA256 Sha256Hash = SHA256.Create();
             byte[] Bytes = Sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(Passwd));
             StringBuilder stringbuilder = new StringBuilder();
@@ -25,10 +41,10 @@ namespace VulnerableWebApplication.VLAIdentity
             var DataSet = VLAModel.Data.GetDataSet();
             var Result = DataSet.Tables[0].Select("Passwd = '" + Hash + "' and User = '" + User + "'");
 
-            return Result.Length > 0 ? Results.Ok(VulnerableGenerateToken(User, Secret)) : Results.Unauthorized();
+            return Result.Length > 0 ? Results.Ok(VulnerableGenerateToken(User)) : Results.Unauthorized();
         }
 
-        public static string VulnerableGenerateToken(string User, string Secret)
+        public static string VulnerableGenerateToken(string User)
         {
             /*
             Retourne un token JWT signé pour l'utilisateur passé en paramètre
