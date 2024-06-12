@@ -81,7 +81,7 @@ dotnet build
 ```
 
 
-## 🎮 Usage
+## 🔥 Run
 
 ```PowerShell
 .\bin\Debug\net8.0\VulnerableWebApplication.exe [--url=<url>]
@@ -92,6 +92,10 @@ Alternatively, you can run directly with
 ```PowerShell
 dotnet run
 ```
+
+Then open your Browser and Hacking tools !
+
+![VLA-demo](./VLA-demo.gif)
 
 
 ## 🛠️ Debug 
