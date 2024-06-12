@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="./VLA-demo.gif" alt="Dojo-101" style="width: 600px;" />
+    <img src="./VLA-demo.gif" alt="Démonstration" style="width: 600px;" />
 </p>
 
 [![License: GNU GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
