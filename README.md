@@ -54,11 +54,11 @@ VLA is designed as a vulnerable backend application, running in the following en
 ![Context](./Context.png)
 
 
-## 🔑 Hint, Solution & Write Up
+## 🔑 Hint & Write Up
 
-* Before searching Write-Up, try reading [Dojo-101](https://github.com/Aif4thah/Dojo-101)
-* Become a project sponsor and gain access to all the solutions.
-* Or just buy me a coffee and get an unique Nuclei template (not for my students)
+* Try reading [Dojo-101](https://github.com/Aif4thah/Dojo-101), this project contains all you need to hack this app !
+* [Buy me a coffee](https://github.com/sponsors/Aif4thah?frequency=one-time&sponsor=Aif4thah) to get the solution/exploit you want
+* [Become a sponsor](https://github.com/sponsors/Aif4thah?frequency=recurring&sponsor=Aif4thah) and get a complete Write Up
 
 
 ## ✅ Prerequisites
