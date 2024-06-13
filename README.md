@@ -17,34 +17,34 @@
 
 ## 🐞 Vulnerabilities
 
-| CWE | Description | Difficulty | Estimated Bug Bounty Reward |
-|----|---|----|---|
-| CWE-22 | Path Traversal | Medium | 500-5.000$ |
-| CWE-78 | OS Command Injection | Easy | 1.000-10.000$ |
-| CWE-79 | Cross-site Scripting | Easy  | 500-5.000$ |
-| CWE-89 | SQL Injection | Easy | 1.000-10.000$ |
-| CWE-94 | Code Injection| Hard | 5.000-50.000$ |
-| CWE-91 | XML Injection | Hard | 0-500$ |
-| CWE-98 | Remote File Inclusion | Hard | 1.000-10.000$ |
-| CWE-184 | Incomplete List of Disallowed Inputs | Medium | 500-2.000$ |
-| CWE-200 | Exposure of Sensitive Information to an Unauthorized Actor | Medium | 1.000-20.000$ | 
-| CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Easy | 500-2.000$ |
-| CWE-284 | Improper Access Control | Medium | 1.000-5.000$ |
-| CWE-287 | Improper Authentication | Medium | 500-5.000$ |
-| CWE-319 | Cleartext Transmission of Sensitive Information | Very Easy | 500-2.000$ |
-| CWE-326 | Inadequate Encryption Strength | Easy  | 1.000-5.000$ |
-| CWE-434 | Unrestricted Upload of File with Dangerous Type | Medium | 500-10.000$ |
-| CWE-502 | Deserialization of Untrusted Data | Hard  | 5.000-50.000$ |
-| CWE-521 | Weak Password Requirements | Very Easy | 500-2.000$ |
-| CWE-532 | Insertion of Sensitive Information into Log File | Very Easy  |100-2.000$ |
-| CWE 639 | Insecure Direct Object Reference | Medium | 500-5.000$ |
-| CWE-611 | Improper Restriction of XML External Entity Reference | Hard | 1.000-10.000$ |
-| CWE-787 | Out-of-bounds Write | Easy | 500-5000$ |
-| CWE-798 | Use of Hard-coded Credentials | Very Easy | 1.000-10.000$ |
-| CWE-829 | Local File Inclusion | Easy | 500-2.000$ |
-| CWE-912 | Backdoor | Hard | 10.000$-100.000$ |
-| CWE-918 | Server-Side Request Forgery (SSRF) | Medium | 1.000$-10.000$ |
-| CWE-1270 | Generation of Incorrect Security Tokens | Medium | 1.000-20.000$ |
+| CWE | Description | Difficulty |
+|----|---|----|
+| CWE-22 | Path Traversal | Medium |
+| CWE-78 | OS Command Injection | Easy |
+| CWE-79 | Cross-site Scripting | Easy  |
+| CWE-89 | SQL Injection | Easy |
+| CWE-94 | Code Injection| Hard |
+| CWE-91 | XML Injection | Hard | 
+| CWE-98 | Remote File Inclusion | Hard |
+| CWE-184 | Incomplete List of Disallowed Inputs | Medium |
+| CWE-200 | Exposure of Sensitive Information to an Unauthorized Actor | Medium |
+| CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Easy |
+| CWE-284 | Improper Access Control | Medium |
+| CWE-287 | Improper Authentication | Medium |
+| CWE-319 | Cleartext Transmission of Sensitive Information | Easy |
+| CWE-326 | Inadequate Encryption Strength | Easy |
+| CWE-434 | Unrestricted Upload of File with Dangerous Type | Medium |
+| CWE-502 | Deserialization of Untrusted Data | Hard |
+| CWE-521 | Weak Password Requirements | Easy |
+| CWE-532 | Insertion of Sensitive Information into Log File | Easy |
+| CWE 639 | Insecure Direct Object Reference | Medium |
+| CWE-611 | XML External Entity Reference | Hard |
+| CWE-787 | Out-of-bounds Write | Easy |
+| CWE-798 | Use of Hard-coded Credentials | Easy |
+| CWE-829 | Local File Inclusion | Easy |
+| CWE-912 | Backdoor | Hard |
+| CWE-918 | Server-Side Request Forgery | Medium |
+| CWE-1270 | Generation of Incorrect Security Tokens | Medium |
 
 
 ## 🏭 Context
