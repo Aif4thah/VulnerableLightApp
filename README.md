@@ -13,7 +13,7 @@
 
 ## 🐞 Vulnerabilities
 
-| CWE | Description | Difficulty |
+| MITRE Reference | Description | Difficulty |
 |----|---|----|
 | CWE-22 | Path Traversal | Medium |
 | CWE-78 | OS Command Injection | Easy |
