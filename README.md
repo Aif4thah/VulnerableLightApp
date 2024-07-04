@@ -79,15 +79,17 @@ dotnet build
 
 ## 🔥 Run
 
+
+```PowerShell
+dotnet run [--url=<url>]
+```
+
+Alternatively, you can use bin files :
+
 ```PowerShell
 .\bin\Debug\net8.0\VulnerableWebApplication.exe [--url=<url>]
 ```
 
-Alternatively, you can run directly with
-
-```PowerShell
-dotnet run
-```
 
 ## 🛠️ Debug 
 
