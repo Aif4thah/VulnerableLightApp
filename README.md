@@ -90,6 +90,8 @@ Alternatively, you can use bin files :
 .\bin\Debug\net8.0\VulnerableWebApplication.exe [--url=<url>]
 ```
 
+> Your first request may return a 401 code due to unsuccessful authentication. Start Hacking !
+
 
 ## 🛠️ Debug 
 
