@@ -29,7 +29,7 @@
 | CWE-287 | Improper Authentication | Medium |
 | CWE-319 | Cleartext Transmission of Sensitive Information | Easy |
 | CWE-326 | Inadequate Encryption Strength | Easy |
-| CWE-434 | Unrestricted Upload of File with Dangerous Type | Medium |
+| CWE-434 | Unrestricted Upload of File with Dangerous Type | Hard |
 | CWE-502 | Deserialization of Untrusted Data | Hard |
 | CWE-521 | Weak Password Requirements | Easy |
 | CWE-532 | Insertion of Sensitive Information into Log File | Easy |

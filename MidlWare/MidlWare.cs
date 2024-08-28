@@ -52,11 +52,19 @@ namespace VulnerableWebApplication.MidlWare
             }
 
             string authHeader = context.Request.Headers["Authorization"];
+
             if (authHeader.IsNullOrEmpty() || !VLAIdentity.VLAIdentity.VulnerableValidateToken(authHeader, configuration["Secret"]))
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 return;
             }
+
+            if (path.StartsWith("/Patch", StringComparison.OrdinalIgnoreCase) && (authHeader.IsNullOrEmpty() || !VLAIdentity.VLAIdentity.VulnerableAdminValidateToken(authHeader, configuration["Secret"])) )
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return;
+            }
+
             await _next(context);
         }
     }

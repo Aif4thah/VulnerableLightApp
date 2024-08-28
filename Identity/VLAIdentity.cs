@@ -4,6 +4,7 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
+using Newtonsoft.Json.Linq;
 
 
 namespace VulnerableWebApplication.VLAIdentity
@@ -31,6 +32,7 @@ namespace VulnerableWebApplication.VLAIdentity
             Authentifie les utilisateurs par login et mot de passe, et renvoie un token JWT si l'authentification a réussi
             */
             
+            bool IsAdmin = false;
             SHA256 Sha256Hash = SHA256.Create();
             byte[] Bytes = Sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(Passwd));
             StringBuilder stringbuilder = new StringBuilder();
@@ -39,12 +41,13 @@ namespace VulnerableWebApplication.VLAIdentity
 
             VLAController.VLAController.VulnerableLogs("login attempt for:\n" + User + "\n" + Passwd + "\n", LogFile);
             var DataSet = VLAModel.Data.GetDataSet();
-            var Result = DataSet.Tables[0].Select("Passwd = '" + Hash + "' and User = '" + User + "'");
+            var Result = DataSet.Tables[0].Select("Passwd = '" + Hash + "' and User = '" + User + "'");            
+            if( DataSet.Tables[0].Select("User = '" + User.Replace("'", "''") + "' and IsAdmin = 1" ).Length > 0) IsAdmin = true;
 
-            return Result.Length > 0 ? Results.Ok(VulnerableGenerateToken(User)) : Results.Unauthorized();
+            return Result.Length > 0 ? Results.Ok(VulnerableGenerateToken(User, IsAdmin)) : Results.Unauthorized();
         }
 
-        public static string VulnerableGenerateToken(string User)
+        public static string VulnerableGenerateToken(string User, bool IsAdmin)
         {
             /*
             Retourne un token JWT signé pour l'utilisateur passé en paramètre
@@ -53,7 +56,7 @@ namespace VulnerableWebApplication.VLAIdentity
             var Key = Encoding.ASCII.GetBytes(Secret);
             var TokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("Id", User) }),
+                Subject = new ClaimsIdentity(new[] { new Claim("Id", User), new Claim("IsAdmin", IsAdmin.ToString()) }),
                 Expires = DateTime.UtcNow.AddDays(365),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -93,5 +96,47 @@ namespace VulnerableWebApplication.VLAIdentity
 
             return Result;
         }
+
+        public static bool VulnerableAdminValidateToken(string Token, string Secret)
+        {
+            /*
+            Vérifie la validité du token ADMIN passé en paramètre
+            */
+            var TokenHandler = new JwtSecurityTokenHandler();
+            var Key = Encoding.ASCII.GetBytes(Secret);
+            bool Result = false;
+            Token = Token.Substring("Bearer ".Length);
+
+            try
+            {
+                var JwtSecurityToken = TokenHandler.ReadJwtToken(Token);
+                if (JwtSecurityToken.Header.Alg == "HS256" || JwtSecurityToken.Header.Typ == "JWT")
+                {
+                    TokenHandler.ValidateToken(Token, new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                    }, out SecurityToken validatedToken);
+
+                    var JwtToken = (JwtSecurityToken)validatedToken;
+                    var claims = JwtToken.Claims;
+
+                    var isAdminClaim = claims.FirstOrDefault(c => c.Type == "IsAdmin");
+                    Console.WriteLine(isAdminClaim.Value);
+                    if (isAdminClaim.Value.Contains("True")) Result = true;
+                }
+            }
+            catch (Exception e) { Result = false; }
+
+
+
+
+            return Result;
+        }
+
+
     }
 }
