@@ -125,14 +125,10 @@ namespace VulnerableWebApplication.VLAIdentity
                     var claims = JwtToken.Claims;
 
                     var isAdminClaim = claims.FirstOrDefault(c => c.Type == "IsAdmin");
-                    Console.WriteLine(isAdminClaim.Value);
                     if (isAdminClaim.Value.Contains("True")) Result = true;
                 }
             }
             catch (Exception e) { Result = false; }
-
-
-
 
             return Result;
         }

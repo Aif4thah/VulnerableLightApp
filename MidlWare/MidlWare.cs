@@ -35,15 +35,15 @@ namespace VulnerableWebApplication.MidlWare
             _next = next;
         }
 
-
-
         public async Task InvokeAsync(HttpContext context, IConfiguration configuration)
         {
             /*
                 Authentifie les utilisateurs
             */
 
-            // Si l'URL est celle de l'endpoint de login, on passe à la suite sans valider le token
+            string authHeader = context.Request.Headers["Authorization"];
+
+            // URL Without Authentication
             var path = context.Request.Path.Value;
             if (path.Equals("/login", StringComparison.OrdinalIgnoreCase) || path.StartsWith("/swagger", StringComparison.OrdinalIgnoreCase))
             {
@@ -51,14 +51,15 @@ namespace VulnerableWebApplication.MidlWare
                 return;
             }
 
-            string authHeader = context.Request.Headers["Authorization"];
-
+            // User Authentication
             if (authHeader.IsNullOrEmpty() || !VLAIdentity.VLAIdentity.VulnerableValidateToken(authHeader, configuration["Secret"]))
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 return;
             }
 
+
+            // Admin Authentication
             if (path.StartsWith("/Patch", StringComparison.OrdinalIgnoreCase) && (authHeader.IsNullOrEmpty() || !VLAIdentity.VLAIdentity.VulnerableAdminValidateToken(authHeader, configuration["Secret"])) )
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
