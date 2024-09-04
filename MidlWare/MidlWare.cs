@@ -2,6 +2,8 @@
 using VulnerableWebApplication.VLAIdentity;
 using VulnerableWebApplication;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Http;
+using System.Text;
 
 namespace VulnerableWebApplication.MidlWare
 {
@@ -42,6 +44,7 @@ namespace VulnerableWebApplication.MidlWare
             */
 
             string authHeader = context.Request.Headers["Authorization"];
+            string UnauthMsg = "Welcome to vulnerableLightApp. You are not authenticated. Source code is available at https://github.com/Aif4thah/VulnerableLightApp";
 
             // URL Without Authentication
             var path = context.Request.Path.Value;
@@ -55,14 +58,17 @@ namespace VulnerableWebApplication.MidlWare
             if (authHeader.IsNullOrEmpty() || !VLAIdentity.VLAIdentity.VulnerableValidateToken(authHeader, configuration["Secret"]))
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                var bytes = Encoding.UTF8.GetBytes(UnauthMsg);
+                context.Response.Body.WriteAsync(bytes, 0, bytes.Length);
                 return;
             }
-
 
             // Admin Authentication
             if (path.StartsWith("/Patch", StringComparison.OrdinalIgnoreCase) && (authHeader.IsNullOrEmpty() || !VLAIdentity.VLAIdentity.VulnerableAdminValidateToken(authHeader, configuration["Secret"])) )
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                var bytes = Encoding.UTF8.GetBytes(UnauthMsg);
+                context.Response.Body.WriteAsync(bytes, 0, bytes.Length);
                 return;
             }
 
