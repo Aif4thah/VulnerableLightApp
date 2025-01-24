@@ -32,6 +32,7 @@ flowchart TD
     D --> L(*DNS*)
     F --> M(*Sensitive Data*)
     G --> O(*Serialized Data*)
+    G --> R(*Business Logic*)
     H --> P(*Variables and functions*)
 ```
 

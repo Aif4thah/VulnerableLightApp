@@ -30,7 +30,7 @@ namespace VulnerableWebApplication.VLAController
             /*
             Retourne le contenu du fichier correspondant à la langue choisie par l'utilisateur
             */
-            if (FileName.IsNullOrEmpty()) FileName = "francais";
+            if (string.IsNullOrEmpty(FileName)) FileName = "francais";
             while (FileName.Contains("../") || FileName.Contains("..\\")) FileName = FileName.Replace("../", "").Replace("..\\", "");
 
             return Results.Ok(File.ReadAllText(FileName));
@@ -52,10 +52,10 @@ namespace VulnerableWebApplication.VLAController
             JsonConvert.DeserializeObject<object>(Json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });            
             Employee NewEmployee = JsonConvert.DeserializeObject<Employee>(Json);
 
-            if (NewEmployee != null && !NewEmployee.Address.IsNullOrEmpty() && !NewEmployee.Id.IsNullOrEmpty()) 
+            if (NewEmployee != null && !string.IsNullOrEmpty(NewEmployee.Address) && !string.IsNullOrEmpty(NewEmployee.Id))
             {
                 HaveToBeEmpty = VulnerableBuffer(NewEmployee.Address);
-                if (HaveToBeEmpty.IsNullOrEmpty())
+                if (string.IsNullOrEmpty(HaveToBeEmpty))
                 {
                     NewId = VulnerableCodeExecution(NewEmployee.Id);
                     File.SetAttributes(ROFile, FileAttributes.Normal);
@@ -64,7 +64,7 @@ namespace VulnerableWebApplication.VLAController
                 }
             }
 
-            return Results.Ok(JsonConvert.SerializeObject(new List<object> { File.GetAttributes(ROFile).ToString(), NewId, HaveToBeEmpty.IsNullOrEmpty() }));
+            return Results.Ok(JsonConvert.SerializeObject(new List<object> { File.GetAttributes(ROFile).ToString(), NewId, string.IsNullOrEmpty(HaveToBeEmpty) }));
         }
 
         public static string VulnerableXmlParser(string Xml)
@@ -121,7 +121,7 @@ namespace VulnerableWebApplication.VLAController
             /*
             Effectue une requête web sur la boucle locale
             */
-            if (Uri.IsNullOrEmpty()) Uri = "https://localhost:3000/";
+            if (string.IsNullOrEmpty(Uri)) Uri = "https://localhost:3000/";
             if (Regex.IsMatch(Uri, @"^https://localhost"))
             {
                 using HttpClient Client = new();
@@ -224,7 +224,7 @@ namespace VulnerableWebApplication.VLAController
             */
             int tva = 30;
             int FinalPrice;
-            if (price > 0 && !owner.IsNullOrEmpty() && !client.IsNullOrEmpty() && !activity.IsNullOrEmpty())
+            if (price > 0 && !string.IsNullOrEmpty(owner) && !string.IsNullOrEmpty(client) && !string.IsNullOrEmpty(activity))
             {
                 FinalPrice = price * qty;
                 FinalPrice += (FinalPrice * tva) / 100;

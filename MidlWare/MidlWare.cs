@@ -55,7 +55,7 @@ namespace VulnerableWebApplication.MidlWare
             }
 
             // User Authentication
-            if (authHeader.IsNullOrEmpty() || !VLAIdentity.VLAIdentity.VulnerableValidateToken(authHeader, configuration["Secret"]))
+            if (string.IsNullOrEmpty(authHeader) || !VLAIdentity.VLAIdentity.VulnerableValidateToken(authHeader, configuration["Secret"]))
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 var bytes = Encoding.UTF8.GetBytes(UnauthMsg);
@@ -64,7 +64,7 @@ namespace VulnerableWebApplication.MidlWare
             }
 
             // Admin Authentication
-            if (path.StartsWith("/Patch", StringComparison.OrdinalIgnoreCase) && (authHeader.IsNullOrEmpty() || !VLAIdentity.VLAIdentity.VulnerableAdminValidateToken(authHeader, configuration["Secret"])) )
+            if (path.StartsWith("/Patch", StringComparison.OrdinalIgnoreCase) && (string.IsNullOrEmpty(authHeader) || !VLAIdentity.VLAIdentity.VulnerableAdminValidateToken(authHeader, configuration["Secret"])) )
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 var bytes = Encoding.UTF8.GetBytes(UnauthMsg);
