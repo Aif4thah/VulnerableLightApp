@@ -11,10 +11,10 @@
 
 
 
-> ⚠️ **Disclaimer** : This repository, together with its tools, is provided by Taisen-Solutions on an "as is" basis. Be aware that this application is highly vulnerable, including remote command and code execution. Use it at your own risk. Taisen-Solutions makes no representations or warranties of any kind, express or implied, as to the operation of the information, content, materials, tools, services and/or products included on the repository. Taisen-Solution disclaims, to the full extent permissible by applicable law, all warranties, express or implied, including but not limited to, implied warranties of merchantability and fitness for a particular purpose.
+>⚠️ This repository and its tools are provided "as is." The author(s) make no representations or warranties, express or implied, regarding the operation of the information, content, materials, tools, services, or products included. The author(s) disclaim, to the full extent permissible by law, all warranties, express or implied, including implied warranties of merchantability and fitness for a particular purpose.
 
 
-## 🎱 Components
+## 🎱 Components & Attack Surface
 
 ```mermaid
 flowchart TD
@@ -24,6 +24,7 @@ flowchart TD
     A --> D[Host services]
     A --> F[GraphQL]
     A --> G[App Services]
+    A --> H[Memory]
 
     B --> I(*Identities*)
     C --> J(*Logs*)
@@ -31,6 +32,7 @@ flowchart TD
     D --> L(*DNS*)
     F --> M(*Sensitive Data*)
     G --> O(*Serialized Data*)
+    H --> P(*Variables and functions*)
 ```
 
 ## 🐞 Vulnerabilities
@@ -60,6 +62,7 @@ flowchart TD
 | CWE-787 | Out-of-bounds Write | Easy |
 | CWE-798 | Use of Hard-coded Credentials | Easy |
 | CWE-829 | Local File Inclusion | Easy |
+| CWE-840 | Business Logic Error | Easy |
 | CWE-912 | Backdoor | Hard |
 | CWE-918 | Server-Side Request Forgery | Medium |
 | CWE-1270 | Generation of Incorrect Security Tokens | Medium |

@@ -64,7 +64,7 @@ namespace VulnerableWebApplication.VLAController
                 }
             }
 
-            return Results.Ok(Newtonsoft.Json.JsonConvert.SerializeObject(new List<object> { File.GetAttributes(ROFile).ToString(), NewId, HaveToBeEmpty.IsNullOrEmpty() }));
+            return Results.Ok(JsonConvert.SerializeObject(new List<object> { File.GetAttributes(ROFile).ToString(), NewId, HaveToBeEmpty.IsNullOrEmpty() }));
         }
 
         public static string VulnerableXmlParser(string Xml)
@@ -147,7 +147,7 @@ namespace VulnerableWebApplication.VLAController
             */
             var Employee = Data.GetEmployees()?.Where(x => Id == x.Id)?.FirstOrDefault();
 
-            return Results.Ok(Newtonsoft.Json.JsonConvert.SerializeObject(Employee));
+            return Results.Ok(JsonConvert.SerializeObject(Employee));
         }
 
         public static object VulnerableCmd(string UserStr)
@@ -216,6 +216,26 @@ namespace VulnerableWebApplication.VLAController
             }
             else return Results.Unauthorized();
         }
+
+        public static async Task<object> VulnerableLogic(int price, int qty, string owner, string client, string activity)
+        {
+            /*
+            Vérifie les champs du formulaire et calcul le prix d'une prestation
+            */
+            int tva = 30;
+            int FinalPrice;
+            if (price > 0 && !owner.IsNullOrEmpty() && !client.IsNullOrEmpty() && !activity.IsNullOrEmpty())
+            {
+                FinalPrice = price * qty;
+                FinalPrice += (FinalPrice * tva) / 100;
+
+                return Results.Ok(new { FinalPrice = $"{FinalPrice}€" });
+
+            }
+            return Results.StatusCode(400);
+
+        }
+
 
 
     }

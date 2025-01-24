@@ -24,6 +24,19 @@ namespace VulnerableWebApplication.VLAModel
         public string Passwd { get; set; }
     }
 
+    public class Invoice
+    {
+        /*
+        Informations de facturation
+        */
+        public int Price { get; set; }
+        public int Qty { get; set; }
+        public string Owner { get; set; }
+        public string Client { get; set; }
+        public string Activity { get; set; }
+    }
+
+
     public class Data
     {
         public static string GetLogPage()
