@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.OpenApi;
 using GraphQL.Types;
 using GraphQL;
 using System.Net.Sockets;
+using Microsoft.AspNetCore.Hosting;
+using NLog;
+using NLog.Web;
 
 
 // Configuration du service 
@@ -25,7 +28,14 @@ builder.Configuration
     .AddJsonFile($"appsettings{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
 
+// Configuration de NLog
+builder.Logging.ClearProviders();
+builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+builder.Host.UseNLog();
+
+
 // Swagger
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAntiforgery();
@@ -38,6 +48,9 @@ builder.Services.AddSingleton<ClientQuery>();
 builder.Services.AddSingleton<ISchema, ClientDetailsSchema>();
 builder.Services.AddGraphQL(b => b.AddAutoSchema<ClientQuery>().AddSystemTextJson());
 
+// Journalisation
+
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true).AddEnvironmentVariables();
 builder.Services.AddHttpLogging(logging =>
 {
     logging.LoggingFields = HttpLoggingFields.All;
@@ -48,6 +61,7 @@ builder.Services.AddHttpLogging(logging =>
 });
 
 // Configuration de l'application :
+
 var app = builder.Build();
 app.UseAntiforgery();
 app.UseMiddleware<XRealIPMiddleware>();
@@ -58,6 +72,7 @@ app.UseSwaggerUI();
 
 
 // Variables :
+
 VLAIdentity.SetSecret(app.Configuration["Secret"]);
 VLAIdentity.SetLogFile(app.Configuration["LogFile"]);
 VLAController.SetLogFile(app.Configuration["LogFile"]);

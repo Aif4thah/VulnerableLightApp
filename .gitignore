@@ -397,7 +397,8 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-# Tests files
+# Tests and logs files
 Logs.html
+*_logfile.txt
 pocXSS.svg
 NewEmployees.txt
