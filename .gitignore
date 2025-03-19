@@ -400,5 +400,6 @@ FodyWeavers.xsd
 # Tests and logs files
 Logs.html
 *_logfile.txt
+*_logfile.json
 pocXSS.svg
 NewEmployees.txt
