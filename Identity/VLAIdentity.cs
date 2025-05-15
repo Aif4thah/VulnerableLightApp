@@ -37,7 +37,6 @@ namespace VulnerableWebApplication.VLAIdentity
             for (int i = 0; i < Bytes.Length; i++) stringbuilder.Append(Bytes[i].ToString("x2"));
             string Hash = stringbuilder.ToString();
 
-            VLAController.VLAController.VulnerableLogs("login attempt for:\n" + User + "\n" + Passwd + "\n", LogFile);
             var DataSet = VLAModel.Data.GetDataSet();
             var Result = DataSet.Tables[0].Select("Passwd = '" + Hash + "' and User = '" + User + "'");
             var userRow = DataSet.Tables[0].AsEnumerable().FirstOrDefault(row => row.Field<string>("User") == User && row.Field<int>("IsAdmin") == 1);
