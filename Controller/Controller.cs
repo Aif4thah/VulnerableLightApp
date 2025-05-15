@@ -64,7 +64,8 @@ namespace VulnerableWebApplication.VLAController
                 }
             }
 
-            return Results.Ok(JsonConvert.SerializeObject(new List<object> { File.GetAttributes(ROFile).ToString(), NewId, string.IsNullOrEmpty(HaveToBeEmpty) }));
+            return new Dictionary<string, object>{ { "File Attributes", File.GetAttributes(ROFile).ToString() },{ "NewId", NewId }, { "Memory Integrity", string.IsNullOrEmpty(HaveToBeEmpty) }
+};
         }
 
         public static string VulnerableXmlParser(string Xml)
@@ -189,7 +190,7 @@ namespace VulnerableWebApplication.VLAController
         public static string VulnerableCodeExecution(string UserStr)
         {
             /*
-            Retourne un nouvel Id
+            Retourne un nouvel Id d'employé
             */
             string Result = string.Empty;
             if (UserStr.Length < 40 && !UserStr.Contains("class") && !UserStr.Contains("using"))

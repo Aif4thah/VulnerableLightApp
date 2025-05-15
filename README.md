@@ -35,7 +35,22 @@ flowchart TD
     H --> P(*Variables and functions*)
 ```
 
-## 🐞 Vulnerabilities
+## 🏢 Business Value to Attack
+
+| Business Workflow                      | Relevant OWASP ASVS Chapters |
+|----------------------------------------|------------------------------|
+| **Personal Data Management**           | V1 Architecture, Design and Threat Modeling, V5 Validation, Sanitization and Encoding |
+| **Employee Management**                | V2 Authentication, V9 Cryptography |
+| **Client Management**                  | V4 Access Control, V6 Stored Data |
+| **Banking data Management**            | V7 Cryptography at Rest, V10 Malicious Code |
+| **Contracts and Documents Management** | V13 File and Resources, V5 Validation, Sanitization and Encoding |
+| **Identities and Secrets Management**  | V2 Authentication, V9 Cryptography |
+| **Administrative Tasks**               | V4 Access Control, V17 Business Logic |
+| **Log Management**                     | V19 Logging and Monitoring |
+| **Service Behavior**                   | V14 API and Web Service Security, V17 Business Logic |
+
+
+## 🐞 Vulnerabilities to discover
 
 | MITRE Reference | Description | Difficulty |
 |----|---|----|
@@ -72,6 +87,7 @@ flowchart TD
 ## 🔑 Hint & Write Up
 
 * Try reading [Dojo-101](https://github.com/Aif4thah/Dojo-101), this project contains all you need to hack this app.
+
 * [Become a sponsor](https://github.com/sponsors/Aif4thah?frequency=recurring&sponsor=Aif4thah) and get access to the **full methodology** and **complete write-up**.
 
 
