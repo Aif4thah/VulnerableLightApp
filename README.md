@@ -13,7 +13,7 @@
 > This repository and its tools are provided "as is" without warranty of any kind, either express or implied, including but not limited to, any warranties of merchantability, fitness for a particular purpose, and non-infringement. The authors shall not be liable for any claims, damages, or other liabilities arising from, out of, or in connection with the use of this tool. The user is solely responsible for ensuring their use of this tool complies with all applicable laws and regulations. The authors disclaim any liability for illegal or unethical use.
 
 
-## 🎱 Components & Attack Surface
+## 🎱 Attack Surface
 
 ```mermaid
 flowchart TD
@@ -35,7 +35,7 @@ flowchart TD
     H --> P(*Variables and functions*)
 ```
 
-## 🏢 Business Value to Attack
+## 🏢 Business Value
 
 | Business Workflow                      | Relevant OWASP ASVS Chapters |
 |----------------------------------------|------------------------------|
@@ -50,19 +50,20 @@ flowchart TD
 | **Service Behavior**                   | V14 API and Web Service Security, V17 Business Logic |
 
 
-## 🐞 Vulnerabilities to discover
+## 🐞 Vulnerabilities
 
 | MITRE Reference | Description | Difficulty |
 |----|---|----|
 | CWE-22 | Path Traversal | Medium |
-| CWE-78 | OS Command Injection | Easy |
-| CWE-79 | Cross-site Scripting | Easy  |
+| CWE-78 | OS Command Injection | Medium |
+| CWE-79 | Cross-site Scripting | Medium  |
 | CWE-89 | SQL Injection | Easy |
 | CWE-94 | Code Injection| Hard |
 | CWE-91 | XML Injection | Hard | 
 | CWE-98 | Remote File Inclusion | Hard |
 | CWE-184 | Incomplete List of Disallowed Inputs | Medium |
 | CWE-200 | Exposure of Sensitive Information to an Unauthorized Actor | Medium |
+| CWE-209 | Generation of Error Message Containing Sensitive Information | Easy |
 | CWE-213 | Exposure of Sensitive Information Due to Incompatible Policies | Easy |
 | CWE-284 | Improper Access Control | Medium |
 | CWE-287 | Improper Authentication | Medium |
