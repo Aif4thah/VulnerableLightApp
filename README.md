@@ -137,9 +137,15 @@ curl -k https://127.0.0.1:3000
 
 ## 🛠️ Debug 
 
-### 401 Unauthorized 
+### Dotnet install on Linux 
 
-Your first request may return a 401 code due to unsuccessful authentication. It's ok, Start Hacking !
+Ubuntu / Debian exemple
+
+```bash
+wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+dpkg -i packages-microsoft-prod.deb
+apt update && apt install -y dotnet-sdk-8.0 dotnet-runtime-8.0
+```
 
 ### Dotnet Framework
 
@@ -150,17 +156,6 @@ where dotnet
 dotnet --version
 dotnet --list-sdks
 ```
-
-### Dotnet on Linux 
-
-Ubuntu / Debian exemple
-
-```bash
-wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-dpkg -i packages-microsoft-prod.deb
-apt update && apt install -y dotnet-sdk-8.0 dotnet-runtime-8.0
-```
-
 
 ### Certificates
 
@@ -179,9 +174,6 @@ dependancies have to be dowloaded from [standard sources](https://go.microsoft.c
 dotnet nuget add source "https://api.nuget.org/v3/index.json" --name "Microsoft"
 ```
 
-### Misc
-
-* Be aware that VLA runs Linux and MacOS, but is only tested and supported on Windows.
 
 ## 💜 Crédits
 
