@@ -89,7 +89,7 @@ flowchart TD
 
 * Try reading [Dojo-101](https://github.com/Aif4thah/Dojo-101), this project contains all you need to hack this app.
 
-* [Become a sponsor](https://github.com/sponsors/Aif4thah?frequency=recurring&sponsor=Aif4thah) and get access to the **full methodology** and **complete write-up**.
+* [Become a sponsor](https://github.com/sponsors/Aif4thah?frequency=one-time) and get access to the **full methodology** and **complete write-up**.
 
 
 ## ⬇️ Download
