@@ -83,7 +83,7 @@ namespace VulnerableWebApplication.VLAIdentity
                         IssuerSigningKey = new SymmetricSecurityKey(Key),
                         ValidateIssuer = false,
                         ValidateAudience = false,
-                        ValidateLifetime = true,
+                        ValidateLifetime = false,
                     }, out SecurityToken validatedToken);
 
                     var JwtToken = (JwtSecurityToken)validatedToken;
@@ -117,7 +117,7 @@ namespace VulnerableWebApplication.VLAIdentity
                         IssuerSigningKey = new SymmetricSecurityKey(Key),
                         ValidateIssuer = false,
                         ValidateAudience = false,
-                        ValidateLifetime = true,
+                        ValidateLifetime = false,
                     }, out SecurityToken validatedToken);
                     
                     var JwtToken = (JwtSecurityToken)validatedToken;
