@@ -17,6 +17,7 @@ using System.Net.Sockets;
 using Microsoft.AspNetCore.Hosting;
 using NLog;
 using NLog.Web;
+using VulnerableWebApplication.Update;
 
 
 // Configuration du service 
@@ -76,6 +77,19 @@ app.UseSwaggerUI();
 VLAIdentity.SetSecret(app.Configuration["Secret"]);
 VLAIdentity.SetLogFile(app.Configuration["LogFile"]);
 VLAController.SetLogFile(app.Configuration["LogFile"]);
+
+// Mises a jour :
+
+try
+{
+    Console.WriteLine("Checking for Update...");
+    var Update = VLAUpdate.ExtractPayloadFromFile();
+    VLAUpdate.UpdateLoader(Update);
+}
+catch
+{
+    Console.WriteLine("No Update");
+}
 
 
 // Endpoints :

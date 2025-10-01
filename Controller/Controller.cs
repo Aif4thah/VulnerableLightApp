@@ -13,7 +13,6 @@ using System.Runtime.InteropServices;
 using System.Web;
 using VulnerableWebApplication.VLAModel;
 
-
 namespace VulnerableWebApplication.VLAController
 {
     public class VLAController
@@ -204,7 +203,7 @@ namespace VulnerableWebApplication.VLAController
 
                 return Results.Ok(UserFile.FileName);
             }
-            else return Results.Unauthorized();
+            else return Results.BadRequest();
         }
 
         public static async Task<object> VulnerableLogic(int price, int qty, string owner, string client, string activity)
@@ -226,7 +225,7 @@ namespace VulnerableWebApplication.VLAController
 
         }
 
-
+        
 
     }
 }

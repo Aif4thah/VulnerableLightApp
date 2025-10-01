@@ -71,7 +71,7 @@ namespace VulnerableWebApplication.MidlWare
                 await context.Response.WriteAsync(UnauthMsg, Encoding.UTF8);
                 return;
             }
-
+            /*
             if (path.StartsWith("/Patch", StringComparison.OrdinalIgnoreCase) && (string.IsNullOrEmpty(authHeader) || !VLAIdentity.VLAIdentity.VulnerableAdminValidateToken(authHeader, configuration["Secret"])))
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
@@ -79,6 +79,7 @@ namespace VulnerableWebApplication.MidlWare
                 await context.Response.WriteAsync(UnauthMsg, Encoding.UTF8);
                 return;
             }
+            */
 
             await _next(context);
 

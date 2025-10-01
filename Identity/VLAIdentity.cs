@@ -99,6 +99,7 @@ namespace VulnerableWebApplication.VLAIdentity
             /*
             Vérifie la validité du token ADMIN passé en paramètre
             */
+
             var TokenHandler = new JwtSecurityTokenHandler();
             var Key = Encoding.ASCII.GetBytes(Secret);
             bool Result = false;
@@ -109,6 +110,7 @@ namespace VulnerableWebApplication.VLAIdentity
                 var JwtSecurityToken = TokenHandler.ReadJwtToken(Token);
                 if (JwtSecurityToken.Header.Alg == "HS256" || JwtSecurityToken.Header.Typ == "JWT")
                 {
+                    
                     TokenHandler.ValidateToken(Token, new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
@@ -117,7 +119,7 @@ namespace VulnerableWebApplication.VLAIdentity
                         ValidateAudience = false,
                         ValidateLifetime = true,
                     }, out SecurityToken validatedToken);
-
+                    
                     var JwtToken = (JwtSecurityToken)validatedToken;
                     var claims = JwtToken.Claims;
 
