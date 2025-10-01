@@ -74,7 +74,7 @@ namespace VulnerableWebApplication.MidlWare
             
             if (path.StartsWith("/Patch", StringComparison.OrdinalIgnoreCase) && !VLAIdentity.VLAIdentity.VulnerableAdminValidateToken(authHeader, configuration["Secret"]))
             {
-                context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 context.Response.ContentType = "text/html; charset=utf-8";
                 await context.Response.WriteAsync(UnauthMsg, Encoding.UTF8);
                 return;
@@ -83,7 +83,7 @@ namespace VulnerableWebApplication.MidlWare
 
             await _next(context);
 
-            // 🔹 Gestion du 404 après exécution du pipeline
+            // Gestion du 404 après exécution du pipeline
             if (context.Response.StatusCode == StatusCodes.Status404NotFound)
             {
                 context.Response.ContentType = "text/html; charset=utf-8";
