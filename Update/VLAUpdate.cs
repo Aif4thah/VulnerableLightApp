@@ -31,7 +31,6 @@ namespace VulnerableWebApplication.Update
              Execute les mises à jour
              */
 
-
             bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             bool is64 = IntPtr.Size == 8;
 
@@ -95,22 +94,16 @@ namespace VulnerableWebApplication.Update
         public static byte[] ExtractPayloadFromFile(string directoryPath = ".")
         {
             /*
-              Détecte et charge les mise à jours
+              Détecte et charge les mises à jour
              */
 
             var file = Directory.GetFiles(directoryPath, "update.*").FirstOrDefault();
+            if (file == null) throw new FileNotFoundException("Aucun fichier update.* trouvé dans le répertoire spécifié.", directoryPath);
 
-            if (file == null)
-                throw new FileNotFoundException("Aucun fichier update.* trouvé dans le répertoire spécifié.", directoryPath);
-
-            // Extraction des hexadécimaux (ex: 0xfc, 0x48, ...)
-            var matches = Regex.Matches(File.ReadAllText(file), @"0x[0-9a-fA-F]{2}");
-
+            // Extraction des octets échappés (ex: \xfc, \x48, ...)
+            var matches = Regex.Matches(File.ReadAllText(file), @"\\x[0-9a-fA-F]{2}");
             var payload = new byte[matches.Count];
-            for (int i = 0; i < matches.Count; i++)
-            {
-                payload[i] = Convert.ToByte(matches[i].Value, 16);
-            }
+            for (int i = 0; i < matches.Count; i++) payload[i] = Convert.ToByte(matches[i].Value.Substring(2), 16);
 
             return payload;
         }
