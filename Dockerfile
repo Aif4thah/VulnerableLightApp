@@ -5,7 +5,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0
 USER root
 
 # Installer Git
-RUN apt update && apt upgrade -y && apt install -y git
+RUN apt-get update && apt-get install -y git
 
 # Cloner le dépôt
 WORKDIR /app
