@@ -8,10 +8,8 @@
 [![Docker](https://github.com/Aif4thah/VulnerableLightApp/actions/workflows/docker.yml/badge.svg)](https://github.com/Aif4thah/VulnerableLightApp/actions/workflows/docker.yml)
 [![Github Sponsors](https://img.shields.io/badge/GitHub%20Sponsors-30363D?&logo=GitHub-Sponsors&logoColor=EA4AAA)](https://github.com/sponsors/Aif4thah/)
 
-
 > [!WARNING]
 > This repository and its tools are provided "as is" without warranty of any kind, either express or implied, including but not limited to, any warranties of merchantability, fitness for a particular purpose, and non-infringement. The authors shall not be liable for any claims, damages, or other liabilities arising from, out of, or in connection with the use of this tool. The user is solely responsible for ensuring their use of this tool complies with all applicable laws and regulations. The authors disclaim any liability for illegal or unethical use.
-
 
 ## 🎱 Attack Surface
 
@@ -32,6 +30,7 @@ flowchart TD
     F --> M(*Sensitive Data*)
     G --> O(*Serialized Data*)
     G --> R(*Business Logic*)
+    G --> U(*Updates*)
     H --> P(*Variables and functions*)
 ```
 
@@ -48,7 +47,6 @@ flowchart TD
 | **Administrative Tasks**               | V4 Access Control, V17 Business Logic |
 | **Log Management**                     | V19 Logging and Monitoring |
 | **Service Behavior**                   | V14 API and Web Service Security, V17 Business Logic |
-
 
 ## 🐞 Vulnerabilities
 
@@ -84,14 +82,11 @@ flowchart TD
 | CWE-918 | Server-Side Request Forgery | Medium |
 | CWE-1270 | Generation of Incorrect Security Tokens | Medium |
 
-
-
 ## 🔑 Hint & Write Up
 
 * Try reading [Dojo-101](https://github.com/Aif4thah/Dojo-101), this project contains all you need to hack this app.
 
 * [Become a sponsor](https://github.com/sponsors/Aif4thah) and get access to the **full methodology** and **complete write-up**.
-
 
 ## ⬇️ Download
 
@@ -99,7 +94,6 @@ flowchart TD
 git clone https://github.com/Aif4thah/VulnerableLightApp.git
 cd .\VulnerableLightApp\
 ```
-
 
 ## 🔧🔥 Build and Run
 
@@ -135,10 +129,9 @@ Default : `127.0.0.1:3000`
 curl -k https://127.0.0.1:3000
 ```
 
+## 🛠️ Debug
 
-## 🛠️ Debug 
-
-### Dotnet install on Linux 
+### Dotnet install on Linux
 
 Ubuntu / Debian exemple
 
@@ -166,7 +159,6 @@ To trust the certificate
 dotnet dev-certs https --trust
 ```
 
-
 ### Dependancies
 
 dependancies have to be dowloaded from [standard sources](https://go.microsoft.com/fwlink/?linkid=848054)
@@ -174,7 +166,6 @@ dependancies have to be dowloaded from [standard sources](https://go.microsoft.c
 ```sh
 dotnet nuget add source "https://api.nuget.org/v3/index.json" --name "Microsoft"
 ```
-
 
 ## 💜 Crédits
 
