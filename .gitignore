@@ -398,14 +398,14 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Tests and logs files
+**/Logs/
 Logs.html
 *_logfile.txt
 *_logfile.json
-pocXSS.svg
 NewEmployees.txt
-
-# UNDO file
-
 UNDO.md
+
+# Exploit files
 Update.txt
 Update.svg
+pocXSS.svg

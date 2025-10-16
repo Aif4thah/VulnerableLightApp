@@ -32,4 +32,4 @@ jobs:
         run: sleep 30
 
       - name: Test the application
-        run: curl -k curl -k https://127.0.0.1:3000/swagger/
+        run: curl -k https://127.0.0.1:3000/swagger/
