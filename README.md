@@ -82,6 +82,9 @@ flowchart TD
 | CWE-918 | Server-Side Request Forgery | Medium |
 | CWE-1270 | Generation of Incorrect Security Tokens | Medium |
 
+> [!NOTE]  
+> logs is SIEM ready for Blue Team training.
+
 ## 🔑 Hint & Write Up
 
 * Try reading [Dojo-101](https://github.com/Aif4thah/Dojo-101), this project contains all you need to hack this app.
