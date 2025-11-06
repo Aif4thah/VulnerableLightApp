@@ -83,7 +83,7 @@ flowchart TD
 | CWE-1270 | Generation of Incorrect Security Tokens | Medium |
 
 > [!NOTE]  
-> logs is SIEM ready for Blue Team training.
+> logs are SIEM ready for Blue Team training.
 
 ## 🔑 Hint & Write Up
 
