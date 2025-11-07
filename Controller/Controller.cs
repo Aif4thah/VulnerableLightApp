@@ -18,13 +18,14 @@ namespace VulnerableWebApplication.VLAController
     public class VLAController
     {
         private static string LogFile;
+        private const string EncodedIp = "MTAuMTAuMTAuMjU2";
 
         public static void SetLogFile(string logFile)
         {
             LogFile = logFile;
         }
 
-        public static object VulnerableHelloWorld(string FileName = "english")
+        public static object VulnerableHelloWorld(string FileName)
         {
             /*
             Retourne le contenu du fichier correspondant à la langue choisie par l'utilisateur
@@ -191,16 +192,18 @@ namespace VulnerableWebApplication.VLAController
 
         public static async Task<IResult> VulnerableHandleFileUpload(IFormFile UserFile, string Header)
         {
-            /*
-            Permets l'upload de fichier de type SVG
-            */
-            if (!Header.Contains("10.10.10.256")) return Results.Unauthorized();
+            /* 
+            Permets l'upload de fichier de type SVG 
+             */
+            var ipBytes = Convert.FromBase64String(EncodedIp);
+            var ipString = Encoding.UTF8.GetString(ipBytes);
 
-            if (UserFile.FileName.EndsWith(".svg")) 
+            if (!Header.Contains(ipString)) return Results.Unauthorized();
+
+            if (UserFile.FileName.EndsWith(".svg"))
             {
                 using var Stream = File.OpenWrite(UserFile.FileName);
                 await UserFile.CopyToAsync(Stream);
-
                 return Results.Ok(UserFile.FileName);
             }
             else return Results.BadRequest();
