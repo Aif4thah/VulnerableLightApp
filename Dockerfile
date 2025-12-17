@@ -28,4 +28,4 @@ RUN git clone https://github.com/Aif4thah/VulnerableLightApp.git
 WORKDIR /app/VulnerableLightApp
 
 # Lancement de l'application
-CMD ["dotnet", "run", "--urls=http://0.0.0.0:3000"]
+CMD ["dotnet", "run", "--urls=https://0.0.0.0:3000"]
