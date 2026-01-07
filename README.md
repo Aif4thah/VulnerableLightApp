@@ -110,13 +110,6 @@ Check `.csproj` file to get the current dotnet version and install [.NET SDK](ht
 dotnet run [--url=<url>]
 ```
 
-Alternatively, you can use bin files :
-
-```PowerShell
-dotnet build
-.\bin\Debug\net8.0\VulnerableWebApplication.exe [--url=<url>]
-```
-
 ### Docker
 
 ```bash
