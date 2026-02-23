@@ -26,7 +26,7 @@ jobs:
         run: docker build -t vulnerablelightapp .
 
       - name: Run Docker container
-        run: docker run -d -p 3000:3000 vulnerablelightapp
+        run: docker run -d -p 3000:3000 --name VLA vulnerablelightapp
 
       - name: Wait for the container to be ready
         run: sleep 30
