@@ -149,10 +149,20 @@ dotnet --list-sdks
 
 ### Certificates
 
-To trust the certificate
+To trust the certificate on windows / mac
 
 ```PowerShell
 dotnet dev-certs https --trust
+```
+
+To generate a cert in linux :
+
+```sh
+#!/bin/bash
+openssl req -x509 -newkey rsa:4096 -keyout /app/key.pem -out /app/cert.pem -days 365 -nodes -subj "/CN=localhost"
+openssl pkcs12 -export -out /app/cert.pfx -inkey /app/key.pem -in /app/cert.pem -passout pass:mypassword
+export ASPNETCORE_Kestrel__Certificates__Default__Path=/app/cert.pfx
+export ASPNETCORE_Kestrel__Certificates__Default__Password=mypassword
 ```
 
 ### Dependancies
