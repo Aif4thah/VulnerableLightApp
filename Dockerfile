@@ -12,4 +12,4 @@ RUN apt update && apt install -y git && git clone https://github.com/Aif4thah/Vu
 WORKDIR /app/VulnerableLightApp
 
 # Lancement de l'application
-CMD ["dotnet", "run", "--url=https://0.0.0.0:3000"]
+CMD ["dotnet", "run", "--urls=https://0.0.0.0:3000"]
