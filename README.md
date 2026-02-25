@@ -155,7 +155,7 @@ To trust the certificate on windows / mac
 dotnet dev-certs https --trust
 ```
 
-To generate a cert in linux :
+To generate your cert from Linux :
 
 ```sh
 #!/bin/bash
